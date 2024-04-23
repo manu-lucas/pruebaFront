@@ -13,6 +13,8 @@ import { BsArrowLeft } from "react-icons/bs";
 import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
 import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
 import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
+import CreateBtn from '../../../../components/Form/FormPrivateButtons/CreateBtn';
+import Success from '../../../../components/Modals/Success';
 
 
 
@@ -124,27 +126,146 @@ const SecondStep = ({setStep}) => {
         <FormerBtn setStep={setStep} value={1}/>
         <FollowingBtn setStep={setStep} value={3}/>
       </div>
-
-
     </div>
   )
 }
 
 const ThirdStep = ({setStep}) => {
+  const onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  };
+
+  const [value, setValue] = useState(1);
+
+  const onChange2 = (e) => {
+    console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
+
   return(
-    <></>
+    <div className='principal-container-column'>
+      <div className='row-space-btw'>
+        <div className='column'>
+          <h2 style={{fontSize:20}}>Datos de pago</h2>
+          <span>(Opcional)</span>
+        </div>
+        <div className='row'>
+          <span>Agregar datos de pago</span>
+          <Switch defaultChecked onChange={onChange} />
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Condición de pago</span>
+          <SelectComponent/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Línea de crédito </span>
+          <input style={{padding:8}}/>
+        </div>
+      </div>
+      
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Lista de precio</span>
+          <input style={{padding:8}}/>
+        </div>
+        <div className='column' style={{gap:15, justifyContent:"center"}}>
+          <span className='form-label'>Exención de impuesto</span>
+          <Radio.Group onChange={onChange2} value={value}>
+            <Radio value={1}>Si</Radio>
+            <Radio value={2}>No</Radio>
+          </Radio.Group>
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Notas</span>
+          <input style={{padding:8}} placeholder='Ingrese las notas que considere necesarias'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Pie de pagina</span>
+          <input style={{padding:8}} placeholder='Ingrese el  pie de pagina de proyecto'/>
+        </div>
+      </div>
+
+      <div className='row-space-btw' style={{marginTop:30}}>
+        <FormerBtn setStep={setStep} value={2}/>
+        <FollowingBtn setStep={setStep} value={4}/>
+      </div>      
+
+    </div>
   )
 }
 
 const FourthStep = ({setStep}) => {
-  return(
-    <></>
-  )
-}
 
-const CreateStep = ({setStep}) =>{
-  return (
-    <></>
+
+  const onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  };
+
+  function createClient () {
+    //console.log('crear cliente')
+    
+    setStep(5)
+    setTimeout(() => {
+      setStep(1)
+    }, 2000); 
+    
+  }
+
+  return(
+    <div className='principal-container-column'>
+
+      <div className='row-space-btw'>
+        <div className='column'>
+          <h2 style={{fontSize:20}}>Dirección de despacho</h2>
+          <span>(Opcional)</span>
+        </div>
+        <div className='row'>
+          <span>Agregar datos de pago</span>
+          <Switch defaultChecked onChange={onChange} />
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Punto <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}}/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Atención a <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Introduce el nombre'/>
+        </div>
+      </div>
+
+
+      <div className='principal-grid grid-3-columns'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Lugar <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese la dirección'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Comuna <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese la comuna'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Ciudad <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese la ciudad'/>
+        </div>
+      </div>
+
+      <div className='row-space-btw' style={{marginTop:30}}>
+        <FormerBtn setStep={setStep} value={2}/>
+        <CreateBtn label={'Crear cliente'} HanldeClick={createClient}/>
+      </div>      
+
+
+    </div>
   )
 }
 
@@ -168,14 +289,13 @@ const NuevoCliente = () => {
       
       case 2:
         return <SecondStep setStep={setStep}/>
-      /*
+      
       case 3:
         return <ThirdStep setStep={setStep}/>
+        
       case 4:
         return <FourthStep setStep={setStep}/>
-      case 5:
-        return <CreateStep setStep={setStep}/>
-        */
+     
     }
   }
   
@@ -188,9 +308,8 @@ const NuevoCliente = () => {
       <h1>Agregar cliente</h1>
       {
         step === 5 ?
-        <>
-          <div>Creado</div>
-        </>
+        <Success message={'Cliente creado con éxito!'}
+        />
         :
         <PrincipalCard>
           <div className='step-container'>

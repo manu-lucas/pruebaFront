@@ -19,6 +19,7 @@ import { BsArrowRight } from 'react-icons/bs';
 import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
 import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
 import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
+import CreateBtn from '../../../../components/Form/FormPrivateButtons/CreateBtn';
 const colors1 = ['#6253E1', '#04BEFE'];
 const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
 const colors3 = ['#40e495', '#30dd8a', '#2bb673'];
@@ -272,30 +273,22 @@ const ThirdStep = ({setStep}) => {
         </div>
       </div>
       <div className='row-space-btw'>
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: `#FFC700`,
-                colorPrimaryHover: `#FFC700`,
-                colorPrimaryActive: `#FFC700`,
-                lineWidth: 0,
-              },
-            },
-          }}
-        >
-          <Button onClick={()=>{setStep(2)}} type="primary" size="large">
-            Anterior
-          </Button>
-        </ConfigProvider>
-        
-        <Button type='primary' onClick={()=>{setStep(4)}}>Siguiente</Button>
+        <FormerBtn setStep={setStep} value={2}/>
+        <FollowingBtn setStep={setStep} value={4}/>        
       </div>
     </>
   )
 }
 
 const FourthStep = ({setStep}) => {
+
+  function createProject () {
+    setStep(5)
+    setTimeout(() => {
+      setStep(1)
+    }, 2000); 
+  }
+  
   return(
     <>
       <h2>Plazo de entrega <span>(Opcional)</span></h2>
@@ -316,42 +309,13 @@ const FourthStep = ({setStep}) => {
         </div>
       </div>
       <div className='row-space-btw'>
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: `#FFC700`,
-                colorPrimaryHover: `#FFC700`,
-                colorPrimaryActive: `#FFC700`,
-                lineWidth: 0,
-              },
-            },
-          }}
-        >
-          <Button onClick={()=>{setStep(3)}} type="primary" size="large">
-            Anterior
-          </Button>
-        </ConfigProvider>
-        
-        <Button type='primary' onClick={()=>{
-          setStep(5)
-          setTimeout(() => {
-            setStep(1)
-          }, 2000);  
-        }}>Siguiente</Button>
+        <FormerBtn setStep={setStep} value={3}/>
+        <CreateBtn label={'Crear proyecto'} HanldeClick={createProject}/>
       </div>
     </>
   )
 }
 
-
-const CreateStep = ({setStep}) =>{
-  return (
-    <>
-      <Success message={'Producto creado!'}/>
-    </>
-  )
-}
 
 const NuevoProyecto = () => {
   const navigate = useNavigate();
@@ -374,8 +338,7 @@ const NuevoProyecto = () => {
         return <ThirdStep setStep={setStep}/>
       case 4:
         return <FourthStep setStep={setStep}/>
-      case 5:
-        return <CreateStep setStep={setStep}/>
+      
     }
   }
 
