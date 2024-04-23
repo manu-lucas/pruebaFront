@@ -307,14 +307,14 @@ const ProyectosDashboard = () => {
                 <>
                 {
                   record.estado === 'Aceptado' ? 
-                  <div style={{borderRadius:3,padding:"3px 9px",width:"fit-content",color:"#00B69B",backgroundColor:"#00b69b3f",boxSizing:"border-box"}}>Aceptado</div>
+                  <div className='item-green'>Aceptado</div>
                   :
                   <>
                   {
                     record.estado === 'En proceso' ?
-                    <div style={{borderRadius:3,padding:"3px 9px",width:"fit-content",color:"#FFC300",backgroundColor:"#ffc4003c",boxSizing:"border-box"}}>En proceso</div>
+                    <div className='item-yellow'>En proceso</div>
                     :
-                    <div style={{borderRadius:3,padding:"3px 9px",width:"fit-content",color:"#EA0234",backgroundColor:"#ea023429",boxSizing:"border-box"}}>Pendiente</div>
+                    <div className='item-red'>Pendiente</div>
 
                   }
                   </>

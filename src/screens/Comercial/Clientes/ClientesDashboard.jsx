@@ -2,9 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { updateSubMenuAsideOptions } from '../../../utils/helpers'
 import { AppContext } from '../../../context/AppContext'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaFileDownload, FaTrashAlt } from "react-icons/fa";
 import ClientesActivados from './ClientesActivados';
 import ClientesDesactivados from './ClientesDesactivados';
+import { Button, Table } from 'antd';
+import Filter from '../../../components/Filter/Filter';
+import SelectComp from '../../../components/Select/SelectComp';
+import { AiFillEdit } from 'react-icons/ai';
+import { CiSearch } from 'react-icons/ci';
+import { FaPlus } from 'react-icons/fa6';
+import { FiDownload } from 'react-icons/fi';
+import { GrDownload } from "react-icons/gr";
 
 
 const ClientesDashboard = () => {
@@ -37,6 +45,148 @@ const ClientesDashboard = () => {
 
   return (
     <>
+    <div className='principal-container-column'>
+      <div className='row-space-btw'>
+        <h1>Clientes</h1>
+        <div className='row'>
+          <Button style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <CiSearch/>
+          </Button>
+          <Button onClick={()=>{navigate('/clients/new')}} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:15}}>
+            <FaPlus/>
+            <span>Agregar</span>
+          </Button>
+        </div>
+      </div>
+      <div className='row-space-btw'>
+        <Filter>
+          <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Estado'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
+          <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Credito'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
+        </Filter>
+        <div className='row'>
+          <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+            <GrDownload/>
+            <span>Importar</span>
+          </Button>
+          <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+            <FaFileDownload/>
+            <span>Descargar</span>
+          </Button>
+        </div>
+      </div>
+      <Table
+          dataSource={[
+            {
+              key:1,
+              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
+              rut: '76.742.482 - 5',
+              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
+              telefono: '+54 243 2311990',
+              credito: '$0000'
+            },
+            {
+              key:2,
+              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
+              rut: '76.742.482 - 5',
+              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
+              telefono: '+54 243 2311990',
+              credito: '$0000'
+            },
+            {
+              key:3,
+              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
+              rut: '76.742.482 - 5',
+              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
+              telefono: '+54 243 2311990',
+              credito: '$0000'
+            },
+            {
+              key:4,
+              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
+              rut: '76.742.482 - 5',
+              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
+              telefono: '+54 243 2311990',
+              credito: '$0000'
+            }
+          ]}
+          columns={
+            [
+              {
+                title: 'Razon social / Nombre',
+                dataIndex: 'nombre',
+                key: 'nombre',
+              },
+              {
+                title: 'Rut',
+                dataIndex: 'rut',
+                key: 'rut',
+              },
+              {
+                title: 'Contacto',
+                dataIndex: 'contacto',
+                key: 'contacto',
+              },
+              {
+                title: 'Telefono',
+                dataIndex: 'telefono',
+                key: 'telefono',
+              },
+              {
+                title: 'Credito',
+                dataIndex: 'credito',
+                key: 'credito',
+              },
+              {
+                title: '',
+                render: (text, record) => (
+                  <>
+                    <Button onClick={()=>{navigate(`/clients/detail/${record.key}`)}}>Ver</Button>
+                  </>
+                ),
+              }
+            ]
+          }
+        />
+    </div>
+
+    {
+      /*
       <div className='row-space-btw-test'>
         <h3>Clientes</h3>
         <div className='row-test'>
@@ -58,6 +208,8 @@ const ClientesDashboard = () => {
         :
         <>{RenderComponent()}</>
       }
+      */
+    }
       
     </>
   )

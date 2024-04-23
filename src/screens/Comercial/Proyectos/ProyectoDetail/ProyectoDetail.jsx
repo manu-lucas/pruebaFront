@@ -17,6 +17,7 @@ import { CiSearch } from 'react-icons/ci'
 import SelectComponent from '../../../../components/Select/SelectComponent'
 import Filter from '../../../../components/Filter/Filter'
 import SelectComp from '../../../../components/Select/SelectComp'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 
 const Detalles = () =>{
@@ -446,6 +447,8 @@ const ProyectoDetail = () => {
         return <Facturacion/>
       case 4:
         return <Tesoreria/>
+      case 5:
+        return <Navigate to='/clients/detail/1'/>
     }
   }
 
