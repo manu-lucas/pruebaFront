@@ -16,10 +16,13 @@ import { FaCheck, FaTrashAlt } from "react-icons/fa";
 
 import Success from '../../../../components/Modals/Success';
 import { BsArrowRight } from 'react-icons/bs';
-import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
-import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
-import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
-import CreateBtn from '../../../../components/Form/FormPrivateButtons/CreateBtn';
+
+
+import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
+import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
+import FormerBtn from '../../../../components/Buttons/FormerBtn';
+import CreateBtn from '../../../../components/Buttons/CreateBtn';
+
 const colors1 = ['#6253E1', '#04BEFE'];
 const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
 const colors3 = ['#40e495', '#30dd8a', '#2bb673'];
