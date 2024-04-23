@@ -81,7 +81,7 @@ const FirstStep = ({setStep}) => {
         </div>
       </div>
 
-      <div style={{width:"100%",display:"flex",justifyContent:"flex-end"}}>
+      <div className='container-item-flex-end' style={{marginTop:30}}>
         <Button type='primary' onClick={()=>{setStep(2)}}>Siguiente</Button>
       </div>
     </>
@@ -421,31 +421,23 @@ const NuevoProyecto = () => {
         />
         :
         <PrincipalCard>
-          <>
-            {
-              step !== 5 ?
-              <>
-                <div className='step-container'>
-                  <div className='step-container-item'>
-                    <div className={ step >= 2 ? 'step-item-bar-cta' : 'step-item-bar' }></div>
-                    <div className='step-item-dot-cta' style={{left:-20}}>1</div>
-                    <div className={step >= 2 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>2</div>
+          <div className='step-container'>
+            <div className='step-container-item'>
+              <div className={ step >= 2 ? 'step-item-bar-cta' : 'step-item-bar' }></div>
+              <div className='step-item-dot-cta' style={{left:-20}}>1</div>
+              <div className={step >= 2 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>2</div>
 
-                  </div>
-                  <div className='step-container-item'>
-                    <div className={step >= 3 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
-                    <div className={step >= 3 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>3</div>
-                  </div>
-                  <div className='step-container-item'>
-                    <div className={step >= 4 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
-                    <div className={step >= 4 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>4</div>
-                  </div>
-                </div>
-              </>
-              :
-              <></>
-            }
-          </>
+            </div>
+            <div className='step-container-item'>
+              <div className={step >= 3 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
+              <div className={step >= 3 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>3</div>
+            </div>
+            <div className='step-container-item'>
+              <div className={step >= 4 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
+              <div className={step >= 4 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>4</div>
+            </div>
+          </div>
+          
           <form className='step-form'>
             {formSetupSteps()}
           </form>
