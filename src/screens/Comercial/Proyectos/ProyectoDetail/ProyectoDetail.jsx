@@ -16,6 +16,7 @@ import { HiPlus } from "react-icons/hi";
 import { CiSearch } from 'react-icons/ci'
 import SelectComponent from '../../../../components/Select/SelectComponent'
 import Filter from '../../../../components/Filter/Filter'
+import SelectComp from '../../../../components/Select/SelectComp'
 
 
 const Detalles = () =>{
@@ -177,59 +178,59 @@ const Costos = () =>{
         </Button>
       </div>
       <Table
-              dataSource={[
-                {
-                  name:'Costo 1',
-                  cantidad:2,
-                  costo: 1300,
-                  total:3440
-                },
-                {
-                  name:'Costo 1',
-                  cantidad:2,
-                  costo: 1300,
-                  total:3440
-                },
-                {
-                  name:'Costo 1',
-                  cantidad:2,
-                  costo: 1300,
-                  total:3440
-                }
-              ]}
-              columns={
-                [
-                  {
-                    title: 'Nombre',
-                    dataIndex: 'name',
-                    key: 'name',
-                  },
-                  {
-                    title: 'Cantidad',
-                    dataIndex: 'cantidad',
-                    key: 'cantidad',
-                  },
-                  {
-                    title: 'Costo unitario',
-                    dataIndex: 'costo',
-                    key: 'costo',
-                  },
-                  {
-                    title: 'Total',
-                    dataIndex: 'total',
-                    key: 'total',
-                  },
-                  {
-                    title: '',
-                    render: (text, record) => (
-                      <div style={{display:"flex",alignItems:"center",gap:15}}>
-                        <AiFillEdit style={{cursor:"pointer"}}/>
-                        <FaTrashAlt style={{cursor:"pointer"}}/>
-                      </div>
-                    ),
-                  }
-                ]
-              }
+        dataSource={[
+          {
+            name:'Costo 1',
+            cantidad:2,
+            costo: 1300,
+            total:3440
+          },
+          {
+            name:'Costo 1',
+            cantidad:2,
+            costo: 1300,
+            total:3440
+          },
+          {
+            name:'Costo 1',
+            cantidad:2,
+            costo: 1300,
+            total:3440
+          }
+        ]}
+        columns={
+          [
+            {
+              title: 'Nombre',
+              dataIndex: 'name',
+              key: 'name',
+            },
+            {
+              title: 'Cantidad',
+              dataIndex: 'cantidad',
+              key: 'cantidad',
+            },
+            {
+              title: 'Costo unitario',
+              dataIndex: 'costo',
+              key: 'costo',
+            },
+            {
+              title: 'Total',
+              dataIndex: 'total',
+              key: 'total',
+            },
+            {
+              title: '',
+              render: (text, record) => (
+                <div style={{display:"flex",alignItems:"center",gap:15}}>
+                  <AiFillEdit style={{cursor:"pointer"}}/>
+                  <FaTrashAlt style={{cursor:"pointer"}}/>
+                </div>
+              ),
+            }
+          ]
+        }
       />
 
       <div style={{width:"100%",display:"flex",justifyContent:"flex-end"}}>
@@ -331,10 +332,99 @@ const Facturacion = () =>{
 const Tesoreria = () =>{
   return(
     <>
-      <div>Hola</div>
-      <Filter>
-        <div>Hola</div>
-      </Filter>
+      <div className='row-space-btw' style={{marginBottom:20}}>
+        <Filter>
+          <div className='filter-menu-item'>
+            <SelectComp
+                placeholder={'Estado'}
+                options={[
+                  {
+                    value: 'Aprobado',
+                    label: 'Aprobado',
+                  },
+                  {
+                    value: 'Pendiente',
+                    label: 'Pendiente',
+                  },
+                  {
+                    value: 'En proceso',
+                    label: 'En proceso',
+                  },
+                ]}
+            />
+          </div>
+          <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Tipo'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
+        </Filter>
+        <Button>
+          Buscar
+        </Button>
+      </div>
+      
+      <Table
+        dataSource={[]}
+        columns={
+          [
+            {
+              title: 'N°',
+              dataIndex: 'number',
+              key: 'number',
+            },
+            {
+              title: 'Cliente',
+              dataIndex: 'cliente',
+              key: 'cliente',
+            },
+            {
+              title: 'Vencimiento',
+              dataIndex: 'vencimiento',
+              key: 'vencimiento',
+            },
+            {
+              title: 'Condicion',
+              dataIndex: 'condicion',
+              key: 'condicion',
+            },
+            {
+              title: 'Mensaje',
+              dataIndex: 'mensaje',
+              key: 'mensaje',
+            },
+            {
+              title: 'Bruto',
+              dataIndex: 'bruto',
+              key: 'bruto',
+            },
+            {
+              title: 'Monto pendiente',
+              dataIndex: 'monto pendiente',
+              key: 'monto pendiente',
+            },
+            {
+              title: 'Pendiente de deposito',
+              dataIndex: 'pendiente',
+              key: 'pendiente',
+            },
+          ]
+        }
+      />
     </>
   )
 }

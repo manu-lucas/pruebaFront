@@ -20,7 +20,7 @@ import { TfiReload } from "react-icons/tfi";
 import { HiMiniUsers } from "react-icons/hi2";
 import { AiOutlineRise } from "react-icons/ai";
 import { AiOutlineFall } from "react-icons/ai";
-
+import Filter from '../../../components/Filter/Filter'
 
 const ProyectosHeader = () =>{
   const navigate = useNavigate()
@@ -125,19 +125,13 @@ const ProyectosDashboard = () => {
       </div>
     </div>
     <div style={{marginBottom:"20px"}} className='row-space-btw proyectos-filter-container'>
-      <div className='proyectos-filter-menu'>
-        <div className='proyectos-filter-menu-item'>
-          <FiFilter style={{fontSize:18}}/>
-        </div>
-        <div className='proyectos-filter-menu-item'>
-          <span>Filtrar</span>
-        </div>
-        <div className='proyectos-filter-menu-item'>
+      <Filter>
+        <div className='filter-menu-item'>
           <Space direction='vertical' size={12}>
             <DatePicker.RangePicker/>
           </Space>
         </div>
-        <div className='proyectos-filter-menu-item'>
+        <div className='filter-menu-item'>
           <SelectComp
             placeholder={'Estado'}
             options={[
@@ -156,7 +150,7 @@ const ProyectosDashboard = () => {
             ]}
           />
         </div>
-        <div className='proyectos-filter-menu-item'>
+        <div className='filter-menu-item'>
           <SelectComp
             placeholder={'Mostar'}
             options={[
@@ -175,7 +169,7 @@ const ProyectosDashboard = () => {
             ]}
           />
         </div>
-        <div className='proyectos-filter-menu-item'>
+        <div className='filter-menu-item'>
           <SelectComp
             placeholder={'Vendedor'}
             options={[
@@ -194,13 +188,8 @@ const ProyectosDashboard = () => {
             ]}
           />
         </div>
-        <div className='proyectos-filter-menu-item'>
-          <Button danger style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-            <IoReloadOutline/>
-            <span>Borrar filtros</span>
-          </Button>
-        </div>
-      </div>
+      </Filter>
+      
       <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
         <FaFileDownload/>
         <span>Reporte</span>
