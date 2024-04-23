@@ -1,0 +1,680 @@
+import React, { useContext, useEffect, useState } from 'react'
+import Aside from '../../components/Aside/Aside';
+import NavBar from '../../components/NavBar/NavBar';
+import Modal from '../../components/Modal/Modal';
+import { AppContext } from '../../context/AppContext';
+import CompressedAside from '../../components/Aside/CompressedAside';
+import logoResponsive from '../../assets/logoHeaderResponsive.svg'
+import logoHeader from '../../assets/logoHeader.png'
+import { useNavigate } from 'react-router-dom';
+
+
+import { BiSolidDownArrow } from "react-icons/bi";
+
+import { BiSolidRightArrow } from "react-icons/bi";
+
+import { BiUpArrow } from "react-icons/bi";
+
+import { FiPlus } from "react-icons/fi";
+
+import { AiFillSetting } from "react-icons/ai";
+
+import { ImArrowLeft2 } from "react-icons/im";
+
+import { ImArrowRight2 } from "react-icons/im";
+import { IoNotifications } from "react-icons/io5";
+//import { IoIosArrowDropdown } from "react-icons/io";
+import { IoIosArrowDropdown } from "react-icons/io";
+import { IoIosArrowDropup } from "react-icons/io";
+
+import { RiUserFill } from "react-icons/ri";
+import { FaCheckCircle } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
+import { IoMenu } from "react-icons/io5";
+import { IoHomeOutline } from "react-icons/io5";
+import { GoPlus } from "react-icons/go";
+import { CiSettings } from "react-icons/ci";
+import { FaRegUser } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
+
+
+import './PrivateStructure.css'
+
+const PrivateStructure = ({ children }) => {
+  
+  const { modal,setModal,setLogged,menuOptions,setMenuOptions } = useContext(AppContext);
+  /*
+  const [openMenuAnimated, setOpenMenuAnimated] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 720) {
+        setOpenMenuAnimated(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  */
+
+  const [ profileMenu,setProfileMenu ] = useState(false)
+
+  const [ deployAside,setDeployAside ] = useState(false);
+
+  const [ openAside,setOpenAside ] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(null); 
+
+  const [allowInteraction, setAllowInteraction] = useState(false); 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setAllowInteraction(window.innerWidth < 750); 
+      
+      if(window.innerWidth > 750){
+        setIsOpen(null)
+      }
+
+      if(window.innerWidth < 750){
+        setIsExpanded(false)
+      }
+    };
+
+    handleResize(); 
+
+    window.addEventListener('resize', handleResize); 
+
+    return () => {
+      window.removeEventListener('resize', handleResize); 
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen); 
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false); 
+  };
+
+
+  const [isExpanded, setIsExpanded ] = useState(false)
+
+  const expandDiv = () => {
+    setIsExpanded(true); 
+  };
+
+  const contraerDiv = () =>{
+    setIsExpanded(false)
+  }
+
+
+  const toggleExpansion = () => {
+    setIsOpen(!isOpen); 
+    setIsExpanded(!isExpanded); // Cambia el estado de expansión
+  };
+
+
+
+  const navigate = useNavigate()
+
+  function selectOption (option) {
+    navigate(`${option.route}`)
+    const updateData = menuOptions.map((opt)=>{
+      if (opt.text === option.text) {
+        if(opt.submenuOptions){
+          
+          console.log('tiene submenu')
+          
+          let updateArraySubOptions = opt.submenuOptions;
+
+          for (let i = 0; i < updateArraySubOptions.length; i++) {
+            if( i === 0 ){
+              updateArraySubOptions[i].selected = true
+            } else {
+              updateArraySubOptions[i].selected = false
+            }
+          }
+
+          //actualizo la opcion cambio el estado de abuerto
+          return {...opt, submenuOpen: !opt.submenuOpen, submenuOptions:updateArraySubOptions}
+        } else {
+          return {...opt,selected:false}
+        }
+      }
+
+      if(opt.submenuOpen){
+        return {...opt,submenuOpen:false}
+      } else {
+        return {...opt,selected:false}
+      }
+    })    
+    setMenuOptions(updateData)
+    //setOpenMenuAnimated(false)
+  }
+
+
+  function selectOptionCompressed (option) {
+    navigate(`${option.route}`)
+    const updateData = menuOptions.map((opt)=>{
+      if (opt.text === option.text) {
+        if(opt.submenuOptions){
+          
+          console.log('tiene submenu')
+          
+          let updateArraySubOptions = opt.submenuOptions;
+
+          for (let i = 0; i < updateArraySubOptions.length; i++) {
+            if( i === 0 ){
+              updateArraySubOptions[i].selected = true
+            } else {
+              updateArraySubOptions[i].selected = false
+            }
+          }
+
+          //actualizo la opcion cambio el estado de abuerto
+          return {...opt, submenuOpen: true, submenuOptions:updateArraySubOptions}
+        } else {
+          return {...opt,selected:false}
+        }
+      }
+
+      if(opt.submenuOpen){
+        return {...opt,submenuOpen:false}
+      } else {
+        return {...opt,selected:false}
+      }
+    })    
+    setMenuOptions(updateData)
+    //setOpenMenuAnimated(false)
+  }
+
+  
+  function selectSubMenuOption (option_name, sub_option_name){
+    const updateSubMenuOption = menuOptions.map((item)=>{
+      if(item.text === option_name){
+        let updateArray = [];
+        item.submenuOptions.forEach(element => {
+          if(element.name === sub_option_name){
+            const objt_update = {...element, selected: true}
+            updateArray.push(objt_update)
+          }else{
+            const objt_update = {...element, selected: false}
+            updateArray.push(objt_update)
+          }
+        });
+        return {...item, submenuOptions: updateArray}
+      }
+      return item
+    })
+    setMenuOptions(updateSubMenuOption);
+    setOpenMenuAnimated(false)
+  }
+
+
+  function RenderIcon (option) {
+    if(option.submenuOpen === true){
+      return <BiUpArrow/>
+    }else{
+      return <BiSolidDownArrow/>
+    }
+  }
+
+  return (
+    <>
+    <main className={`private-main ${allowInteraction ? 'private-main-contract' : 'private-main-expanded'}`}>
+      {
+        !allowInteraction ?
+        <aside className={`caja ${isExpanded ? 'expandir' : 'contraer'}`}>
+          {
+            isExpanded ?
+            <div className='private-aside-extanded'>
+              <img src={logoHeader} className={'aside-logo'}/>
+              <div className='private-aside-extended-menu'>
+                {
+                  menuOptions.map((option)=>
+                    <>
+                      <div 
+                      onClick={()=>{
+                        //console.log('hola')
+                        selectOption(option)
+                      }}
+                      className='private-aside-extended-menu-item' style={option.submenuOptions && option.submenuOpen === true ? {borderRadius:"3px 3px 0px 0px"} : {}} >
+                        <div style={{display:"flex",alignItems:"center",gap:15}}>
+                          {option.icon}
+                          <span>{option.text}</span>
+                        </div>
+                        {
+                          option.submenuOptions ?
+                          <>{RenderIcon(option)}</>
+                          :
+                          <></>
+                        }
+                      </div>
+                      {
+                        option.submenuOptions ?
+                        <>
+                          {
+                            option.submenuOpen === true ?
+                            <div className='private-aside-extended-menu-item-submenu'>
+                              {
+                                option.submenuOptions.map((item)=>
+                                  <div 
+                                  onClick={()=>{
+                                    navigate(`${item.route}`)
+                                    console.log(item.route)
+                                    selectSubMenuOption(option.text, item.name, item.route)
+                                  }}
+                                  //className={ 'private-aside-extended-menu-item-submenu-item'}
+                                  className={item.selected  === true ? 'private-aside-extended-menu-item-submenu-item-cta' : 'private-aside-extended-menu-item-submenu-item'}
+                                  >
+                                    <BiSolidRightArrow style={{fontSize:10}}/>
+                                    <span>{item.name}</span>
+                                  </div>
+                                )
+                              }
+                            </div>
+                            :
+                            <></>
+                          }
+                        </>
+                        :
+                        <></>
+                      }
+                    </>
+                  )
+                }
+              </div>
+              <div className='private-aside-extended-footer'>
+                <div className='aside-create-container'>
+                  <div className='aside-create-icon'>
+                    <FiPlus/>
+                  </div>
+                  <span>Crear</span>        
+                </div>
+                <div className='aside-config-container'>
+                  <AiFillSetting/>
+                  <span>Configurar empresa</span>
+                </div>
+              </div>
+            </div>
+            :
+            <div className='private-aside-contract'>
+              <div className='private-aside-contract-icons-container'>
+                <img src={logoResponsive} style={{width:"45px",marginBottom:20}}/>
+                {
+                  menuOptions.map((option)=> 
+                    <div onClick={()=>{
+                      selectOptionCompressed(option)
+                      toggleExpansion()
+                    }}>
+                      {option.icon}
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          }
+          <div onClick={toggleExpansion}  className={`private-aside-btn ${isExpanded ? 'private-aside-btn-expanded' : ''}`}>
+            {
+              isExpanded ?
+              <ImArrowLeft2/>
+              :
+              <ImArrowRight2/>
+            }
+          </div>
+        </aside>
+        :
+        <>
+          {
+            isOpen ?
+            <div style={{height:"100vh",width:"100%",backgroundColor:"#0000006a",zIndex:100,position:"fixed"}}></div>
+            :
+            <></>
+          }
+          <div className={isOpen === null ? `menu-close` : `menu ${isOpen ? 'open' : 'close'}`}>
+              <img src={logoHeader} className={'aside-logo'}/>
+              <MdClose style={{position:"absolute",top:7,right:7,fontSize:23,color:"grey"}} onClick={closeMenu}/>
+              <div className='private-aside-extended-menu'>
+                {
+                  menuOptions.map((option)=>
+                    <>
+                      {
+                        option.text === 'Inicio' ?
+                        <></>
+                        :
+                        <>
+                          <div 
+                          onClick={()=>{
+                            //console.log('hola')
+                            selectOption(option)
+                            setIsOpen(false)
+                          }}
+                          className='private-aside-extended-menu-item' style={option.submenuOptions && option.submenuOpen === true ? {borderRadius:"3px 3px 0px 0px"} : {}} >
+                            <div style={{display:"flex",alignItems:"center",gap:15}}>
+                              {option.icon}
+                              <span>{option.text}</span>
+                            </div>
+                            {
+                              option.submenuOptions ?
+                              <>{RenderIcon(option)}</>
+                              :
+                              <></>
+                            }
+                          </div>
+                          {
+                            option.submenuOptions ?
+                            <>
+                              {
+                                option.submenuOpen === true ?
+                                <div className='private-aside-extended-menu-item-submenu'>
+                                  {
+                                    option.submenuOptions.map((item)=>
+                                      <div 
+                                      onClick={()=>{
+                                        navigate(`${item.route}`)
+                                        console.log(item.route)
+                                        console.log('jolaaa')
+                                        setIsOpen(false)
+                                        selectSubMenuOption(option.text, item.name, item.route)
+                                      }}
+                                      //className={ 'private-aside-extended-menu-item-submenu-item'}
+                                      className={item.selected  === true ? 'private-aside-extended-menu-item-submenu-item-cta' : 'private-aside-extended-menu-item-submenu-item'}
+                                      >
+                                        <BiSolidRightArrow style={{fontSize:10}}/>
+                                        <span>{item.name}</span>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                                :
+                                <></>
+                              }
+                            </>
+                            :
+                            <></>
+                          }
+                        </>
+                      }
+                    </>
+                  )
+                }
+              </div>
+              
+          </div>
+        </>
+      }
+      
+      
+      
+      <div 
+      className={ allowInteraction ? 'private-main-container-responsive private-main-container' : (isExpanded ? 'private-main-container-expanded private-main-container' : 'private-main-container-contract private-main-container')}
+      >
+        <div className='private-header'>
+          {/*mobile components */}
+          {
+            
+            allowInteraction ?
+            <>
+              <IoMenu style={{fontSize:"30px"}} onClick={toggleMenu} disabled={!allowInteraction}/>
+              <img src={logoResponsive} style={{height:"30px"}}/>
+              <div style={{
+                position:"relative",fontSize:25,color:"#2DD99C"}}>
+                <div style={{height:13,width:13,backgroundColor:"#F93C65",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:6,position:"absolute",right:0,top:0,color:"#FFFFFF"}}>
+                  <span>1</span>
+                </div>
+                <IoNotifications/>
+              </div>
+            </>
+            :
+            <></>
+            
+          }
+          {/*desktop components*/}
+          <div className='private-header-col'>
+            <div style={{display:"flex",alignItems:"center",border:"1px solid #97979747",padding:"0px 5px",borderRadius:30,overflow:"hidden",width:"300px",backgroundColor:"#F5F6FA"}}>
+              <div style={{width:30,display:"flex",justifyContent:"center",fontSize:20,color:"#979797"}}>
+                <CiSearch/>
+              </div>
+              <input className='custom-input ' placeholder='Buscar'/>
+            </div>
+          </div>
+          <div className='private-header-col'>
+            <div style={{
+              position:"relative",fontSize:25,color:"#2DD99C"}}>
+              <div style={{height:13,width:13,backgroundColor:"#F93C65",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:6,position:"absolute",right:0,top:0,color:"#FFFFFF"}}>
+                <span>1</span>
+              </div>
+              <IoNotifications/>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:7,boxSizing:"border-box",cursor:"pointer",
+            //border:"1px solid red"
+            }} onClick={()=>{setProfileMenu(!profileMenu)}}>
+              <div className='private-header-user-container'>
+                <div className='private-header-user-img'></div>
+                <div style={{display:"flex",flexDirection:"column",gap:4,fontSize:11}}>
+                  <span style={{fontSize:12,fontWeight:600}}>Juan</span>
+                  <span style={{fontWeight:300}}>Asesor Comercial</span>
+                </div>
+              </div>
+              <div  style={{fontSize:20
+                //,border:"1px solid red"
+                ,height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                {
+                  profileMenu === false ?
+                  <IoIosArrowDropdown/>
+                  :
+                  <IoIosArrowDropup/>
+                }
+              </div>
+            </div>
+          </div>
+          {
+            profileMenu === true ?
+            <div className='private-header-menu'>
+              <div onClick={()=>{
+                setProfileMenu(false)
+                navigate('/profile'
+              )}} className='private-header-menu-item'>
+                <RiUserFill/>
+                <span>Perfil</span>
+              </div>
+              <div className='private-header-menu-item'>
+                <FaCheckCircle/>
+                <span>Permisos</span>
+              </div>
+            </div>
+            :
+            <></>
+          }
+
+        </div>
+        <div className='private-main-children-container'>
+          {children}
+        </div>
+        {
+          allowInteraction ?
+          <>
+            <div className='private-bottom-nav'>
+              <IoHomeOutline/>
+              <CiSearch/>
+              <div style={{height:45,width:45,borderRadius:"50%",backgroundColor:"white",display:"flex",alignItems:"center",justifyContent:"center",color:"#006F76",fontWeight:"800",position:"relative",bottom:"10px",border:"1px solid grey"}}>
+                <GoPlus/>
+              </div>
+              <CiSettings/>
+              <FaRegUser/>
+            </div>
+          </>
+          :
+          <></>
+        }
+      </div>
+
+    </main>
+    
+    {
+      /*
+        <main className='main'>
+          {
+            !allowInteraction ?
+            <aside className={`caja ${isExpanded ? 'expandir' : 'contraer'}`} >
+              {
+                isExpanded ?
+                <>
+                  <div className='aside-expanded' style={{position:"relative"}}>
+                    <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                      <img src={logoHeader} className={'aside-logo'}/>
+                      {
+                        menuOptions.map((option,index)=>
+                        <div>
+    
+                          <div key={index} style={option.submenuOptions && option.submenuOpen === true ? {borderRadius:"3px 3px 0px 0px"} : {}} className={'aside-option'} onClick={()=>{ selectOption(option)}}>
+                            
+                            <div className='aside-option-txt'>
+                              {option.icon}
+                              <span>{option.text}</span>
+                            </div>
+                            {
+                              option.submenuOptions ? 
+                              <>{RenderIcon(option)}</>
+                              :
+                              <></>
+                            }
+                          </div>
+                          {
+                            option.submenuOptions ? 
+                            <>
+                              {
+                                option.submenuOpen === true ?
+                                <div className='aside-submenu' >
+                                  {
+                                    option.submenuOptions.map((subitem)=>
+                                      <div onClick={()=>{
+                                        navigate(`${subitem.route}`)
+                                        console.log(subitem.route)
+                                        selectSubMenuOption(option.text, subitem.name, subitem.route)
+                                        }} className={subitem.selected  === true ? 'aside-option-submenu-cta' : 'aside-option-submenu'}>
+                                        
+                                        <BiSolidRightArrow style={{fontSize:10}}/>
+                                        <span style={{fontSize:11}}>{subitem.name}</span>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                                :
+                                <></>
+                              }
+                            </>
+                            :
+                            <></>
+                          }
+                        </div>
+                        )
+                      }
+                    </div>
+                    
+    
+    
+                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"25px"}}>
+                      <div className='aside-create-container'>
+                        <div className='aside-create-icon'>
+                          <FiPlus/>
+                        </div>
+                        <span>Crear</span>
+                        
+                      </div>
+                      <div className='aside-config-container'>
+                        <AiFillSetting/>
+                        <span>Configurar empresa</span>
+                      </div>
+                    </div>
+    
+                  </div>
+                </>
+                :
+                <>
+                  <div className='compressed-aside'>
+                    <div style={{display:"flex",flexDirection:"column",width:"100%",boxSizing:"border-box",alignItems:"center",gap:15,fontSize:25,color:"white"}}>
+                      <img src={logoResponsive} style={{width:"45px",marginBottom:"40px"}}/>
+                      {
+                        menuOptions.map((option,index)=>
+                        <div>
+                          {option.icon}
+                        </div>  
+                        )
+                      }
+                    </div>
+                    <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center",gap:10,color:"white"}}>
+                      <div className='aside-create-container-responsive'>
+                        <div className='aside-create-icon' style={{height:20,width:20,fontSize:10}}>
+                          <FiPlus/>
+                        </div>
+                      </div>
+                      <AiFillSetting/>
+    
+                    </div>
+                  </div>
+                </>
+              }
+              <div className={`aside-expanded-close-btn ${isExpanded ? 'expanded' : ''}`} onClick={toggleExpansion}>
+                <ImArrowLeft2/>
+              </div>
+            </aside>
+            :
+            <>
+              <div className={isOpen === null ? `menu-close` : `menu ${isOpen ? 'open' : 'close'}`}>
+                <nav>
+                  <ul>
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                  </ul>
+                  <button onClick={closeMenu}>Cerrar Menú</button>
+                </nav>
+              </div>
+            </>
+          }
+          
+          <div className='main-contentt'>
+            <div className='nav-top'> 
+              <div>Nav</div>
+              {
+                allowInteraction ?
+                <button onClick={toggleMenu} disabled={!allowInteraction}>Abrir Menú</button>
+                :
+                <></>
+              }
+            </div>
+            <div className='principal-content'>
+              {children}
+            </div>
+          </div>
+        </main>
+      */
+    }
+      {
+        /*
+          <div className='private-structure-container'>
+            
+            <NavBar setOpenMenuAnimated={setOpenMenuAnimated}/>
+            <Aside openMenuAnimated={openMenuAnimated} setOpenMenuAnimated={setOpenMenuAnimated}/>
+            <section className='main-content'>
+              {children}
+            </section>
+            {
+              modal === true ?
+              <Modal></Modal>
+              :
+              <></>
+            }
+          </div>
+        
+        */
+      }
+    
+    </>
+  );
+}
+
+export default PrivateStructure
