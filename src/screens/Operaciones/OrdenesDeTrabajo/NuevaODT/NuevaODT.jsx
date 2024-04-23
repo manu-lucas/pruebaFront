@@ -14,11 +14,15 @@ const NuevaODT = () => {
 
   return (
     <>
-        <h3>Proyecto Nº 0000000 04/04/2024</h3>
-        <div>Nueva orden de trabajo</div>
-        <form>
-            <button>CREAR</button>
-        </form>
+      {
+        /*
+          <h3>Proyecto Nº 0000000 04/04/2024</h3>
+          <div>Nueva orden de trabajo</div>
+          <form>
+              <button>CREAR</button>
+          </form>
+        */
+      }
     </>
   )
 }

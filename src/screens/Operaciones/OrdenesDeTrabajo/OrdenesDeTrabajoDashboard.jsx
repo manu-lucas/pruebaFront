@@ -69,6 +69,11 @@ const OrdenesDeTrabajoDashboard = () => {
         return <OrdenesDeTrabajoFinalizadas/>
     }
   }
+
+  function newOT (){
+    navigate('/work_orders/new')
+  }
+
   return (
     <>
     <div className='principal-container-column'>
@@ -76,7 +81,7 @@ const OrdenesDeTrabajoDashboard = () => {
         <h1>Órdenes de trabajo</h1>
         <div className='row'>
           <SearchBtn/>
-          <AddMoreBtn label={'Agregar'}/>
+          <AddMoreBtn label={'Agregar'} HanldeClick={newOT}/>
         </div>
       </div>
       <Filter>
@@ -133,8 +138,7 @@ const OrdenesDeTrabajoDashboard = () => {
               client: 'Cristobal',
               product: 'Servicio tributario',
               vendedor: 'Cesar',
-              neto: 840,
-              total:996,
+              compromiso:null,
               date:'26/03',
               estado: 'Aceptado'
             },
@@ -145,8 +149,7 @@ const OrdenesDeTrabajoDashboard = () => {
               client: 'Cristobal',
               product: 'Servicio tributario',
               vendedor: 'Cesar',
-              neto: 840,
-              total:996,
+              compromiso:null,
               date:'26/03',
               estado: 'En proceso'
             },
@@ -157,8 +160,7 @@ const OrdenesDeTrabajoDashboard = () => {
               client: 'Cristobal',
               product: 'Servicio tributario',
               vendedor: 'Cesar',
-              neto: 840,
-              total:996,
+              compromiso:null,
               date:'26/03',
               estado: 'Pendiente'
             }
@@ -206,20 +208,9 @@ const OrdenesDeTrabajoDashboard = () => {
               key: 'vendedor',
             },
             {
-              title: 'Neto',
-              dataIndex: 'neto',
-              key: 'neto',
-              render: (text, record) => (
-                <>{`$${record.neto}`}</>
-              ),
-            },
-            {
-              title: 'Total',
-              dataIndex: 'total',
-              key: 'total',
-              render: (text, record) => (
-                <>{`$${record.total}`}</>
-              ),
+              title: 'Compromiso',
+              dataIndex: 'compromiso',
+              key: 'compromiso',
             },
             {
               title: 'Fecha',
