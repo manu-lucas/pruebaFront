@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { updateSubMenuAsideOptions } from '../../../utils/helpers'
-import { DatePicker, Space } from 'antd'
+import { Button, DatePicker, Space } from 'antd'
 import { AppContext } from '../../../context/AppContext'
 import { FaDownload } from "react-icons/fa";
 import OrdenesDeTrabajoTodas from './OrdenesDeTrabajoTodas'
 import OrdenesDeTrabajoPendientes from './OrdenesDeTrabajoPendientes'
 import OrdenesDeTrabajoEnProceso from './OrdenesDeTrabajoEnProceso'
 import OrdenesDeTrabajoFinalizadas from './OrdenesDeTrabajoFinalizadas'
+import { CiSearch } from 'react-icons/ci'
+import { FaPlus } from 'react-icons/fa6'
+import AddMoreBtn from '../../../components/Form/FormPrivateButtons/AddMoreBtn'
 
 const EnProcesoHeader = () => {
   return (
@@ -65,6 +68,19 @@ const OrdenesDeTrabajoDashboard = () => {
   }
   return (
     <>
+    <div className='principal-container-column'>
+      <div className='row-space-btw'>
+        <h1>Órdenes de trabajo</h1>
+        <div className='row'>
+          <Button style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <CiSearch/>
+          </Button>
+          <AddMoreBtn label={'Agregar'}/>
+        </div>
+      </div>
+    </div>
+    {
+      /*
       <div className='row-space-btw-test'>
         <h3>Ordenes de trabajo</h3>
         <div className='row-test'>
@@ -86,6 +102,9 @@ const OrdenesDeTrabajoDashboard = () => {
         </div>
       </div>
       {RenderPrincipalComponent()}
+      */
+    }
+
     </>
   )
 }
