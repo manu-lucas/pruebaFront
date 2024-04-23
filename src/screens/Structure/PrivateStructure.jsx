@@ -23,7 +23,6 @@ import { ImArrowLeft2 } from "react-icons/im";
 
 import { ImArrowRight2 } from "react-icons/im";
 import { IoNotifications } from "react-icons/io5";
-//import { IoIosArrowDropdown } from "react-icons/io";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { IoIosArrowDropup } from "react-icons/io";
 
@@ -43,20 +42,6 @@ import './PrivateStructure.css'
 const PrivateStructure = ({ children }) => {
   
   const { modal,setModal,setLogged,menuOptions,setMenuOptions } = useContext(AppContext);
-  /*
-  const [openMenuAnimated, setOpenMenuAnimated] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 720) {
-        setOpenMenuAnimated(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-  */
 
   const [ profileMenu,setProfileMenu ] = useState(false)
 
@@ -112,7 +97,7 @@ const PrivateStructure = ({ children }) => {
 
   const toggleExpansion = () => {
     setIsOpen(!isOpen); 
-    setIsExpanded(!isExpanded); // Cambia el estado de expansión
+    setIsExpanded(!isExpanded); 
   };
 
 
@@ -512,167 +497,7 @@ const PrivateStructure = ({ children }) => {
       </div>
 
     </main>
-    
-    {
-      /*
-        <main className='main'>
-          {
-            !allowInteraction ?
-            <aside className={`caja ${isExpanded ? 'expandir' : 'contraer'}`} >
-              {
-                isExpanded ?
-                <>
-                  <div className='aside-expanded' style={{position:"relative"}}>
-                    <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                      <img src={logoHeader} className={'aside-logo'}/>
-                      {
-                        menuOptions.map((option,index)=>
-                        <div>
-    
-                          <div key={index} style={option.submenuOptions && option.submenuOpen === true ? {borderRadius:"3px 3px 0px 0px"} : {}} className={'aside-option'} onClick={()=>{ selectOption(option)}}>
-                            
-                            <div className='aside-option-txt'>
-                              {option.icon}
-                              <span>{option.text}</span>
-                            </div>
-                            {
-                              option.submenuOptions ? 
-                              <>{RenderIcon(option)}</>
-                              :
-                              <></>
-                            }
-                          </div>
-                          {
-                            option.submenuOptions ? 
-                            <>
-                              {
-                                option.submenuOpen === true ?
-                                <div className='aside-submenu' >
-                                  {
-                                    option.submenuOptions.map((subitem)=>
-                                      <div onClick={()=>{
-                                        navigate(`${subitem.route}`)
-                                        console.log(subitem.route)
-                                        selectSubMenuOption(option.text, subitem.name, subitem.route)
-                                        }} className={subitem.selected  === true ? 'aside-option-submenu-cta' : 'aside-option-submenu'}>
-                                        
-                                        <BiSolidRightArrow style={{fontSize:10}}/>
-                                        <span style={{fontSize:11}}>{subitem.name}</span>
-                                      </div>
-                                    )
-                                  }
-                                </div>
-                                :
-                                <></>
-                              }
-                            </>
-                            :
-                            <></>
-                          }
-                        </div>
-                        )
-                      }
-                    </div>
-                    
-    
-    
-                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"25px"}}>
-                      <div className='aside-create-container'>
-                        <div className='aside-create-icon'>
-                          <FiPlus/>
-                        </div>
-                        <span>Crear</span>
-                        
-                      </div>
-                      <div className='aside-config-container'>
-                        <AiFillSetting/>
-                        <span>Configurar empresa</span>
-                      </div>
-                    </div>
-    
-                  </div>
-                </>
-                :
-                <>
-                  <div className='compressed-aside'>
-                    <div style={{display:"flex",flexDirection:"column",width:"100%",boxSizing:"border-box",alignItems:"center",gap:15,fontSize:25,color:"white"}}>
-                      <img src={logoResponsive} style={{width:"45px",marginBottom:"40px"}}/>
-                      {
-                        menuOptions.map((option,index)=>
-                        <div>
-                          {option.icon}
-                        </div>  
-                        )
-                      }
-                    </div>
-                    <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"center",gap:10,color:"white"}}>
-                      <div className='aside-create-container-responsive'>
-                        <div className='aside-create-icon' style={{height:20,width:20,fontSize:10}}>
-                          <FiPlus/>
-                        </div>
-                      </div>
-                      <AiFillSetting/>
-    
-                    </div>
-                  </div>
-                </>
-              }
-              <div className={`aside-expanded-close-btn ${isExpanded ? 'expanded' : ''}`} onClick={toggleExpansion}>
-                <ImArrowLeft2/>
-              </div>
-            </aside>
-            :
-            <>
-              <div className={isOpen === null ? `menu-close` : `menu ${isOpen ? 'open' : 'close'}`}>
-                <nav>
-                  <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                  </ul>
-                  <button onClick={closeMenu}>Cerrar Menú</button>
-                </nav>
-              </div>
-            </>
-          }
-          
-          <div className='main-contentt'>
-            <div className='nav-top'> 
-              <div>Nav</div>
-              {
-                allowInteraction ?
-                <button onClick={toggleMenu} disabled={!allowInteraction}>Abrir Menú</button>
-                :
-                <></>
-              }
-            </div>
-            <div className='principal-content'>
-              {children}
-            </div>
-          </div>
-        </main>
-      */
-    }
-      {
-        /*
-          <div className='private-structure-container'>
-            
-            <NavBar setOpenMenuAnimated={setOpenMenuAnimated}/>
-            <Aside openMenuAnimated={openMenuAnimated} setOpenMenuAnimated={setOpenMenuAnimated}/>
-            <section className='main-content'>
-              {children}
-            </section>
-            {
-              modal === true ?
-              <Modal></Modal>
-              :
-              <></>
-            }
-          </div>
-        
-        */
-      }
-    
+
     </>
   );
 }

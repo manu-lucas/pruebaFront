@@ -1014,6 +1014,19 @@ h1, h2, h3, h4, h5 {
   font-size: 50px;
 }
 
+.proyectos-facturacion-grid-data{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  box-sizing: border-box;
+}
+
+.proyecto-facturacion-monto-facturacion{
+  font-size: 24px;
+  font-weight: 800;
+}
+
 /*STEPS*/
 
 .step-container{

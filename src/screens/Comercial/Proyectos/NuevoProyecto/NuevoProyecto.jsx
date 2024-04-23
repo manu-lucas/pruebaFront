@@ -193,16 +193,7 @@ const SecondStep = ({setStep}) => {
                 ]
               }
             />
-            {/*
-            <table>
-              <thead>
-                <tr style={{backgroundColor:"green"}}>
-                  <th>Producto/Servicio</th>
-                  <th>Cantidad</th>
-                </tr>
-              </thead>
-            </table>
-            */}
+            
           </div>
       }
 

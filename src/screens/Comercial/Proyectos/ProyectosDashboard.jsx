@@ -402,32 +402,7 @@ const ProyectosDashboard = () => {
         TERMINAR ESTO
       </div>
     </PrincipalCard>
-    {
-      /*
-        <div className='row-space-btw-test'>
-          <div className='row-test'>
-            <h3 className={path_name === '/quotes' ? 'section-ttl-cta': 'section-ttl'} onClick={()=>{
-              setNavigation('Proyectos')
-              navigation('/quotes')
-            }}>Proyectos</h3>
-            <h3 className={path_name === '/quote_requests' ? 'section-ttl-cta': 'section-ttl'} onClick={()=>{
-              setNavigation('Consultas')
-              navigation('/quote_requests')
-            }}>Consultas</h3>
-            <h3 className='section-ttl'>E-Comerce</h3>
-          </div>
-          {renderHeaderComponent()}
-        </div>
-        <div style={{justifyContent:"flex-end"}} className='row-test'>
-          <Space direction='vertical' size={12}>
-            <DatePicker.RangePicker/>
-          </Space>
-        </div>
-        {
-          renderPrincipalComponent()
-        }
-      */
-    }
+    
     </>
   )
 }

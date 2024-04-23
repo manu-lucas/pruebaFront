@@ -14,6 +14,7 @@ import { AiFillEdit } from 'react-icons/ai'
 import { RiEdit2Fill } from "react-icons/ri";
 import { HiPlus } from "react-icons/hi";
 import { CiSearch } from 'react-icons/ci'
+import SelectComponent from '../../../../components/Select/SelectComponent'
 
 
 const Detalles = () =>{
@@ -154,7 +155,7 @@ const OrdenesDeTrabajo = () =>{
         <div className='proyectos-ot-new-container'>
             <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
             <HiPlus className='proyectos-ot-new-icon'/>
-            <h2>Agregar orden de trabajo</h2>
+            <h2>Agregar orden</h2>
         </div>
       </div>
     </>
@@ -229,6 +230,99 @@ const Costos = () =>{
                 ]
               }
       />
+
+      <div style={{width:"100%",display:"flex",justifyContent:"flex-end"}}>
+        <div style={{minWidth:200,padding:20,boxSizing:"border-box",backgroundColor:"#FFFFFF",borderRadius:10}} className='column'>
+          <div className='row'>
+            <span>Subtotal: </span>
+            <span>20000</span>
+          </div>
+          <div className='row'>
+            <span>IVA: </span>
+            <span>20000</span>
+          </div>
+          <div className='row'>
+            <span>Total: </span>
+            <span>20000</span>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+
+const Facturacion = () =>{
+  return (
+    <>
+      <PrincipalCard>
+        <div style={{width:"100%",display:"flex",justifyContent:"flex-end",fontSize:23,color:"grey",boxSizing:"border-box"}}>
+          <RiEdit2Fill/>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:20}}>
+          <h2>Datos de facturación</h2>
+
+          <div className='proyectos-facturacion-grid-data'>
+            
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>Juan</span>
+              <span>Nombre</span>
+            </div>
+
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>email@mail.com</span>
+              <span>Email</span>
+            </div>
+
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>+5693165215</span>
+              <span>N° de celular</span>
+            </div>
+
+          </div>
+
+          <h2>Datos de despacho</h2>
+
+          <div className='proyectos-facturacion-grid-data'>
+
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>Juan</span>
+              <span>Nombre</span>
+            </div>
+
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>email@mail.com</span>
+              <span>Email</span>
+            </div>
+
+            <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+              <span className='proyectos-detail-grid-value'>+5693165215</span>
+              <span>N° de celular</span>
+            </div>
+
+          </div>
+
+          <div className='row-space-btw' style={{padding:"0px 30px",boxSizing:"border-box"}}>
+
+            <div className='column'>
+              <span>-</span>
+              <span>Dias habiles</span>
+            </div>
+
+            <div className='column'>
+              <span>08/04/2023</span>
+              <span>Fecha</span>
+            </div>
+
+          </div>
+        </div>
+      </PrincipalCard>
+      <PrincipalCard>
+        <div className='row-space-btw'>
+          <h2>Monto a facturar</h2>
+          <span className='proyecto-facturacion-monto-facturacion'>$75.000</span>
+        </div>
+      </PrincipalCard>
     </>
   )
 }
@@ -246,6 +340,8 @@ const ProyectoDetail = () => {
         return <OrdenesDeTrabajo/>
       case 2:
         return <Costos/>
+      case 3:
+        return <Facturacion/>
     }
   }
 
