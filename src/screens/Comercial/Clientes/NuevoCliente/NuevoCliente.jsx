@@ -6,6 +6,14 @@ import PrincipalCard from '../../../../components/Card/PrincipalCard';
 import { Radio } from 'antd';
 import { Button, ConfigProvider, DatePicker, Slider, Space, Switch, Table } from 'antd';
 import { useNavigate } from 'react-router-dom'
+import { FaPlus } from "react-icons/fa6";
+import SelectComponent from '../../../../components/Select/SelectComponent';
+import { BsArrowRight } from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
+import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
+import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
+import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
+
 
 
 const FirstStep = ({setStep}) =>{
@@ -22,8 +30,8 @@ const FirstStep = ({setStep}) =>{
       
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Razon Social / Nombre <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}}/>
+          <span className='form-label'>Razón Social / Nombre <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese la razón social o nombre'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Rut</span>
@@ -47,19 +55,19 @@ const FirstStep = ({setStep}) =>{
       <div className='principal-grid grid-3-columns'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Dirección</span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese la dirección'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comuna</span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese la comuna'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Ciudad</span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese la ciudad'/>
         </div>
       </div>
       <div className='container-item-flex-end' style={{marginTop:30}}>
-        <Button type='primary' onClick={()=>{setStep(2)}}>Siguiente</Button>
+        <FollowingBtn setStep={setStep} value={2}/>
       </div>
     </div>
   )
@@ -67,13 +75,75 @@ const FirstStep = ({setStep}) =>{
 
 
 const SecondStep = ({setStep}) => {
+  function AddData () {
+    console.log('agregar mas datos')
+  }
   return (
-    <></>
+    <div className='principal-container-column'>
+
+      <div className='row-space-btw'>
+        <h2 style={{fontSize:20}}>Datos de contacto</h2>
+        <AddMoreBtn label={'Agregar más datos'} HanldeClick={AddData}/>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Nombre <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese nombre del contacto'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>N° de celular </span>
+          <input style={{padding:8}} placeholder='Ingrese número de celular del contacto'/>
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Email <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese el email del contacto'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>N° de teléfono </span>
+          <input style={{padding:8}} placeholder='Ingrese número de teléfono del contacto'/>
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Vendedor 1</span>
+          <SelectComponent/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Vendedor 2</span>
+          <SelectComponent/>
+        </div>
+      </div>
+
+      
+      <div className='row-space-btw' style={{marginTop:30}}>
+        <FormerBtn setStep={setStep} value={1}/>
+        <FollowingBtn setStep={setStep} value={3}/>
+      </div>
+
+
+    </div>
   )
 }
 
 const ThirdStep = ({setStep}) => {
   return(
+    <></>
+  )
+}
+
+const FourthStep = ({setStep}) => {
+  return(
+    <></>
+  )
+}
+
+const CreateStep = ({setStep}) =>{
+  return (
     <></>
   )
 }
@@ -95,9 +165,10 @@ const NuevoCliente = () => {
     switch (step) {
       case 1:
         return <FirstStep setStep={setStep}/>
-        /*
+      
       case 2:
         return <SecondStep setStep={setStep}/>
+      /*
       case 3:
         return <ThirdStep setStep={setStep}/>
       case 4:

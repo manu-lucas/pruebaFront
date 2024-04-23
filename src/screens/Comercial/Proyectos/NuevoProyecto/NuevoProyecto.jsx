@@ -15,6 +15,10 @@ import { FaCheck, FaTrashAlt } from "react-icons/fa";
 
 
 import Success from '../../../../components/Modals/Success';
+import { BsArrowRight } from 'react-icons/bs';
+import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
+import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
+import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
 const colors1 = ['#6253E1', '#04BEFE'];
 const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
 const colors3 = ['#40e495', '#30dd8a', '#2bb673'];
@@ -82,8 +86,9 @@ const FirstStep = ({setStep}) => {
       </div>
 
       <div className='container-item-flex-end' style={{marginTop:30}}>
-        <Button type='primary' onClick={()=>{setStep(2)}}>Siguiente</Button>
+        <FollowingBtn setStep={setStep} value={2}/>
       </div>
+
     </>
   )
 }
@@ -117,23 +122,7 @@ const SecondStep = ({setStep}) => {
         <>
         </>
         <h2>Items</h2>
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: `#22D695`,
-                colorPrimaryHover: `#22D695`,
-                colorPrimaryActive: `#22D695`,
-                lineWidth: 0,
-              },
-            },
-          }}
-        >
-          <Button onClick={()=>{addProductoServicio()}} style={{display:"flex",alignItems:"center",gap:15}} type="primary" size="large">
-            <FaPlus/>
-            <span>Agregar otro producto/servicio</span>
-          </Button>
-        </ConfigProvider>
+        <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
       </div>
 
       {
@@ -252,26 +241,9 @@ const SecondStep = ({setStep}) => {
           <input style={{padding:9}}/>
         </div>
       </div>
-      
-      <div className='row-space-btw'>
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: `#FFC700`,
-                colorPrimaryHover: `#FFC700`,
-                colorPrimaryActive: `#FFC700`,
-                lineWidth: 0,
-              },
-            },
-          }}
-        >
-          <Button onClick={()=>{setStep(1)}} type="primary" size="large">
-            Anterior
-          </Button>
-        </ConfigProvider>
-        
-        <Button type='primary' onClick={()=>{setStep(3)}}>Siguiente</Button>
+      <div className='row-space-btw' style={{marginTop:30}}>
+        <FormerBtn setStep={setStep} value={1}/>
+        <FollowingBtn setStep={setStep} value={3}/>
       </div>
     </>
   )
