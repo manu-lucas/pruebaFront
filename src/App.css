@@ -721,6 +721,27 @@ h1, h2, h3, h4, h5 {
   box-sizing: border-box;
 }
 
+
+
+.filter-menu{
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.filter-menu-item{
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
 /**HOME SCREEN**/
 
 .proyectos-section{

@@ -15,6 +15,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { HiPlus } from "react-icons/hi";
 import { CiSearch } from 'react-icons/ci'
 import SelectComponent from '../../../../components/Select/SelectComponent'
+import Filter from '../../../../components/Filter/Filter'
 
 
 const Detalles = () =>{
@@ -327,6 +328,17 @@ const Facturacion = () =>{
   )
 }
 
+const Tesoreria = () =>{
+  return(
+    <>
+      <div>Hola</div>
+      <Filter>
+        <div>Hola</div>
+      </Filter>
+    </>
+  )
+}
+
 
 const ProyectoDetail = () => {
   const navigate = useNavigate();
@@ -342,6 +354,8 @@ const ProyectoDetail = () => {
         return <Costos/>
       case 3:
         return <Facturacion/>
+      case 4:
+        return <Tesoreria/>
     }
   }
 
