@@ -10,10 +10,10 @@ import { FaPlus } from "react-icons/fa6";
 import SelectComponent from '../../../../components/Select/SelectComponent';
 import { BsArrowRight } from "react-icons/bs";
 import { BsArrowLeft } from "react-icons/bs";
-import FormerBtn from '../../../../components/Form/FormPrivateButtons/FormerBtn';
-import FollowingBtn from '../../../../components/Form/FormPrivateButtons/FollowingBtn';
-import AddMoreBtn from '../../../../components/Form/FormPrivateButtons/AddMoreBtn';
-import CreateBtn from '../../../../components/Form/FormPrivateButtons/CreateBtn';
+import FormerBtn from '../../../../components/Buttons/FormerBtn';
+import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
+import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
+import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import Success from '../../../../components/Modals/Success';
 
 

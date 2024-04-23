@@ -13,6 +13,8 @@ import { CiSearch } from 'react-icons/ci';
 import { FaPlus } from 'react-icons/fa6';
 import { FiDownload } from 'react-icons/fi';
 import { GrDownload } from "react-icons/gr";
+import SearchBtn from '../../../components/Buttons/SearchBtn';
+import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
 
 
 const ClientesDashboard = () => {
@@ -43,19 +45,18 @@ const ClientesDashboard = () => {
     }
   }
 
+  function newClient () {
+    navigate('/clients/new')
+  }
+
   return (
     <>
     <div className='principal-container-column'>
       <div className='row-space-btw'>
         <h1>Clientes</h1>
         <div className='row'>
-          <Button style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <CiSearch/>
-          </Button>
-          <Button onClick={()=>{navigate('/clients/new')}} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:15}}>
-            <FaPlus/>
-            <span>Agregar</span>
-          </Button>
+          <SearchBtn/>
+          <AddMoreBtn label={'Agregar'} HanldeClick={newClient}/>
         </div>
       </div>
       <div className='row-space-btw'>

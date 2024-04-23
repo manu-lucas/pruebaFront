@@ -21,6 +21,8 @@ import { HiMiniUsers } from "react-icons/hi2";
 import { AiOutlineRise } from "react-icons/ai";
 import { AiOutlineFall } from "react-icons/ai";
 import Filter from '../../../components/Filter/Filter'
+import SearchBtn from '../../../components/Buttons/SearchBtn';
+import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
 
 const ProyectosHeader = () =>{
   const navigate = useNavigate()
@@ -109,19 +111,17 @@ const ProyectosDashboard = () => {
   }
 
 
+  function newProject () {
+    navigate('/quotes/new')
+  }
 
   return (
     <>
     <div style={{marginBottom:"20px"}} className='row-space-btw'>
       <h1>Proyectos</h1>
       <div className='row'>
-        <Button style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <CiSearch/>
-        </Button>
-        <Button onClick={()=>{navigate('/quotes/new')}} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:15}}>
-          <FaPlus/>
-          <span>Agregar</span>
-        </Button>
+        <SearchBtn/>
+        <AddMoreBtn label={'Agregar'} HanldeClick={newProject}/>
       </div>
     </div>
     <div style={{marginBottom:"20px"}} className='row-space-btw proyectos-filter-container'>

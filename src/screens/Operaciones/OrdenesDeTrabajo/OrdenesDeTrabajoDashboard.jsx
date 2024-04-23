@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { updateSubMenuAsideOptions } from '../../../utils/helpers'
-import { Button, DatePicker, Space } from 'antd'
+import { Button, DatePicker, Space, Table } from 'antd'
 import { AppContext } from '../../../context/AppContext'
 import { FaDownload } from "react-icons/fa";
 import OrdenesDeTrabajoTodas from './OrdenesDeTrabajoTodas'
@@ -10,7 +10,10 @@ import OrdenesDeTrabajoEnProceso from './OrdenesDeTrabajoEnProceso'
 import OrdenesDeTrabajoFinalizadas from './OrdenesDeTrabajoFinalizadas'
 import { CiSearch } from 'react-icons/ci'
 import { FaPlus } from 'react-icons/fa6'
-import AddMoreBtn from '../../../components/Form/FormPrivateButtons/AddMoreBtn'
+import AddMoreBtn from '../../../components/Buttons/AddMoreBtn'
+import SearchBtn from '../../../components/Buttons/SearchBtn'
+import Filter from '../../../components/Filter/Filter'
+import SelectComp from '../../../components/Select/SelectComp'
 
 const EnProcesoHeader = () => {
   return (
@@ -72,12 +75,189 @@ const OrdenesDeTrabajoDashboard = () => {
       <div className='row-space-btw'>
         <h1>Órdenes de trabajo</h1>
         <div className='row'>
-          <Button style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <CiSearch/>
-          </Button>
+          <SearchBtn/>
           <AddMoreBtn label={'Agregar'}/>
         </div>
       </div>
+      <Filter>
+        <div className='filter-menu-item'>
+          <DatePicker picker="week" />
+        </div>
+        <div className='filter-menu-item'>
+          <SelectComp
+            placeholder={'Estado'}
+            options={[
+              {
+                value: 'Aprobado',
+                label: 'Aprobado',
+              },
+              {
+                value: 'Pendiente',
+                label: 'Pendiente',
+              },
+              {
+                value: 'En proceso',
+                label: 'En proceso',
+              },
+            ]}
+          />
+        </div>
+        <div className='filter-menu-item'>
+          <SelectComp
+            placeholder={'Mostrar'}
+            options={[
+              {
+                value: 'Aprobado',
+                label: 'Aprobado',
+              },
+              {
+                value: 'Pendiente',
+                label: 'Pendiente',
+              },
+              {
+                value: 'En proceso',
+                label: 'En proceso',
+              },
+            ]}
+          />
+        </div>
+      </Filter>
+      
+      <Table
+        dataSource={
+          [ 
+            {
+              key:1,
+              numero: 2297,
+              name: 'Comercializadora',
+              client: 'Cristobal',
+              product: 'Servicio tributario',
+              vendedor: 'Cesar',
+              neto: 840,
+              total:996,
+              date:'26/03',
+              estado: 'Aceptado'
+            },
+            {
+              key:2,
+              numero: 2297,
+              name: 'Comercializadora',
+              client: 'Cristobal',
+              product: 'Servicio tributario',
+              vendedor: 'Cesar',
+              neto: 840,
+              total:996,
+              date:'26/03',
+              estado: 'En proceso'
+            },
+            {
+              key:3,
+              numero: 2297,
+              name: 'Comercializadora',
+              client: 'Cristobal',
+              product: 'Servicio tributario',
+              vendedor: 'Cesar',
+              neto: 840,
+              total:996,
+              date:'26/03',
+              estado: 'Pendiente'
+            }
+            /*
+            {
+              key: '1',
+              name: 'Mike',
+              age: 32,
+              address: '10 Downing Street',
+            },
+            {
+              key: '2',
+              name: 'John',
+              age: 42,
+              address: '10 Downing Street',
+            },
+            */
+          ]
+        }
+        columns={
+          [
+            {
+              title: 'N°',
+              dataIndex: 'numero',
+              key: 'numero',
+            },
+            {
+              title: 'Nombre',
+              dataIndex: 'name',
+              key: 'name',
+            },
+            {
+              title: 'Cliente',
+              dataIndex: 'client',
+              key: 'client',
+            },
+            {
+              title: 'Producto/Servicio',
+              dataIndex: 'product',
+              key: 'product',
+            },
+            {
+              title: 'Vendedor',
+              dataIndex: 'vendedor',
+              key: 'vendedor',
+            },
+            {
+              title: 'Neto',
+              dataIndex: 'neto',
+              key: 'neto',
+              render: (text, record) => (
+                <>{`$${record.neto}`}</>
+              ),
+            },
+            {
+              title: 'Total',
+              dataIndex: 'total',
+              key: 'total',
+              render: (text, record) => (
+                <>{`$${record.total}`}</>
+              ),
+            },
+            {
+              title: 'Fecha',
+              dataIndex: 'date',
+              key: 'date',
+            },
+            {
+              title: 'Estado',
+              dataIndex: 'status',
+              key: 'status',
+              render: (text, record) => (
+                <>
+                {
+                  record.estado === 'Aceptado' ? 
+                  <div className='item-green'>Aceptado</div>
+                  :
+                  <>
+                  {
+                    record.estado === 'En proceso' ?
+                    <div className='item-yellow'>En proceso</div>
+                    :
+                    <div className='item-red'>Pendiente</div>
+
+                  }
+                  </>
+                }
+                </>
+              ),
+            },
+            {
+              title:'',
+              render: (text, record) => (
+                <Button type='primary'  onClick={()=>{navigate(`/quotes/${text.key}`)}}>Ver</Button>
+              ),
+            }
+          ]
+        }
+      />
     </div>
     {
       /*
