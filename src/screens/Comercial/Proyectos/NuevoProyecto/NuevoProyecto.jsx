@@ -328,7 +328,7 @@ const NuevoProyecto = () => {
   const {menuOptions,setMenuOptions} = useContext(AppContext);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial','/quotes')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/quotes')
     setMenuOptions(updateData)
   }, [])
 

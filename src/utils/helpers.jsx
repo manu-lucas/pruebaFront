@@ -40,6 +40,9 @@ export const updateSubMenuAsideOptions = (menuOptions,section,path_name) =>{
       //object principal
       const updateSubmenuOptions = item.submenuOptions.map((suboption)=>{
         if(suboption.route === path_name){
+          if(suboption.itemsOpen !== undefined){
+            return {...suboption,selected:true,itemsOpen:true}
+          }
           return {...suboption,selected:true}
         }
         return {...suboption,selected:false}

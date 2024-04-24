@@ -275,7 +275,7 @@ const NuevoCliente = () => {
   const navigate = useNavigate()
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial','/clients/dashboard')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/clients/dashboard')
     setMenuOptions(updateData)
   }, [])
 

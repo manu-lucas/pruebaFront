@@ -243,7 +243,7 @@ const NuevaODC = () => {
   const navigate = useNavigate();
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Operaciones','/purchases')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Órdenes','/purchases')
     setMenuOptions(updateData)
   }, [])
 

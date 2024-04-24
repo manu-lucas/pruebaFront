@@ -44,7 +44,7 @@ const OrdenesDeTrabajoDashboard = () => {
 
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Operaciones','/work_orders')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Órdenes','/work_orders')
     setMenuOptions(updateData)
   }, [])
   function RenderHeaderComponent (){
@@ -243,7 +243,7 @@ const OrdenesDeTrabajoDashboard = () => {
             {
               title:'',
               render: (text, record) => (
-                <Button type='primary'  onClick={()=>{navigate(`/quotes/${text.key}`)}}>Ver</Button>
+                <Button type='primary'  onClick={()=>{console.log('agregar')}}>Ver</Button>
               ),
             }
           ]

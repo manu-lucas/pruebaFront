@@ -117,12 +117,20 @@ const PrivateStructure = ({ children }) => {
           for (let i = 0; i < updateArraySubOptions.length; i++) {
             if( i === 0 ){
               updateArraySubOptions[i].selected = true
+              console.log(updateArraySubOptions[0].itemsOpen)
+              if(updateArraySubOptions[0].itemsOpen !== undefined){
+                console.log('existe')
+                updateArraySubOptions[i].itemsOpen = true
+              }else{
+                console.log('no existe')
+              }
             } else {
               updateArraySubOptions[i].selected = false
             }
           }
 
           //actualizo la opcion cambio el estado de abuerto
+          console.log({...opt, submenuOpen: !opt.submenuOpen, submenuOptions:updateArraySubOptions})
           return {...opt, submenuOpen: !opt.submenuOpen, submenuOptions:updateArraySubOptions}
         } else {
           return {...opt,selected:false}
@@ -182,12 +190,29 @@ const PrivateStructure = ({ children }) => {
         let updateArray = [];
         item.submenuOptions.forEach(element => {
           if(element.name === sub_option_name){
-            const objt_update = {...element, selected: true}
+            //es el sub item
+            //const objt_update = {...element, selected: true}
+            //updateArray.push(objt_update)
+            let objt_update;
+            if(element.itemsOpen !== undefined){
+              objt_update = {...element, selected: true,itemsOpen:true }
+            }else{
+              objt_update = {...element, selected: true}
+            }
             updateArray.push(objt_update)
           }else{
-            const objt_update = {...element, selected: false}
+            //no es el subitem
+            //const objt_update = {...element, selected: false}
+            //updateArray.push(objt_update)
+            let objt_update;
+            if(element.itemsOpen !== undefined){
+              objt_update = {...element, selected: false,itemsOpen:false }
+            }else{
+              objt_update = {...element, selected: false}
+            }
             updateArray.push(objt_update)
           }
+
         });
         return {...item, submenuOptions: updateArray}
       }
@@ -196,6 +221,7 @@ const PrivateStructure = ({ children }) => {
     setMenuOptions(updateSubMenuOption);
     setOpenMenuAnimated(false)
   }
+
 
 
   function RenderIcon (option) {
@@ -245,6 +271,7 @@ const PrivateStructure = ({ children }) => {
                             <div className='private-aside-extended-menu-item-submenu'>
                               {
                                 option.submenuOptions.map((item)=>
+                                <>
                                   <div 
                                   onClick={()=>{
                                     navigate(`${item.route}`)
@@ -256,9 +283,26 @@ const PrivateStructure = ({ children }) => {
                                   >
                                     <BiSolidRightArrow style={{fontSize:10}}/>
                                     <span>{item.name}</span>
+                                    
                                   </div>
+                                  {
+                                    item.itemsOpen === true ?
+                                    <div>
+                                      {
+                                        item.items.map((subitem)=>
+                                          <div>
+                                            {subitem.name}
+                                          </div>
+                                        )
+                                      }
+                                    </div>
+                                    :
+                                    <></>
+                                  }
+                                </>
                                 )
                               }
+                              
                             </div>
                             :
                             <></>
@@ -369,6 +413,7 @@ const PrivateStructure = ({ children }) => {
                                       >
                                         <BiSolidRightArrow style={{fontSize:10}}/>
                                         <span>{item.name}</span>
+                                        
                                       </div>
                                     )
                                   }

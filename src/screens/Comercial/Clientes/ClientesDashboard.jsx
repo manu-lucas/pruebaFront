@@ -31,7 +31,7 @@ const ClientesDashboard = () => {
   const [ error,setError ] = useState(false)
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial',location.pathname)
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión',location.pathname)
     setMenuOptions(updateData)
   }, [])
   

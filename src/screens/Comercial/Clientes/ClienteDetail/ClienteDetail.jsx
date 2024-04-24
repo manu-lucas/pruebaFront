@@ -54,7 +54,7 @@ const ClienteDetail = () => {
   const {menuOptions,setMenuOptions} = useContext(AppContext);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial','/clients/dashboard')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/clients/dashboard')
     setMenuOptions(updateData)
   }, [])
 

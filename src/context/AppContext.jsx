@@ -33,19 +33,122 @@ export const AppContextProvider = (props) =>{
     const menuOptionsinitialState = [
         { icon: <LuHome />, text: 'Inicio', route:'/', selected:true },
     
-        { icon: <VscGraph />, route:'/quotes', text: 'Comercial', submenuOptions:[{name:'Proyectos',selected:true, route:'/quotes'},
+        { icon: <VscGraph />, route:'/quotes', text: 'Gestión', submenuOptions:[{name:'Proyectos',selected:true, route:'/quotes'},
         //{name:'Consultas',selected:false, route:'/quote_requests'}, 
         {name:'Clientes',selected:false, route:'/clients/dashboard'} ], submenuOpen: false },
     
-        { icon: <LuClipboardList />, route:'/work_orders',text: 'Operaciones' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},{name:'Tablero',selected:false, route:'/work_orders/panel'}, {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
+        { icon: <LuClipboardList />, route:'/work_orders',text: 'Órdenes' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},{name:'Tablero',selected:false, route:'/work_orders/panel'}, {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
         
         //{ icon: <FaCalendarAlt />, route:'/delivery_orders/delivery_route',text: 'Calendario', submenuOptions:[{name:'Agendamiento',selected:true, route:'/delivery_orders/delivery_route'},{name:'Mis Tareas',selected:false, route:'/qtwist/delivery_orders'} ], submenuOpen: false  },
         
-        { icon: <PiMoneyLight />, route:'/sale_invoices',text: 'Administracion', submenuOptions:[{name:'Ventas',selected:true, route:'/sale_invoices'},{name:'Compras',selected:false, route: '/service_invoices'}, {name:'Pagos',selected:false, route:'/service_invoices/payments'},{name:'Cobros',selected:false, route:'/sale_invoices/payments'}, {name:'Cuentas',selected:false, route:'/banks'} ], submenuOpen: false  },
+        { 
+          icon: <PiMoneyLight />, 
+          route:'/sale_invoices',
+          text: 'Finanzas',
+          submenuOpen: false, 
+          submenuOptions:[
+            {
+              name:'Ventas',
+              selected:true, 
+              route:'/sale_invoices',
+              itemsOpen:false,
+              items:[
+                {
+                  name:'Despachos',
+                  selected:false
+                },
+                {
+                  name:'Cobros',
+                  selected:false
+                }
+              ]
+            },
+            {
+              name:'Compras',
+              selected:false, 
+              route: '/service_invoices',
+              itemsOpen:false,
+              items:[
+                {
+                  name:'Documentos tributarios',
+                  selected:false
+                },
+                {
+                  name:'Pagos',
+                  selected:false
+                }
+              ]
+            },
+            /* 
+            {
+              name:'Pagos',
+              selected:false, 
+              route:'/service_invoices/payments'
+            },
+            {
+              name:'Cobros',
+              selected:false, 
+              route:'/sale_invoices/payments'
+            },
+            */ 
+            {
+              name:'Cuentas',
+              selected:false, 
+              route:'/banks',
+              itemsOpen:false,
+              items:[
+                {
+                  name:'Cuentas bancarias',
+                  selected:false
+                },
+                {
+                  name:'Resultados',
+                  selected:false
+                },
+                {
+                  name:'Balance',
+                  selected:false
+                }
+              ]
+            } 
+          ], 
+           
+      },
         
-        { icon: <PiBriefcase />, route:'/users/my_profile',text: 'Mi Empresa', submenuOptions:[{name:'Mi Perfil',selected:true, route:'/users/my_profile'},{name:'Usuarios',selected:false, route:'/users'}, {name:'Productos/Servicios',selected:false, route:'/products'},{name:'Lista de precios',selected:false, route:'/price_lists'}, {name:'Proveedores',selected:false, route:'/providers'},
+        { 
+          icon: <PiBriefcase />, 
+          route:'/users/my_profile',
+          text: 'Mi Empresa', 
+          submenuOptions:[
+            {
+              name:'Mi Perfil',
+              selected:true, 
+              route:'/users/my_profile'
+            },
+            {
+              name:'Usuarios',
+              selected:false, 
+              route:'/users'
+            },
+            {
+              name:'Productos/Servicios',
+              selected:false, 
+              route:'/products'
+            },
+            {
+              name:'Lista de precios',
+              selected:false, 
+              route:'/price_lists'
+            }, 
+            {
+              name:'Proveedores',
+              selected:false, 
+              route:'/providers'
+            },
          //{name:'Configuraciones',selected:false, route:'/confs'} 
-        ], submenuOpen: false  }
+        ], 
+        submenuOpen: false  
+      }
     ]
 
 
