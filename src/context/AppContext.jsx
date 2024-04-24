@@ -37,7 +37,9 @@ export const AppContextProvider = (props) =>{
         //{name:'Consultas',selected:false, route:'/quote_requests'}, 
         {name:'Clientes',selected:false, route:'/clients/dashboard'} ], submenuOpen: false },
     
-        { icon: <LuClipboardList />, route:'/work_orders',text: 'Órdenes' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},{name:'Tablero',selected:false, route:'/work_orders/panel'}, {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
+        { icon: <LuClipboardList />, route:'/work_orders',text: 'Órdenes' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},
+        //{name:'Tablero',selected:false, route:'/work_orders/panel'}, 
+        {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
         
         //{ icon: <FaCalendarAlt />, route:'/delivery_orders/delivery_route',text: 'Calendario', submenuOptions:[{name:'Agendamiento',selected:true, route:'/delivery_orders/delivery_route'},{name:'Mis Tareas',selected:false, route:'/qtwist/delivery_orders'} ], submenuOpen: false  },
         
@@ -97,10 +99,12 @@ export const AppContextProvider = (props) =>{
               route:'/banks',
               itemsOpen:false,
               items:[
+                /*
                 {
                   name:'Cuentas bancarias',
                   selected:false
                 },
+                */
                 {
                   name:'Resultados',
                   selected:false

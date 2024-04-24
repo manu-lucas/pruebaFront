@@ -44,7 +44,7 @@ const DocumentosDeDespachoHeader = () =>{
 
 const VentasDashboard = () => {
   const {menuOptions,setMenuOptions} = useContext(AppContext);
-
+  const navigate = useNavigate()
   const location = useLocation();
   const [ path_name,set_path_name ] = useState('');
 
@@ -81,6 +81,9 @@ const VentasDashboard = () => {
     }
   }
 
+  function newDDV () {
+    navigate('/sale_invoices/new')
+  }
   return (
     <>
       <div className='principal-container-column'>
@@ -108,7 +111,7 @@ const VentasDashboard = () => {
               </Button>
             </ConfigProvider>
             {/*-------------------*/}
-            <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('nueva venta')}}/>
+            <AddMoreBtn label={'Agregar'} HanldeClick={newDDV}/>
           </div>
         </div>
 

@@ -5,6 +5,8 @@ import { updateSubMenuAsideOptions } from '../../../utils/helpers';
 import CuentasBancarias from './CuentasBancarias/CuentasBancarias';
 import Resultados from './Resultados/Resultados';
 import BalanceDashboard from './Balance/BalanceDashboard';
+import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
+import PrincipalCard from '../../../components/Card/PrincipalCard';
 
 const CuentasBancariasHeader = () =>{
   return (
@@ -72,7 +74,7 @@ const CuentasDashboard = () => {
   
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Administracion','/banks')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Finanzas','/banks')
     setMenuOptions(updateData)
   }, [])
 
@@ -102,6 +104,25 @@ const CuentasDashboard = () => {
 
   return (
     <>
+    <div className='principal-container-column'>
+      <div className='row-space-btw'>
+        <h1>Cuentas</h1>
+        <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('s')}}/>
+      </div>
+      <PrincipalCard>
+        <div className='principal-container-column'>
+          <div className='row-space-btw'>
+            <h2>Flujo de caja</h2>
+            <div className='row'>
+              <span>Ingresos</span>
+              <span>Egresos</span>
+            </div>
+          </div>
+        </div>
+      </PrincipalCard>
+    </div>
+    {
+      /*
       <div className='row-space-btw-test'>
         <div className='row-test'>
           <h3 className={ path_name === '/banks' ? 'section-ttl-cta' : 'section-ttl' } onClick={()=>{navigation('/banks')}}>Cuentas bancarias</h3>
@@ -111,6 +132,9 @@ const CuentasDashboard = () => {
         {RenderHeaderComponent()}
       </div>
       {RenderPrincipalComponent()}
+      
+      */
+    }
     </>
   )
 }

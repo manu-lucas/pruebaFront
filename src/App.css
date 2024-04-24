@@ -1148,6 +1148,10 @@ h1, h2, h3, h4, h5 {
   grid-template-columns: 1fr;
   width: 50%;
 }
+.step-container-5-steps{
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 95%;
+}
 
 .step-container-item{
   width: 100%;
