@@ -19,7 +19,7 @@
 :root{
   --primary-color: #006F76;
   --secondary-color:#067B7A;
-
+  --grey-color: #b9b9b98d;
 }
 
 
@@ -817,6 +817,7 @@ h1, h2, h3, h4, h5 {
   justify-content: center;
   border-radius: 50%;
   font-size: 160%;
+  
 }
 
 /*-----------------------*/
@@ -1140,6 +1141,12 @@ h1, h2, h3, h4, h5 {
   grid-template-columns: 1fr 1fr 1fr;
   position: relative;
   margin: 30px auto;
+}
+
+
+.step-container-2-steps{
+  grid-template-columns: 1fr;
+  width: 50%;
 }
 
 .step-container-item{

@@ -1,5 +1,5 @@
 import { Button, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaFileDownload, FaPlus, FaTrashAlt } from 'react-icons/fa'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { useNavigate } from 'react-router'
@@ -18,6 +18,8 @@ import SelectComponent from '../../../../components/Select/SelectComponent'
 import Filter from '../../../../components/Filter/Filter'
 import SelectComp from '../../../../components/Select/SelectComp'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { AppContext } from '../../../../context/AppContext'
+import { updateSubMenuAsideOptions } from '../../../../utils/helpers'
 
 
 const Detalles = () =>{
@@ -434,6 +436,14 @@ const Tesoreria = () =>{
 const ProyectoDetail = () => {
   const navigate = useNavigate();
   const [ layout,setLayout ] = useState(0);
+
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
+  //abrir el submenu cuando se renderice este componente
+  useEffect(() => {
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial','/quotes')
+    setMenuOptions(updateData)
+  }, [])
+
 
   function RenderPrincipalComponent () {
     switch (layout) {

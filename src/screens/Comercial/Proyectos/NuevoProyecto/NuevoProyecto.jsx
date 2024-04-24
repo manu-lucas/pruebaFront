@@ -55,7 +55,7 @@ const FirstStep = ({setStep}) => {
 
       <div className='column' style={{gap:5}}>
         <span className='form-label'>Nombre de proyecto</span>
-        <input style={{padding:8}}/>
+        <input style={{padding:8}} placeholder='Ingrese nombre para el proyecto'/>
       </div>
 
       <div className='form-grid'>
@@ -66,7 +66,7 @@ const FirstStep = ({setStep}) => {
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comision</span>
-          <input style={{padding:6}}/>
+          <input style={{padding:6}} placeholder='Ingrese el valor de la comisión'/>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ const FirstStep = ({setStep}) => {
           </div>
         </div>
         <div style={{width:"200px"}} className='column'>
-          <span className='form-label'>Boton de pago</span>
+          <span className='form-label'>Botón de pago</span>
           <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
 
         </div>
@@ -203,11 +203,11 @@ const SecondStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Precio <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese el precio'/>
         </div>
       </div>
       <div className='form-grid-price'>
@@ -262,17 +262,17 @@ const ThirdStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Direccion</span>
-          <input style={{padding:6}}/>
+          <input style={{padding:6}} placeholder='Ingrese la dirección'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comuna</span>
-          <input style={{padding:6}}/>
+          <input style={{padding:6}} placeholder='Introduce la comuna'/>
         </div>
       </div>
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Ciudad</span>
-          <input style={{padding:6}}/>
+          <input style={{padding:6}} placeholder='Ingrese la ciudad'/>
         </div>
       </div>
       <div className='row-space-btw'>
@@ -294,11 +294,14 @@ const FourthStep = ({setStep}) => {
   
   return(
     <>
-      <h2>Plazo de entrega <span>(Opcional)</span></h2>
+      <div className='row'>
+        <h2>Plazo de entrega</h2>
+        <span style={{color:"grey"}}>(Opcional)</span>
+      </div>
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Dias</span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} placeholder='Ingrese los días hábiles'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Fecha</span>

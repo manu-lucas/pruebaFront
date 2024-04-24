@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SelectComponent from '../../../../components/Select/SelectComponent';
 import ClienteResumen from './ClienteDeatilComponents/ClienteResumen';
@@ -10,6 +10,8 @@ import { AiFillEdit } from 'react-icons/ai';
 import Filter from '../../../../components/Filter/Filter';
 import { DatePicker, Table } from 'antd';
 import { FaClipboard } from 'react-icons/fa';
+import { AppContext } from '../../../../context/AppContext';
+import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
 
 const ResumenHeader = () => {
   return (
@@ -47,6 +49,14 @@ const ClienteDetail = () => {
         return <ClienteFacturas/>
     }
   }
+
+
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
+  //abrir el submenu cuando se renderice este componente
+  useEffect(() => {
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Comercial','/clients/dashboard')
+    setMenuOptions(updateData)
+  }, [])
 
 
   return (
