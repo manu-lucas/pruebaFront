@@ -81,7 +81,7 @@ export const AppContextProvider = (props) =>{
                 {
                   name:'Pagos',
                   selected:false,
-                  route:'/'
+                  route:'/payment_groups'
                 }
               ]
             },

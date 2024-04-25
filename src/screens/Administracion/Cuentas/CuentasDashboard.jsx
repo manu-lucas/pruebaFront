@@ -7,6 +7,9 @@ import Resultados from './Resultados/Resultados';
 import BalanceDashboard from './Balance/BalanceDashboard';
 import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
 import PrincipalCard from '../../../components/Card/PrincipalCard';
+import Elementobar from '../../../components/Test/Elementobar';
+import { Bar } from 'react-chartjs-2';
+import { BsBank2 } from 'react-icons/bs';
 
 const CuentasBancariasHeader = () =>{
   return (
@@ -56,6 +59,54 @@ const BalanceHeader = () =>{
     </>
   )
 }
+
+const labelsBardTwo = ["Enero", "Febrero", "Marzo", "Abril",  ];
+
+
+const optionsBarTwo = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    title: {
+      display: false,
+    },
+  },
+  scales: {
+    y: {
+      ticks: {
+        callback: function (value) {
+          return "$" + value;
+        },
+      },
+    },
+  },
+};
+
+
+
+
+const dataBarTwo = {
+  labels: labelsBardTwo,
+  datasets: [
+    {
+      label: "Ingresos",
+      data: [7451698, 2896570, 3158946, 6234540, ],
+      backgroundColor: "rgba(0, 182, 155, 1)",
+      borderRadius: 80,
+      barSpacing: 5,
+    },
+    {
+      label: "Egresos",
+      data: [5651140, 2654610, 5989801, 4656540, ],
+      borderRadius: 80,
+      barSpacing: 5,
+      backgroundColor: "rgba(253, 115, 16, 1)",
+    },
+  ],
+};
+
 
 const CuentasDashboard = () => {
 
@@ -110,16 +161,54 @@ const CuentasDashboard = () => {
         <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('s')}}/>
       </div>
       <PrincipalCard>
-        <div className='principal-container-column'>
+        <div className='principal-container-column' style={{padding:"15px 30px"}}>
           <div className='row-space-btw'>
             <h2>Flujo de caja</h2>
-            <div className='row'>
-              <span>Ingresos</span>
-              <span>Egresos</span>
-            </div>
           </div>
+          {/*GRAFICO DE BARRAS*/}
+          <div style={{width:"100%",border:"1px solid black",height:300}}>Grafico</div>
+          {
+            /**
+             <div style={{ width: "100%",height:"300px" }}>
+               <Bar options={optionsBarTwo} data={dataBarTwo} />
+             </div>
+             
+             */
+          }
         </div>
       </PrincipalCard>
+      <div className='home-screen-section home-screen-second-card-container'>
+          <PrincipalCard>
+            <div style={{cursor:"pointer"}} className='principal-container-column'>
+              <div className='row-space-btw' style={{fontSize:19}}>
+                <h2>Banco 1</h2>
+                <BsBank2 style={{fontSize:26}}/>
+              </div>
+              <div>
+                <span>N cuenta</span>
+              </div>
+              <div className='row-space-btw' style={{fontWeight:700,fontSize:23}}>
+                <span>Monto</span>
+                <span>$2300</span>
+              </div>
+            </div>
+          </PrincipalCard>
+          <PrincipalCard>
+            <div style={{cursor:"pointer"}} className='principal-container-column'>
+              <div className='row-space-btw' style={{fontSize:19}}>
+                <h2>Banco 1</h2>
+                <BsBank2 style={{fontSize:26}}/>
+              </div>
+              <div>
+                <span>N cuenta</span>
+              </div>
+              <div className='row-space-btw' style={{fontWeight:700,fontSize:23}}>
+                <span>Monto</span>
+                <span>$2300</span>
+              </div>
+            </div>
+          </PrincipalCard>
+      </div>
     </div>
     {
       /*

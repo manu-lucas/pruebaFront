@@ -1,61 +1,100 @@
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { updateDocumentosTributariosDash } from '../../../../utils/helpers';
-import { AppContext } from '../../../../context/AppContext';
-import { Button, ConfigProvider, DatePicker, Table } from 'antd';
-import SearchBtn from '../../../../components/Buttons/SearchBtn';
-import Filter from '../../../../components/Filter/Filter';
+import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn'
+import SearchBtn from '../../../../components/Buttons/SearchBtn'
+import Filter from '../../../../components/Filter/Filter'
+import SelectComp from '../../../../components/Select/SelectComp'
+import { Button, DatePicker, Table } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { AppContext } from '../../../../context/AppContext'
+import { updatePagosDash } from '../../../../utils/helpers'
 
-const DocumetosTributariosDashboard = () => {
-
+const PagosDashboard = () => {
+  //const navigate = useNavigate()
   const { setMenuOptions } = useContext(AppContext);
   const navigate = useNavigate();
 
 
   useEffect(() => {
-    const updateData = updateDocumentosTributariosDash()
+    const updateData = updatePagosDash()
     setMenuOptions(updateData)
   }, [])
   
-
-
-  function newDispachDocument (){
-    navigate('/dispach_documents/new')
-
+  function newPay (){
+    navigate('/payment/new')
   }
-
   return (
     <>
-    <div className="principal-container-column">
+     <div className="principal-container-column">
         <div className='row-space-btw'>
-          <h1>Documentos tributarios electrónicos</h1>
+          <h1>Pagos</h1>
           <div className='row'>
             <SearchBtn/>
-            {/**Nuevo componente */}
-            <ConfigProvider
-              theme={{
-                components: {
-                  Button: {
-                    colorPrimary: `#00B69B`,
-                    colorPrimaryHover: `#00B69B`,
-                    colorPrimaryActive: `#00B69B`,
-                    lineWidth: 0,
-                  },
-                },
-              }}
-            >
-              <Button onClick={()=>{}} type="primary" size="large" style={{display:"flex",alignItems:"center",gap:15}}>
-                <span>Ingreso masivo</span>
-              </Button>
-            </ConfigProvider>
-            {/*-------------------*/}
+            <AddMoreBtn label={'Agregar'} HanldeClick={newPay}/>
           </div>
         </div>
         <Filter>
           <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Por aprobar'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
+          <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Pendiente'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
+          <div className='filter-menu-item'>
             <DatePicker picker='week'/>
           </div>
+          <div className='filter-menu-item'>
+            <SelectComp
+              placeholder={'Vendedor'}
+              options={[
+                {
+                  value: 'Aprobado',
+                  label: 'Aprobado',
+                },
+                {
+                  value: 'Pendiente',
+                  label: 'Pendiente',
+                },
+                {
+                  value: 'En proceso',
+                  label: 'En proceso',
+                },
+              ]}
+            />
+          </div>
         </Filter>
+
         <Table
           dataSource={
             [ 
@@ -130,9 +169,9 @@ const DocumetosTributariosDashboard = () => {
             ]
           }
         />
-    </div>
+     </div>
     </>
   )
 }
 
-export default DocumetosTributariosDashboard
+export default PagosDashboard

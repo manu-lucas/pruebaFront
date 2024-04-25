@@ -240,7 +240,7 @@ const NuevaCompra = () => {
         <FaArrowLeftLong/>
         <span>Volver a compras</span>
       </div>
-      <h1>Agregar documento de compra</h1>
+      <h1>Certificado de compra</h1>
       {
         step === 3 ?
         <Success message={'Nuevo documento de compra generado con exito!'}/>

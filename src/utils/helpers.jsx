@@ -111,7 +111,7 @@ export const updateDispachDash = () =>{
               {
                 name:'Pagos',
                 selected:false,
-                route:'/'
+                route:'/payment_groups'
               }
             ]
           },
@@ -227,7 +227,7 @@ export const updateCobrosDash = () =>{
               {
                 name:'Pagos',
                 selected:false,
-                route:'/'
+                route:'/payment_groups'
               }
             ]
           },
@@ -342,7 +342,123 @@ export const updateDocumentosTributariosDash = () =>{
               {
                 name:'Pagos',
                 selected:false,
+                route:'/payment_groups'
+              }
+            ]
+          },
+          {
+            name:'Cuentas',
+            selected:false, 
+            route:'/banks',
+            itemsOpen:false,
+            items:[
+              {
+                name:'Resultados',
+                selected:false,
                 route:'/'
+              },
+              {
+                name:'Balance',
+                selected:false,
+                route:'/'
+              }
+            ]
+          } 
+        ], 
+         
+      },
+      
+      { 
+        icon: <PiBriefcase />, 
+        route:'/users/my_profile',
+        text: 'Mi Empresa', 
+        submenuOptions:[
+          {
+            name:'Mi Perfil',
+            selected:true, 
+            route:'/users/my_profile'
+          },
+          {
+            name:'Usuarios',
+            selected:false, 
+            route:'/users'
+          },
+          {
+            name:'Productos/Servicios',
+            selected:false, 
+            route:'/products'
+          },
+          {
+            name:'Lista de precios',
+            selected:false, 
+            route:'/price_lists'
+          }, 
+          {
+            name:'Proveedores',
+            selected:false, 
+            route:'/providers'
+          },
+      ], 
+      submenuOpen: false  
+    }
+  ]
+}
+
+
+
+export const updatePagosDash = () =>{
+  return [
+      { icon: <LuHome />, text: 'Inicio', route:'/', selected:true },
+  
+      { icon: <VscGraph />, route:'/quotes', text: 'Gestión', submenuOptions:[{name:'Proyectos',selected:true, route:'/quotes'},
+      //{name:'Consultas',selected:false, route:'/quote_requests'}, 
+      {name:'Clientes',selected:false, route:'/clients/dashboard'} ], submenuOpen: false },
+  
+      { icon: <LuClipboardList />, route:'/work_orders',text: 'Órdenes' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},
+      //{name:'Tablero',selected:false, route:'/work_orders/panel'}, 
+      {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
+      
+      //{ icon: <FaCalendarAlt />, route:'/delivery_orders/delivery_route',text: 'Calendario', submenuOptions:[{name:'Agendamiento',selected:true, route:'/delivery_orders/delivery_route'},{name:'Mis Tareas',selected:false, route:'/qtwist/delivery_orders'} ], submenuOpen: false  },
+      
+      { 
+        icon: <PiMoneyLight />, 
+        route:'/sale_invoices',
+        text: 'Finanzas',
+        submenuOpen: true, 
+        submenuOptions:[
+          {
+            name:'Ventas',
+            selected:false, 
+            route:'/sale_invoices',
+            itemsOpen:false,
+            items:[
+              {
+                name:'Despachos',
+                selected:false,
+                route:'/dispach_documents'
+              },
+              {
+                name:'Cobros',
+                selected:false,
+                route:'/sale_payment_groups'
+              }
+            ]
+          },
+          {
+            name:'Compras',
+            selected:true, 
+            route: '/service_invoices',
+            itemsOpen:true,
+            items:[
+              {
+                name:'Documentos tributarios',
+                selected:false,
+                route:'/tax_documents'
+              },
+              {
+                name:'Pagos',
+                selected:true,
+                route:'/payment_groups'
               }
             ]
           },

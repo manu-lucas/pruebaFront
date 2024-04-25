@@ -3,7 +3,6 @@ import PrivateStructure from '../../../screens/Structure/PrivateStructure'
 import VentasDashboard from '../../../screens/Administracion/Ventas/VentasDashboard'
 import ComprasDashboard from '../../../screens/Administracion/Compras/ComprasDashboard'
 import { Route } from 'react-router-dom'
-import PagosDashboard from '../../../screens/Administracion/Pagos/PagosDashboard'
 import CuentasDashboard from '../../../screens/Administracion/Cuentas/CuentasDashboard'
 import NuevoDocumentoDeVenta from '../../../screens/Administracion/Ventas/NuevoDocumentoDeVenta/NuevoDocumentoDeVenta'
 import NuevoDocumentoDeDespacho from '../../../screens/Administracion/Ventas/DocumentosDeDespacho/NuevoDocumentoDeDespacho/NuevoDocumentoDeDespacho'
@@ -13,6 +12,8 @@ import DocumentosDeDespachoDashboard from '../../../screens/Administracion/Venta
 import CobrosDashboard from '../../../screens/Administracion/Ventas/Cobros/CobrosDashboard'
 import NuevoCobro from '../../../screens/Administracion/Ventas/Cobros/NuevoCobro/NuevoCobro'
 import DocumetosTributariosDashboard from '../../../screens/Administracion/Compras/DocumentosTributarios/DocumetosTributariosDashboard'
+import PagosDashboard from '../../../screens/Administracion/Compras/Pagos/PagosDashboard'
+import NuevoPago from '../../../screens/Administracion/Compras/Pagos/NuevoPago/NuevoPago'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -41,6 +42,7 @@ const AdministracionRoutes = [
       //Pagos
       <Route path='/service_invoices/payments' element={<PrivateStructure><PagosDashboard/></PrivateStructure>}/>,
       <Route path='/payment_groups' element={<PrivateStructure><PagosDashboard/></PrivateStructure>}/>,
+      <Route path='/payment/new' element={<PrivateStructure><NuevoPago/></PrivateStructure>}/>,
 
       //Cobros
       /*
