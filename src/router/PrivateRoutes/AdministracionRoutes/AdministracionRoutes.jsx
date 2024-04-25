@@ -4,13 +4,15 @@ import VentasDashboard from '../../../screens/Administracion/Ventas/VentasDashbo
 import ComprasDashboard from '../../../screens/Administracion/Compras/ComprasDashboard'
 import { Route } from 'react-router-dom'
 import PagosDashboard from '../../../screens/Administracion/Pagos/PagosDashboard'
-import CobrosDashboard from '../../../screens/Administracion/Cobros/CobrosDashboard'
 import CuentasDashboard from '../../../screens/Administracion/Cuentas/CuentasDashboard'
-import NuevoDocumentoDeVenta from '../../../screens/Administracion/Ventas/DocumentosDeVenta/NuevoDocumentoDeVenta/NuevoDocumentoDeVenta'
+import NuevoDocumentoDeVenta from '../../../screens/Administracion/Ventas/NuevoDocumentoDeVenta/NuevoDocumentoDeVenta'
 import NuevoDocumentoDeDespacho from '../../../screens/Administracion/Ventas/DocumentosDeDespacho/NuevoDocumentoDeDespacho/NuevoDocumentoDeDespacho'
 import NuevoDocumentoDeCompra from '../../../screens/Administracion/Compras/ComprasSection/NuevoDocumentoDeCompra/NuevoDocumentoDeCompra'
 import NuevaCompra from '../../../screens/Administracion/Compras/NuevaCompra/NuevaCompra'
 import DocumentosDeDespachoDashboard from '../../../screens/Administracion/Ventas/DocumentosDeDespacho/DocumentosDeDespachoDashboard'
+import CobrosDashboard from '../../../screens/Administracion/Ventas/Cobros/CobrosDashboard'
+import NuevoCobro from '../../../screens/Administracion/Ventas/Cobros/NuevoCobro/NuevoCobro'
+import DocumetosTributariosDashboard from '../../../screens/Administracion/Compras/DocumentosTributarios/DocumetosTributariosDashboard'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -41,13 +43,21 @@ const AdministracionRoutes = [
       <Route path='/payment_groups' element={<PrivateStructure><PagosDashboard/></PrivateStructure>}/>,
 
       //Cobros
+      /*
       <Route path='/sale_invoices/payments' element={<PrivateStructure><CobrosDashboard/></PrivateStructure>}/>,
       <Route path='/sale_payment_groups' element={<PrivateStructure><CobrosDashboard/></PrivateStructure>}/>,
-      
+      */
+      <Route path='/sale_payment_groups' element={<PrivateStructure><CobrosDashboard/></PrivateStructure>}/>,
+      <Route path='/sale_payment/new' element={<PrivateStructure><NuevoCobro/></PrivateStructure>}/>,
+
       //Cuentas
       <Route path='/banks' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>}/>,
       <Route path='/banks/results' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>} />,
       <Route path='/banks/balance' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>} />,
+
+      //Documentos tributarios
+      <Route path='/tax_documents' element={<PrivateStructure><DocumetosTributariosDashboard/></PrivateStructure>} />,
+
 ];
 
 export default AdministracionRoutes

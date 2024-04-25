@@ -12,6 +12,7 @@ import { TbFileDownload } from "react-icons/tb";
 import { FaFileDownload } from "react-icons/fa";
 
 import { PieChart } from '@mui/x-charts/PieChart';
+import Elementobar from '../../components/Test/Elementobar';
 
 
 const data1 = [
@@ -243,6 +244,10 @@ const HomeScreen = () => {
             <div>Grafico de ventas</div>
           </div>
         </PrincipalCard>
+
+        <div>
+          <Elementobar/>
+        </div>
       </div>
       {
         /*

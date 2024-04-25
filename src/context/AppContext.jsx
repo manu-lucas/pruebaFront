@@ -63,7 +63,7 @@ export const AppContextProvider = (props) =>{
                 {
                   name:'Cobros',
                   selected:false,
-                  route:'/'
+                  route:'/sale_payment_groups'
                 }
               ]
             },
@@ -76,7 +76,7 @@ export const AppContextProvider = (props) =>{
                 {
                   name:'Documentos tributarios',
                   selected:false,
-                  route:'/'
+                  route:'/tax_documents'
                 },
                 {
                   name:'Pagos',

@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../../../../context/AppContext';
-import { updateSubMenuAsideOptions } from '../../../../../utils/helpers';
+import { AppContext } from '../../../../context/AppContext';
+import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeftLong } from 'react-icons/fa6';
-import Success from '../../../../../components/Modals/Success';
-import PrincipalCard from '../../../../../components/Card/PrincipalCard';
-import SelectComponent from '../../../../../components/Select/SelectComponent';
+import Success from '../../../../components/Modals/Success';
+import PrincipalCard from '../../../../components/Card/PrincipalCard';
+import SelectComponent from '../../../../components/Select/SelectComponent';
 import { DatePicker, Radio, Table } from 'antd';
-import FollowingBtn from '../../../../../components/Buttons/FollowingBtn';
-import FormerBtn from '../../../../../components/Buttons/FormerBtn';
-import CreateBtn from '../../../../../components/Buttons/CreateBtn';
-import AddMoreBtn from '../../../../../components/Buttons/AddMoreBtn';
+import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
+import FormerBtn from '../../../../components/Buttons/FormerBtn';
+import CreateBtn from '../../../../components/Buttons/CreateBtn';
+import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FiDownload } from 'react-icons/fi';
