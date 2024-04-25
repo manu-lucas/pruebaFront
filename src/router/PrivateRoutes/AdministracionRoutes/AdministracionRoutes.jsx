@@ -10,6 +10,7 @@ import NuevoDocumentoDeVenta from '../../../screens/Administracion/Ventas/Docume
 import NuevoDocumentoDeDespacho from '../../../screens/Administracion/Ventas/DocumentosDeDespacho/NuevoDocumentoDeDespacho/NuevoDocumentoDeDespacho'
 import NuevoDocumentoDeCompra from '../../../screens/Administracion/Compras/ComprasSection/NuevoDocumentoDeCompra/NuevoDocumentoDeCompra'
 import NuevaCompra from '../../../screens/Administracion/Compras/NuevaCompra/NuevaCompra'
+import DocumentosDeDespachoDashboard from '../../../screens/Administracion/Ventas/DocumentosDeDespacho/DocumentosDeDespachoDashboard'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -17,6 +18,7 @@ const AdministracionRoutes = [
       //Ventas
       // --- Documentos de venta
       <Route path='/sale_invoices' element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
+      <Route path='/dispach_documents' element={<PrivateStructure><DocumentosDeDespachoDashboard/></PrivateStructure>}/>,
       <Route path='/sale_invoices/new' element={<PrivateStructure><NuevoDocumentoDeVenta/></PrivateStructure>}/>,
       // --- Documentos de despacho
       <Route path='/shipping_invoices' element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,

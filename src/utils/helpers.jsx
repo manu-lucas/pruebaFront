@@ -1,4 +1,7 @@
 import axios from "axios";
+import { LuClipboardList, LuHome } from "react-icons/lu";
+import { PiBriefcase, PiMoneyLight } from "react-icons/pi";
+import { VscGraph } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 
 //function para setear los proveedores
@@ -54,6 +57,121 @@ export const updateSubMenuAsideOptions = (menuOptions,section,path_name) =>{
   return updateAsideOptions
 }
 
+//este es para los sub items
+
+export const updateDispachDash = () =>{
+  return [
+      { icon: <LuHome />, text: 'Inicio', route:'/', selected:true },
+  
+      { icon: <VscGraph />, route:'/quotes', text: 'Gestión', submenuOptions:[{name:'Proyectos',selected:true, route:'/quotes'},
+      //{name:'Consultas',selected:false, route:'/quote_requests'}, 
+      {name:'Clientes',selected:false, route:'/clients/dashboard'} ], submenuOpen: false },
+  
+      { icon: <LuClipboardList />, route:'/work_orders',text: 'Órdenes' , submenuOptions:[{name:'Orden de trabajo',selected:true, route: '/work_orders'},
+      //{name:'Tablero',selected:false, route:'/work_orders/panel'}, 
+      {name:'Orden de Compra',selected:false, route: '/purchases'} ], submenuOpen: false },
+      
+      //{ icon: <FaCalendarAlt />, route:'/delivery_orders/delivery_route',text: 'Calendario', submenuOptions:[{name:'Agendamiento',selected:true, route:'/delivery_orders/delivery_route'},{name:'Mis Tareas',selected:false, route:'/qtwist/delivery_orders'} ], submenuOpen: false  },
+      
+      { 
+        icon: <PiMoneyLight />, 
+        route:'/sale_invoices',
+        text: 'Finanzas',
+        submenuOpen: true, 
+        submenuOptions:[
+          {
+            name:'Ventas',
+            selected:true, 
+            route:'/sale_invoices',
+            itemsOpen:true,
+            items:[
+              {
+                name:'Despachos',
+                selected:true,
+                route:'/dispach_documents'
+              },
+              {
+                name:'Cobros',
+                selected:false,
+                route:'/'
+              }
+            ]
+          },
+          {
+            name:'Compras',
+            selected:false, 
+            route: '/service_invoices',
+            itemsOpen:false,
+            items:[
+              {
+                name:'Documentos tributarios',
+                selected:false,
+                route:'/'
+              },
+              {
+                name:'Pagos',
+                selected:false,
+                route:'/'
+              }
+            ]
+          },
+          {
+            name:'Cuentas',
+            selected:false, 
+            route:'/banks',
+            itemsOpen:false,
+            items:[
+              {
+                name:'Resultados',
+                selected:false,
+                route:'/'
+              },
+              {
+                name:'Balance',
+                selected:false,
+                route:'/'
+              }
+            ]
+          } 
+        ], 
+         
+      },
+      
+      { 
+        icon: <PiBriefcase />, 
+        route:'/users/my_profile',
+        text: 'Mi Empresa', 
+        submenuOptions:[
+          {
+            name:'Mi Perfil',
+            selected:true, 
+            route:'/users/my_profile'
+          },
+          {
+            name:'Usuarios',
+            selected:false, 
+            route:'/users'
+          },
+          {
+            name:'Productos/Servicios',
+            selected:false, 
+            route:'/products'
+          },
+          {
+            name:'Lista de precios',
+            selected:false, 
+            route:'/price_lists'
+          }, 
+          {
+            name:'Proveedores',
+            selected:false, 
+            route:'/providers'
+          },
+      ], 
+      submenuOpen: false  
+    }
+  ]
+}
 
 export const redirectToUserDetailRoute = (id) =>{
   const navigate = useNavigate();

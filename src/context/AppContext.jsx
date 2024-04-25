@@ -57,11 +57,13 @@ export const AppContextProvider = (props) =>{
               items:[
                 {
                   name:'Despachos',
-                  selected:false
+                  selected:false,
+                  route:'/dispach_documents'
                 },
                 {
                   name:'Cobros',
-                  selected:false
+                  selected:false,
+                  route:'/'
                 }
               ]
             },
@@ -73,11 +75,13 @@ export const AppContextProvider = (props) =>{
               items:[
                 {
                   name:'Documentos tributarios',
-                  selected:false
+                  selected:false,
+                  route:'/'
                 },
                 {
                   name:'Pagos',
-                  selected:false
+                  selected:false,
+                  route:'/'
                 }
               ]
             },
@@ -89,17 +93,19 @@ export const AppContextProvider = (props) =>{
               items:[
                 {
                   name:'Resultados',
-                  selected:false
+                  selected:false,
+                  route:'/'
                 },
                 {
                   name:'Balance',
-                  selected:false
+                  selected:false,
+                  route:'/'
                 }
               ]
             } 
           ], 
            
-      },
+        },
         
         { 
           icon: <PiBriefcase />, 
@@ -131,7 +137,6 @@ export const AppContextProvider = (props) =>{
               selected:false, 
               route:'/providers'
             },
-         //{name:'Configuraciones',selected:false, route:'/confs'} 
         ], 
         submenuOpen: false  
       }

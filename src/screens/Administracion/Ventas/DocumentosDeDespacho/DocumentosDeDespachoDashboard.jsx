@@ -1,11 +1,12 @@
 import { DatePicker, Space } from 'antd'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import TableExample from '../../../../components/Table/TableExample'
 import { AppContext } from '../../../../context/AppContext'
 import TableComponent from '../../../../components/Table/TableComponent'
+import { updateDispachDash } from '../../../../utils/helpers'
 
 const DocumentosDeDespachoDashboard = () => {
-  const { column_shipping_invoices_table } = useContext(AppContext);
+  const { column_shipping_invoices_table,setMenuOptions } = useContext(AppContext);
   const dataSource = [
     {
       key: '1',
@@ -19,8 +20,18 @@ const DocumentosDeDespachoDashboard = () => {
       anular: ''
     }
   ]
+
+  useEffect(() => {
+    const updateData = updateDispachDash()
+    setMenuOptions(updateData)
+  }, [])
+  
+
   return (
     <>
+    <h1>Documentos de despacho</h1>
+    {
+      /*
       <div style={{justifyContent:"flex-end"}} className='row-test'>
         <Space direction='vertical' size={12}>
           <DatePicker.RangePicker/>
@@ -31,6 +42,9 @@ const DocumentosDeDespachoDashboard = () => {
       </div>
       <div>Documentos de despacho</div>
       <TableComponent dataSource={dataSource} columns={column_shipping_invoices_table}/>
+      
+      */
+    }
 
     </>
   )

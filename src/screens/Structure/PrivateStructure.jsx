@@ -328,7 +328,10 @@ const PrivateStructure = ({ children }) => {
                                       {
                                         item.items.map((subitem)=>
                                           <div
-                                          onClick={()=>{ selectSubItem(option.text,item.name,subitem.name) }}
+                                          onClick={()=>{ 
+                                            selectSubItem(option.text,item.name,subitem.name)
+                                            navigate(`${subitem.route}`)
+                                          }}
                                           style={{fontSize:12}}
                                           className={subitem.selected  === true ? 'private-aside-extended-menu-item-submenu-item-cta' : 'private-aside-extended-menu-item-submenu-item'}
                                           >
