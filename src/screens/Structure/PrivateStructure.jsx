@@ -120,7 +120,11 @@ const PrivateStructure = ({ children }) => {
               console.log(updateArraySubOptions[0].itemsOpen)
               if(updateArraySubOptions[0].itemsOpen !== undefined){
                 console.log('existe')
+                let itemsOptionsUpdate = updateArraySubOptions[i].items.map((subit)=>{
+                  return {...subit,selected:false}
+                })
                 updateArraySubOptions[i].itemsOpen = true
+                updateArraySubOptions[i].items = itemsOptionsUpdate
               }else{
                 console.log('no existe')
               }
@@ -128,7 +132,11 @@ const PrivateStructure = ({ children }) => {
               updateArraySubOptions[i].selected = false
               if(updateArraySubOptions[i].itemsOpen !== undefined){
                 console.log('existe')
+                let itemsOptionsUpdate = updateArraySubOptions[i].items.map((subit)=>{
+                  return {...subit,selected:false}
+                })
                 updateArraySubOptions[i].itemsOpen = false
+                updateArraySubOptions[i].items = itemsOptionsUpdate
               }else{
                 console.log('no existe')
               }

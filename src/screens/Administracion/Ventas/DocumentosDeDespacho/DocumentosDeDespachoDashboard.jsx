@@ -1,12 +1,18 @@
-import { DatePicker, Space } from 'antd'
+import { Button, DatePicker, Space, Table } from 'antd'
 import React, { useContext, useEffect } from 'react'
 import TableExample from '../../../../components/Table/TableExample'
 import { AppContext } from '../../../../context/AppContext'
 import TableComponent from '../../../../components/Table/TableComponent'
 import { updateDispachDash } from '../../../../utils/helpers'
+import SearchBtn from '../../../../components/Buttons/SearchBtn'
+import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn'
+import Filter from '../../../../components/Filter/Filter'
+import { FaFileDownload } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 const DocumentosDeDespachoDashboard = () => {
   const { column_shipping_invoices_table,setMenuOptions } = useContext(AppContext);
+  const navigate = useNavigate();
   const dataSource = [
     {
       key: '1',
@@ -27,9 +33,114 @@ const DocumentosDeDespachoDashboard = () => {
   }, [])
   
 
+  function newDispachDocument (){
+    navigate('/dispach_documents/new')
+  }
+
   return (
     <>
-    <h1>Documentos de despacho</h1>
+    <div className='principal-container-column'>
+
+      <div className='row-space-btw'>
+        <h1>Documentos de despacho</h1>
+        <div className='row'>
+          <SearchBtn/>
+          <AddMoreBtn label={'Agregar'} HanldeClick={newDispachDocument}/>
+        </div>
+      </div>
+
+      <div className='row-space-btw'>
+        <Filter>
+          <div className='filter-menu-item'>
+            <DatePicker picker='week'/>
+          </div>
+        </Filter>
+        <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+          <FaFileDownload/>
+          <span>Reporte</span>
+        </Button>
+      </div>
+
+
+      <Table
+        dataSource={
+          [ 
+            {
+              key:1,
+              id: 2297,
+              cliente: 'Cliente 1',
+              date:'26/03',
+              documento: 'N° doc',
+              neto: 233,
+              bruto: 200,
+            },
+            {
+              key:2,
+              id: 2297,
+              cliente: 'Cliente 1',
+              date:'26/03',
+              documento: 'N° doc',
+              neto: 233,
+              bruto: 200,
+            },
+            {
+              key:3,
+              id: 2297,
+              cliente: 'Cliente 1',
+              date:'26/03',
+              documento: 'N° doc',
+              neto: 233,
+              bruto: 200,
+            },
+          ]
+        }
+        columns={
+          [
+            {
+              title: 'ID',
+              dataIndex: 'id',
+              key: 'id',
+            },
+            {
+              title: 'Fecha',
+              dataIndex: 'date',
+              key: 'date',
+            },
+            {
+              title: 'Orden de trabajo',
+              dataIndex: 'documento',
+              key: 'documento',
+            },
+            {
+              title: 'Cliente',
+              dataIndex: 'cliente',
+              key: 'cliente',
+            },
+            
+            
+            {
+              title: 'Total real',
+              dataIndex: 'neto',
+              key: 'neto',
+            },
+            {
+              title: 'Total orden',
+              dataIndex: 'bruto',
+              key: 'bruto',
+            },
+            
+            {
+              title:'',
+              render: (text, record) => (
+                <Button type='primary'  onClick={()=>{}}>Ver</Button>
+              ),
+            }
+          ]
+        }
+      />
+
+
+    </div>
     {
       /*
       <div style={{justifyContent:"flex-end"}} className='row-test'>

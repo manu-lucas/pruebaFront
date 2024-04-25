@@ -18,11 +18,16 @@ const AdministracionRoutes = [
       //Ventas
       // --- Documentos de venta
       <Route path='/sale_invoices' element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
+
+      // --- Documentos de despacho
+
       <Route path='/dispach_documents' element={<PrivateStructure><DocumentosDeDespachoDashboard/></PrivateStructure>}/>,
+      <Route path='/dispach_documents/new' element={<PrivateStructure><NuevoDocumentoDeDespacho/></PrivateStructure>}/>,
+
       <Route path='/sale_invoices/new' element={<PrivateStructure><NuevoDocumentoDeVenta/></PrivateStructure>}/>,
       // --- Documentos de despacho
-      <Route path='/shipping_invoices' element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
-      <Route path='/shipping_invoices/new' element={<PrivateStructure><NuevoDocumentoDeDespacho/></PrivateStructure>}/>,
+      //<Route path='/shipping_invoices' element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
+      //<Route path='/shipping_invoices/new' element={<PrivateStructure><NuevoDocumentoDeDespacho/></PrivateStructure>}/>,
 
       //compras
       ///---Documentos de compras
