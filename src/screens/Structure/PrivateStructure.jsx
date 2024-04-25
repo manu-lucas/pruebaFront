@@ -196,23 +196,25 @@ const PrivateStructure = ({ children }) => {
         let updateArray = [];
         item.submenuOptions.forEach(element => {
           if(element.name === sub_option_name){
-            //es el sub item
-            //const objt_update = {...element, selected: true}
-            //updateArray.push(objt_update)
+            
             let objt_update;
             if(element.itemsOpen !== undefined){
-              objt_update = {...element, selected: true,itemsOpen:true }
+              const itemsUpdate = element.items.map((it)=>{
+                return {...it,selected:false}
+              })
+              objt_update = {...element, selected: true,itemsOpen:true,items:itemsUpdate }
             }else{
               objt_update = {...element, selected: true}
             }
             updateArray.push(objt_update)
           }else{
-            //no es el subitem
-            //const objt_update = {...element, selected: false}
-            //updateArray.push(objt_update)
+            
             let objt_update;
             if(element.itemsOpen !== undefined){
-              objt_update = {...element, selected: false,itemsOpen:false }
+              const itemsUpdate = element.items.map((it)=>{
+                return {...it,selected:false}
+              })
+              objt_update = {...element, selected: false,itemsOpen:false,items:itemsUpdate }
             }else{
               objt_update = {...element, selected: false}
             }
@@ -226,6 +228,35 @@ const PrivateStructure = ({ children }) => {
     })
     setMenuOptions(updateSubMenuOption);
     setOpenMenuAnimated(false)
+  }
+
+
+
+  function selectSubItem (section,suboption,item) {
+    const updateMenu = menuOptions.map((menuOption)=>{
+      if(menuOption.text === section){
+        const updateSubMenuOptions = menuOption.submenuOptions.map((subMenuOpt)=>{
+          if(subMenuOpt.name === suboption){
+            const updateItems = subMenuOpt.items.map((subit)=>{
+              if(subit.name === item){
+                return {...subit,selected:true}
+              }else{
+                return {...subit,selected:false}
+              }
+            })
+            return {...subMenuOpt,items:updateItems}
+          }else{
+            return subMenuOpt
+          }
+        })
+
+        return {...menuOption,submenuOptions:updateSubMenuOptions}
+      }else{
+        return menuOption
+      }
+    })
+    setMenuOptions(updateMenu)
+    
   }
 
 
@@ -297,6 +328,7 @@ const PrivateStructure = ({ children }) => {
                                       {
                                         item.items.map((subitem)=>
                                           <div
+                                          onClick={()=>{ selectSubItem(option.text,item.name,subitem.name) }}
                                           style={{fontSize:12}}
                                           className={subitem.selected  === true ? 'private-aside-extended-menu-item-submenu-item-cta' : 'private-aside-extended-menu-item-submenu-item'}
                                           >
