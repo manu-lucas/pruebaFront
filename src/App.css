@@ -284,6 +284,16 @@
   cursor: pointer;
 }
 
+
+.subitem-menu{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-left: 15px;
+}
+
 /*HOME SCREEN*/
 
 .home-screen-container{

@@ -81,30 +81,12 @@ export const AppContextProvider = (props) =>{
                 }
               ]
             },
-            /* 
-            {
-              name:'Pagos',
-              selected:false, 
-              route:'/service_invoices/payments'
-            },
-            {
-              name:'Cobros',
-              selected:false, 
-              route:'/sale_invoices/payments'
-            },
-            */ 
             {
               name:'Cuentas',
               selected:false, 
               route:'/banks',
               itemsOpen:false,
               items:[
-                /*
-                {
-                  name:'Cuentas bancarias',
-                  selected:false
-                },
-                */
                 {
                   name:'Resultados',
                   selected:false

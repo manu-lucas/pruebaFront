@@ -126,6 +126,12 @@ const PrivateStructure = ({ children }) => {
               }
             } else {
               updateArraySubOptions[i].selected = false
+              if(updateArraySubOptions[i].itemsOpen !== undefined){
+                console.log('existe')
+                updateArraySubOptions[i].itemsOpen = false
+              }else{
+                console.log('no existe')
+              }
             }
           }
 
@@ -287,11 +293,16 @@ const PrivateStructure = ({ children }) => {
                                   </div>
                                   {
                                     item.itemsOpen === true ?
-                                    <div>
+                                    <div className='subitem-menu'>
                                       {
                                         item.items.map((subitem)=>
-                                          <div>
-                                            {subitem.name}
+                                          <div
+                                          style={{fontSize:12}}
+                                          className={subitem.selected  === true ? 'private-aside-extended-menu-item-submenu-item-cta' : 'private-aside-extended-menu-item-submenu-item'}
+                                          >
+                                            <BiSolidRightArrow style={{fontSize:10}}/>
+                                            <span>{subitem.name}</span>
+                                            
                                           </div>
                                         )
                                       }

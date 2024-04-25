@@ -40,7 +40,7 @@ const DTEPendientesHeader = () =>{
 
 const ComprasDashboard = () => {
   const {menuOptions,setMenuOptions} = useContext(AppContext);
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [ path_name,set_path_name ] = useState('');
@@ -50,7 +50,6 @@ const ComprasDashboard = () => {
     set_path_name(location.pathname)
   }, [location]);
 
-  const navigation = useNavigate()
 
 
   //abrir el submenu cuando se renderice este componente
@@ -87,7 +86,7 @@ const ComprasDashboard = () => {
         <h1>Compras</h1>
         <div className='row'>
           <SearchBtn/>
-          <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('s')}}/>
+          <AddMoreBtn label={'Agregar'} HanldeClick={()=>{navigate('/service_invoices/new')}}/>
         </div>
       </div>
       

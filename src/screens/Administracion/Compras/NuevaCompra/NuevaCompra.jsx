@@ -1,66 +1,72 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { FaArrowLeftLong } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../../context/AppContext';
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
-import { FaArrowLeftLong } from 'react-icons/fa6';
 import Success from '../../../../components/Modals/Success';
 import PrincipalCard from '../../../../components/Card/PrincipalCard';
-import { DatePicker, Table } from 'antd';
 import SelectComponent from '../../../../components/Select/SelectComponent';
+import { DatePicker, Table } from 'antd';
 import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
 import { FiDownload } from 'react-icons/fi';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
-import { Radio } from 'antd';
 import FormerBtn from '../../../../components/Buttons/FormerBtn';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
 
-
-
-const FirstStep = ({setStep}) =>{
-  return(
+const FirstStep = ({setStep}) => {
+  return (
     <div className='principal-container-column'>
       <h2 style={{fontSize:20}}>Datos principales</h2>
-      
+
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>N° documento</span>
-          <input style={{padding:8}}/>
+          <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
+          <SelectComponent/>
         </div>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
+          <span className='form-label'>N° de documento</span>
           <DatePicker picker="week" />
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Proveedor </span>
+          <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
+          <DatePicker picker='week'/>
+        </div>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Destinatario <span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese el nombre del destinatario'/>
+        </div>
+      </div>
+
+      <div className='form-grid'>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
           <SelectComponent/>
         </div>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Condición de pago </span>
+          <span className='form-label'>Condición de pago</span>
           <SelectComponent/>
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Notas </span>
-          <textarea style={{height:150}}/>
+          <span className='form-label'>Centro de beneficio</span>
+          <SelectComponent/>
         </div>
       </div>
-      
+
 
       <div className='container-item-flex-end' style={{marginTop:30}}>
         <FollowingBtn setStep={setStep} value={2}/>
       </div>
 
-
     </div>
   )
-
 }
 
 
@@ -70,10 +76,12 @@ const SecondStep = ({setStep}) => {
 
 
   function addProductoServicio (){
+    console.log('agregando')
     setPslist([...pslist,{
       key:1+pslist.length,
       producto: `producto ${1+pslist.length}`,
       cantidad: 1,
+      cuenta:'cuenta',
       precio: 2300,
       porcentaje: 0,
       neto: 2450,
@@ -81,13 +89,7 @@ const SecondStep = ({setStep}) => {
       total: 2600
     }])
   }
-  
-  const [value, setValue] = useState(1);
 
-  const onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
 
 
   function createOrder () {
@@ -97,7 +99,8 @@ const SecondStep = ({setStep}) => {
     }, 2000); 
   }
 
-  return(
+
+  return (
     <div className='principal-container-column'>
       <div className='row-space-btw'>
         <div className='row'>
@@ -108,7 +111,6 @@ const SecondStep = ({setStep}) => {
         </div>
         <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
       </div>
-
 
       {
           pslist.length === 0 ?
@@ -135,19 +137,14 @@ const SecondStep = ({setStep}) => {
                     key: 'precio',
                   },
                   {
-                    title: '%',
-                    dataIndex: 'porcentaje',
-                    key: 'porcentaje',
-                  },
-                  {
                     title: 'Neto',
                     dataIndex: 'neto',
                     key: 'neto',
                   },
                   {
-                    title: 'IVA',
-                    dataIndex: 'iva',
-                    key: 'iva',
+                    title: 'Cuenta',
+                    dataIndex: 'cuenta',
+                    key: 'cuenta',
                   },
                   {
                     title: 'Total',
@@ -167,9 +164,9 @@ const SecondStep = ({setStep}) => {
                 ]
               }
             />
-            
           </div>
       }
+
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
@@ -184,51 +181,29 @@ const SecondStep = ({setStep}) => {
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Precio unitario <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Introduce el valor del precio unitario'/>
+          <span className='form-label'>Precio unitario<span style={{color:"red"}}>*</span></span>
+          <input style={{padding:8}} placeholder='Ingrese el precio'/>
         </div>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Neto </span>
+          <span className='form-label'>Neto</span>
           <input style={{padding:8}} />
         </div>
       </div>
 
+
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Cuenta <span style={{color:"red"}}>*</span></span>
+          <span className='form-label'>Cuenta<span style={{color:"red"}}>*</span></span>
           <SelectComponent/>
         </div>
-        <div className='column' style={{gap:15, justifyContent:"center"}}>
-          <span className='form-label'>Agregar exención </span>
-          <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Si</Radio>
-            <Radio value={2}>No</Radio>
-          </Radio.Group>
+        <div className='column' style={{gap:5}}>
+          <span className='form-label'>Notas</span>
+          <textarea style={{height:100}}/>
         </div>
       </div>
-      {
-        value === 1 ?
-        <div className='form-grid' style={{marginTop:"20px"}}>
-          <div></div>
-          <div>
-                <div className='form-grid'>
-                  <div className='column' style={{gap:5}}>
-                    <span className='form-label'>Monto exento</span>
-                    <input style={{padding:8}} placeholder='Agregue el monto'/>
-                  </div>
-                  <div className='column' style={{gap:5}}>
-                    <span className='form-label'>Retención</span>
-                    <input style={{padding:8}} placeholder='Agregue la retención'/>
-                  </div>
-                </div>
-          </div>
-        
-        </div>
-        :
-        <></>
-      }
+      
 
-      <div className='row-space-btw' style={{marginTop:30}}>
+      <div className='row-space-btw'>
         <FormerBtn setStep={setStep} value={1}/>
         <CreateBtn label={'Crear orden'} HanldeClick={createOrder}/>
       </div>
@@ -237,24 +212,23 @@ const SecondStep = ({setStep}) => {
   )
 }
 
-const NuevaODC = () => {
 
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
+
+const NuevaCompra = () => {
   const navigate = useNavigate();
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
-    const updateData = updateSubMenuAsideOptions(menuOptions,'Órdenes','/purchases')
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Finanzas','/service_invoices')
     setMenuOptions(updateData)
   }, [])
 
   const [ step,setStep ] = useState(1);
 
-
   function formSetupSteps (){
     switch (step) {
       case 1:
         return <FirstStep setStep={setStep}/>
-      
       case 2:
         return <SecondStep setStep={setStep}/>
     }
@@ -262,14 +236,14 @@ const NuevaODC = () => {
 
   return (
     <>
-      <div className='row' onClick={()=>{navigate('/purchases')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+      <div className='row' onClick={()=>{navigate('/service_invoices')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
         <FaArrowLeftLong/>
-        <span>Volver a  órdenes de compra</span>
+        <span>Volver a compras</span>
       </div>
-      <h1>Agregar orden de compra</h1>
+      <h1>Agregar documento de compra</h1>
       {
         step === 3 ?
-        <Success message={'Orden de compra creada con éxito!'}/>
+        <Success message={'Nuevo documento de compra generado con exito!'}/>
         :
         <PrincipalCard>
           <div className='step-container step-container-2-steps' >
@@ -280,28 +254,15 @@ const NuevaODC = () => {
             </div>
             
           </div>
-
           <form className='step-form'>
-            {formSetupSteps()}
+            {
+            formSetupSteps()
+            }
           </form>
-
         </PrincipalCard>
       }
-    {
-      /*
-      <div className='row-test'>
-        <h3 onClick={()=>{navigate('/purchases')}} style={{color:"red"}}>Ordenes de compra</h3>
-        <h3>Nueva Orden de compra</h3>
-      </div>
-      <h3>Orden de compra Nº 2 04/04/2024</h3>
-      <div>Nueva orden de compra</div>
-      <form>
-        <button>CREAR</button>
-      </form>
-      */
-    }
     </>
   )
 }
 
-export default NuevaODC
+export default NuevaCompra
