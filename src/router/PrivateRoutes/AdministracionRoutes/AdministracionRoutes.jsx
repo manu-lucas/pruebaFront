@@ -16,6 +16,7 @@ import PagosDashboard from '../../../screens/Administracion/Compras/Pagos/PagosD
 import NuevoPago from '../../../screens/Administracion/Compras/Pagos/NuevoPago/NuevoPago'
 import CuentasDetail from '../../../screens/Administracion/Cuentas/CuentasDetail/CuentasDetail'
 import EditarTransaccion from '../../../screens/Administracion/Cuentas/Transacciones/EditarTransaccion'
+import AgregarTransaccion from '../../../screens/Administracion/Cuentas/Transacciones/AgregarTransaccion'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -66,6 +67,7 @@ const AdministracionRoutes = [
 
       //Transacciones
       <Route path='/transaction/edit/:id' element={<PrivateStructure><EditarTransaccion/></PrivateStructure>} />,
+      <Route path='/transaction/new' element={<PrivateStructure><AgregarTransaccion/></PrivateStructure>} />,
 
 ];
 

@@ -13,6 +13,9 @@ import SelectComp from '../../../../components/Select/SelectComp';
 const CuentasDetail = () => {
   const navigate = useNavigate();
 
+  function AddTransacion () {
+    navigate('/transaction/new')
+  }
   return (
     <>
       <div className='principal-container-column'>
@@ -68,7 +71,7 @@ const CuentasDetail = () => {
           <div className='principal-container-column'>
             <div className='row-space-btw'>
               <h2>Transacciones</h2>
-              <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('agregar transaccion')}}/>
+              <AddMoreBtn label={'Agregar'} HanldeClick={AddTransacion}/>
             </div>
           
             <Filter>
