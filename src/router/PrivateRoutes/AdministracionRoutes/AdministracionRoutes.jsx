@@ -14,6 +14,8 @@ import NuevoCobro from '../../../screens/Administracion/Ventas/Cobros/NuevoCobro
 import DocumetosTributariosDashboard from '../../../screens/Administracion/Compras/DocumentosTributarios/DocumetosTributariosDashboard'
 import PagosDashboard from '../../../screens/Administracion/Compras/Pagos/PagosDashboard'
 import NuevoPago from '../../../screens/Administracion/Compras/Pagos/NuevoPago/NuevoPago'
+import CuentasDetail from '../../../screens/Administracion/Cuentas/CuentasDetail/CuentasDetail'
+import EditarTransaccion from '../../../screens/Administracion/Cuentas/Transacciones/EditarTransaccion'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -54,11 +56,16 @@ const AdministracionRoutes = [
 
       //Cuentas
       <Route path='/banks' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>}/>,
+      <Route path='/bank/:id' element={<PrivateStructure><CuentasDetail/></PrivateStructure>}/>,
+
       <Route path='/banks/results' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>} />,
       <Route path='/banks/balance' element={<PrivateStructure><CuentasDashboard/></PrivateStructure>} />,
 
       //Documentos tributarios
       <Route path='/tax_documents' element={<PrivateStructure><DocumetosTributariosDashboard/></PrivateStructure>} />,
+
+      //Transacciones
+      <Route path='/transaction/edit/:id' element={<PrivateStructure><EditarTransaccion/></PrivateStructure>} />,
 
 ];
 

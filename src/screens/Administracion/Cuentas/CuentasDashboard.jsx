@@ -10,6 +10,7 @@ import PrincipalCard from '../../../components/Card/PrincipalCard';
 import Elementobar from '../../../components/Test/Elementobar';
 import { Bar } from 'react-chartjs-2';
 import { BsBank2 } from 'react-icons/bs';
+import { GraficoFlujo } from '../../../components/Test/GraficoFlujo-2';
 
 const CuentasBancariasHeader = () =>{
   return (
@@ -121,7 +122,7 @@ const CuentasDashboard = () => {
     set_path_name(location.pathname)
   }, [location]);
 
-  const navigation = useNavigate()
+  const navigate = useNavigate()
   
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
@@ -161,12 +162,24 @@ const CuentasDashboard = () => {
         <AddMoreBtn label={'Agregar'} HanldeClick={()=>{console.log('s')}}/>
       </div>
       <PrincipalCard>
-        <div className='principal-container-column' style={{padding:"15px 30px"}}>
-          <div className='row-space-btw'>
-            <h2>Flujo de caja</h2>
+        <div className='principal-container-column' style={{padding:"15px 30px",gap:80}}>
+          <div className='row-space-btw cuentas-header'>
+            <h2 className='ttl'>Flujo de caja</h2>
+            <div className='row' style={{gap:40}}>
+              <div className='row' style={{fontWeight:300}}>
+                <div className='cuentas-label-aside' style={{backgroundColor:"#00B69B"}}></div>
+                <span>Ingresos</span>
+              </div>
+              <div className='row' style={{fontWeight:300}}>
+                <div className='cuentas-label-aside' style={{backgroundColor:"#FD7338"}}></div>
+                <span>Egresos</span>
+              </div>
+            </div>
           </div>
           {/*GRAFICO DE BARRAS*/}
-          <div style={{width:"100%",border:"1px solid black",height:300}}>Grafico</div>
+          <div >
+            <GraficoFlujo/>
+          </div>
           {
             /**
              <div style={{ width: "100%",height:"300px" }}>
@@ -179,10 +192,10 @@ const CuentasDashboard = () => {
       </PrincipalCard>
       <div className='home-screen-section home-screen-second-card-container'>
           <PrincipalCard>
-            <div style={{cursor:"pointer"}} className='principal-container-column'>
+            <div onClick={()=>{navigate('/bank/1')}} style={{cursor:"pointer"}} className='principal-container-column'>
               <div className='row-space-btw' style={{fontSize:19}}>
                 <h2>Banco 1</h2>
-                <BsBank2 style={{fontSize:26}}/>
+                <BsBank2 style={{fontSize:26,color:"#4880FF"}}/>
               </div>
               <div>
                 <span>N cuenta</span>
@@ -194,10 +207,10 @@ const CuentasDashboard = () => {
             </div>
           </PrincipalCard>
           <PrincipalCard>
-            <div style={{cursor:"pointer"}} className='principal-container-column'>
+            <div onClick={()=>{navigate('/bank/1')}} style={{cursor:"pointer"}} className='principal-container-column'>
               <div className='row-space-btw' style={{fontSize:19}}>
                 <h2>Banco 1</h2>
-                <BsBank2 style={{fontSize:26}}/>
+                <BsBank2 style={{fontSize:26,color:"#4880FF"}}/>
               </div>
               <div>
                 <span>N cuenta</span>

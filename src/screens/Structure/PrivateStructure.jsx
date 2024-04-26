@@ -412,7 +412,7 @@ const PrivateStructure = ({ children }) => {
         <>
           {
             isOpen ?
-            <div style={{height:"100vh",width:"100%",backgroundColor:"#0000006a",zIndex:100,position:"fixed"}}></div>
+            <div style={{height:"100vh",width:"100%",backgroundColor:"#0000006a",zIndex:100,position:"fixed"}} onClick={()=>{setIsOpen(false)}}></div>
             :
             <></>
           }
