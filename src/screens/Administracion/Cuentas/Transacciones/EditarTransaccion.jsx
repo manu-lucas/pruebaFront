@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import PrincipalCard from '../../../../components/Card/PrincipalCard'
@@ -6,6 +6,8 @@ import SelectComponent from '../../../../components/Select/SelectComponent'
 import { DatePicker } from 'antd'
 import CreateBtn from '../../../../components/Buttons/CreateBtn'
 import Success from '../../../../components/Modals/Success'
+import { AppContext } from '../../../../context/AppContext'
+import { updateSubMenuAsideOptions } from '../../../../utils/helpers'
 
 const EditarTransaccion = () => {
   const navigate = useNavigate()
@@ -17,6 +19,16 @@ const EditarTransaccion = () => {
       setStep(1)
     }, 2000); 
   }
+
+
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
+
+  //abrir el submenu cuando se renderice este componente
+  useEffect(() => {
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Finanzas','/banks')
+    setMenuOptions(updateData)
+  }, [])
+
 
   return (
     <>
@@ -86,7 +98,7 @@ const EditarTransaccion = () => {
               </div>
 
               <div className='container-item-flex-end' style={{marginTop:30}}>
-                <CreateBtn label={'Editar'} HanldeClick={saveChanges}/>
+                <CreateBtn label={'Guardar cambios'} HanldeClick={saveChanges}/>
               </div>
 
             </div>
@@ -97,7 +109,7 @@ const EditarTransaccion = () => {
       </div>
       {
           step === 2 ?
-          <Success message={'Cambios guardados!'}/>
+          <Success message={'Cambios guardados con éxito!'}/>
           :
           <></>
       }

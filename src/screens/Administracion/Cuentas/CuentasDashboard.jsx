@@ -111,10 +111,8 @@ const dataBarTwo = {
 
 const CuentasDashboard = () => {
 
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
-
+  const navigate = useNavigate()
   const location = useLocation();
-
   const [ path_name,set_path_name ] = useState('');
 
   useEffect(() => {
@@ -122,14 +120,15 @@ const CuentasDashboard = () => {
     set_path_name(location.pathname)
   }, [location]);
 
-  const navigate = useNavigate()
-  
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
+
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
     const updateData = updateSubMenuAsideOptions(menuOptions,'Finanzas','/banks')
     setMenuOptions(updateData)
   }, [])
 
+  
 
   function RenderHeaderComponent () {
     switch (path_name){

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import PrincipalCard from '../../../../components/Card/PrincipalCard'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,8 @@ import { AiOutlineLink } from "react-icons/ai";
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import Filter from '../../../../components/Filter/Filter';
 import SelectComp from '../../../../components/Select/SelectComp';
+import { AppContext } from '../../../../context/AppContext';
+import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
 
 
 const CuentasDetail = () => {
@@ -16,6 +18,18 @@ const CuentasDetail = () => {
   function AddTransacion () {
     navigate('/transaction/new')
   }
+
+
+  const {menuOptions,setMenuOptions} = useContext(AppContext);
+
+  //abrir el submenu cuando se renderice este componente
+  useEffect(() => {
+    const updateData = updateSubMenuAsideOptions(menuOptions,'Finanzas','/banks')
+    setMenuOptions(updateData)
+  }, [])
+
+
+
   return (
     <>
       <div className='principal-container-column'>
