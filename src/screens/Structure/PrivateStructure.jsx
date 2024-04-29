@@ -38,6 +38,7 @@ import { MdClose } from "react-icons/md";
 
 
 import './PrivateStructure.css'
+import Overlay from '../../components/Overlay/Overlay';
 
 const PrivateStructure = ({ children }) => {
   
@@ -489,9 +490,6 @@ const PrivateStructure = ({ children }) => {
           </div>
         </>
       }
-      
-      
-      
       <div 
       className={ allowInteraction ? 'private-main-container-responsive private-main-container' : (isExpanded ? 'private-main-container-expanded private-main-container' : 'private-main-container-contract private-main-container')}
       >
@@ -595,8 +593,14 @@ const PrivateStructure = ({ children }) => {
         }
       </div>
 
-    </main>
+      {
+        modal === true ?
+        <Overlay/>
+        :
+        <></>
+      }
 
+    </main>
     </>
   );
 }

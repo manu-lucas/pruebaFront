@@ -17,6 +17,12 @@ import NuevoPago from '../../../screens/Administracion/Compras/Pagos/NuevoPago/N
 import CuentasDetail from '../../../screens/Administracion/Cuentas/CuentasDetail/CuentasDetail'
 import EditarTransaccion from '../../../screens/Administracion/Cuentas/Transacciones/EditarTransaccion'
 import AgregarTransaccion from '../../../screens/Administracion/Cuentas/Transacciones/AgregarTransaccion'
+import ResultadosDashboard from '../../../screens/Administracion/Cuentas/Resultados/ResultadosDashboard'
+import BalanceDashboard from '../../../screens/Administracion/Cuentas/Balance/BalanceDashboard'
+import AdministracionDashboard from '../../../screens/Administracion/Cuentas/Balance/Administracion/AdministracionDashboard'
+import DetalleCuentaAdmin from '../../../screens/Administracion/Cuentas/Balance/Administracion/DetalleCuenta/DetalleCuentaAdmin'
+import NuevaCondicionDePago from '../../../screens/Administracion/Cuentas/Balance/Administracion/Condiciones/NuevaCondicionDePago'
+import EditarCondicionDePago from '../../../screens/Administracion/Cuentas/Balance/Administracion/Condiciones/EditarCondicionDePago'
 
 const AdministracionRoutes = [
       <Route path='/sale_invoices/pending'  element={<PrivateStructure><VentasDashboard/></PrivateStructure>}/>,
@@ -68,6 +74,21 @@ const AdministracionRoutes = [
       //Transacciones
       <Route path='/transaction/edit/:id' element={<PrivateStructure><EditarTransaccion/></PrivateStructure>} />,
       <Route path='/transaction/new' element={<PrivateStructure><AgregarTransaccion/></PrivateStructure>} />,
+
+      //Resultados:
+      <Route path='/results' element={<PrivateStructure><ResultadosDashboard/></PrivateStructure>} />,
+
+      //Balance
+      <Route path='/balance' element={<PrivateStructure><BalanceDashboard/></PrivateStructure>} />,
+      //Admin
+      <Route path='/admin_acount' element={<PrivateStructure><AdministracionDashboard/></PrivateStructure>} />,
+
+      <Route path='/acount/:id' element={<PrivateStructure><DetalleCuentaAdmin/></PrivateStructure>}/>,
+
+      //Condicion de pago nueva
+      <Route path='/payment_condition/new' element={<PrivateStructure><NuevaCondicionDePago/></PrivateStructure>} />,
+      <Route path='/payment_condition/edit' element={<PrivateStructure><EditarCondicionDePago/></PrivateStructure>} />,
+
 
 ];
 

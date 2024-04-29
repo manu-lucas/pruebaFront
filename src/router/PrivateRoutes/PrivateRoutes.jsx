@@ -14,6 +14,8 @@ import { fetchDataAfterLogin } from '../../utils/index.js'
 import Profile from '../../screens/Profile/Profile.jsx'
 
 const PrivateRoutes = () => {
+  const [ loading,setLoading ] = useState(false)
+  const [ error,setError ] = useState(false)
   const { 
     userLoggedData,
     setSubusuarios,
@@ -23,9 +25,10 @@ const PrivateRoutes = () => {
     //setError,
     //setLoading 
   } = useContext(AppContext);
+  /*
+  
 
-  const [ loading,setLoading ] = useState(true)
-  const [ error,setError ] = useState(false)
+  
 
   useEffect(() => {
     getData()
@@ -49,6 +52,7 @@ const PrivateRoutes = () => {
       setLoading(false)
     }
   }
+  */
 
   return (
     <Routes>

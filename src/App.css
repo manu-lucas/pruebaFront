@@ -392,8 +392,8 @@
 .modal-overlay{
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.275);
-  position: absolute;
+  background-color: #00000046;
+  position: fixed;
   z-index: 600;
   top: 0;
   left: 0;
@@ -411,6 +411,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 
@@ -764,6 +765,14 @@ h1, h2, h3, h4, h5 {
   display: grid;
   width: 100%;
   gap: 20px;
+}
+
+.grid-1-column{
+  grid-template-columns: 1fr;
+}
+
+.grid-2-columns{
+  grid-template-columns:  1fr 1fr;
 }
 
 .grid-3-columns{
@@ -1308,4 +1317,29 @@ h1, h2, h3, h4, h5 {
   width: 8px;
   background-color: green;
   border-radius: 20px;
+}
+
+.private-overlay{
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 700;
+  background-color: rgba(0, 0, 0, 0.381);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.private-modal{
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  position: relative; 
+  min-width: 60%;
+}
+
+.private-modal-btn{
+  position: absolute;
+  right: 0;
+  top: 0;
 }

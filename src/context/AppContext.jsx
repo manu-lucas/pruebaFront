@@ -94,12 +94,17 @@ export const AppContextProvider = (props) =>{
                 {
                   name:'Resultados',
                   selected:false,
-                  route:'/'
+                  route:'/results'
                 },
                 {
                   name:'Balance',
                   selected:false,
-                  route:'/'
+                  route:'/balance'
+                },
+                {
+                  name:'Administrar',
+                  selected:false,
+                  route:'/admin_acount'
                 }
               ]
             } 
