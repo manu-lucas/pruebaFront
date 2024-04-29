@@ -602,7 +602,7 @@ const UsuarioDetail = () => {
   
   return (
     <>
-    <div className='principal-container-column' style={{paddingLeft:"20px",paddingRight:"20px"}}>
+    <div className='principal-container-column'>
       <div className='row' onClick={()=>{navigate('/users')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
         <FaArrowLeftLong/>
         <span>Volver a usuarios</span>
