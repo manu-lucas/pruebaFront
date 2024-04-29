@@ -1343,3 +1343,57 @@ h1, h2, h3, h4, h5 {
   right: 0;
   top: 0;
 }
+
+.private-col-table{
+  padding: 20px;
+}
+
+.private-col-section-table{
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  padding-left: 80px;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.private-col-subheader{
+  padding: 20px 0px;
+  
+  text-align: center;
+}
+
+.private-col-header{
+  padding: 20px;
+  background-color: var(--primary-color);
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+@media screen and (max-width:790px) {
+    
+  .private-col-table{
+    padding: 10px;
+    font-size: 8px;
+  }
+
+  .private-col-section-table{
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    padding-left: 30px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .private-col-subheader{
+    padding: 20px 0px;
+    font-size: 8px;
+    text-align: center;
+  }
+
+  .private-col-header{
+    padding: 20px;
+    background-color: var(--primary-color);
+    font-size: 10px;
+    color: #FFFFFF;
+  }
+}

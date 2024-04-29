@@ -624,7 +624,7 @@ const Profile = () => {
                 )
               }
             </tbody>
-          </table>
+        </table>
       </div>
     </>
   )

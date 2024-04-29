@@ -71,10 +71,14 @@ const PrivateRoutes = () => {
               element={
                 <Routes>
                   <Route path='/' element={<PrivateStructure><HomeScreen/></PrivateStructure>}/>
-                  {ComercialRoutes}           
+                  {/*GESTION*/}
+                  {ComercialRoutes}
+                  {/*ORDENES*/}           
                   {OperacionesRoutes}
                   {CalendarioRoutes}
+                  {/*FINANZAS */}
                   {AdministracionRoutes}
+                  {/*MI EMPRESA*/}
                   {EmpresaRoutes}
                   <Route path='/profile' element={<PrivateStructure><Profile/></PrivateStructure>}/>
                   <Route path='/login' element={<Navigate to='/'/>}/>

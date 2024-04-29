@@ -11,13 +11,14 @@ import ProductoDetail from '../../../screens/Empresa/ProductosServicios/Producto
 import NuevoProveedor from '../../../screens/Empresa/Proveedores/NuevoProveedor/NuevoProveedor'
 import ProveedorDetail from '../../../screens/Empresa/Proveedores/ProveedorDetail/ProveedorDetail'
 import ProductoEdit from '../../../screens/Empresa/ProductosServicios/ProductoEdit/ProductoEdit'
+import UsuariosDashboard from '../../../screens/Empresa/Usuarios/UsuariosDashboard'
 
 const EmpresaRoutes = [
   //USUARIOS
   <Route path='/users/my_profile' element={<PrivateStructure><Profile/></PrivateStructure>}/>,
   //<Route path='/users/:id/edit' element={ <PrivateStructure><EditProfile/></PrivateStructure>}/>,
   <Route path='/users/:id/edit' element={ <PrivateStructure><UsuarioEdit/></PrivateStructure>}/>,  
-  <Route path='/users' element={<PrivateStructure><EmpresaNavigation/></PrivateStructure>}/>,
+  <Route path='/users' element={<PrivateStructure><UsuariosDashboard/></PrivateStructure>}/>,
   <Route path='/users/:id' element={<PrivateStructure><UsuarioDetail/></PrivateStructure>}/>,
   
   //PRODUCTOS Y SERVICIOS

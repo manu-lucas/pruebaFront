@@ -144,14 +144,16 @@ export const updateDispachDash = () =>{
       
       { 
         icon: <PiBriefcase />, 
-        route:'/users/my_profile',
+        route:'/users',
         text: 'Mi Empresa', 
         submenuOptions:[
+          /*
           {
             name:'Mi Perfil',
             selected:true, 
             route:'/users/my_profile'
           },
+          */
           {
             name:'Usuarios',
             selected:false, 
@@ -265,14 +267,16 @@ export const updateCobrosDash = () =>{
       
       { 
         icon: <PiBriefcase />, 
-        route:'/users/my_profile',
+        route:'/users',
         text: 'Mi Empresa', 
         submenuOptions:[
+          /*
           {
             name:'Mi Perfil',
             selected:true, 
             route:'/users/my_profile'
           },
+          */
           {
             name:'Usuarios',
             selected:false, 
@@ -385,14 +389,16 @@ export const updateDocumentosTributariosDash = () =>{
       
       { 
         icon: <PiBriefcase />, 
-        route:'/users/my_profile',
+        route:'/users',
         text: 'Mi Empresa', 
         submenuOptions:[
+          /*
           {
             name:'Mi Perfil',
             selected:true, 
             route:'/users/my_profile'
           },
+          */
           {
             name:'Usuarios',
             selected:false, 
@@ -506,14 +512,16 @@ export const updatePagosDash = () =>{
       
       { 
         icon: <PiBriefcase />, 
-        route:'/users/my_profile',
+        route:'/users',
         text: 'Mi Empresa', 
         submenuOptions:[
+          /*
           {
             name:'Mi Perfil',
             selected:true, 
             route:'/users/my_profile'
           },
+          */
           {
             name:'Usuarios',
             selected:false, 
@@ -626,14 +634,16 @@ export const updateResultsDash = () =>{
       
       { 
         icon: <PiBriefcase />, 
-        route:'/users/my_profile',
+        route:'/users',
         text: 'Mi Empresa', 
         submenuOptions:[
+          /*
           {
             name:'Mi Perfil',
             selected:true, 
             route:'/users/my_profile'
           },
+          */
           {
             name:'Usuarios',
             selected:false, 

@@ -114,14 +114,16 @@ export const AppContextProvider = (props) =>{
         
         { 
           icon: <PiBriefcase />, 
-          route:'/users/my_profile',
+          route:'/users',
           text: 'Mi Empresa', 
           submenuOptions:[
+            /*
             {
               name:'Mi Perfil',
               selected:true, 
               route:'/users/my_profile'
             },
+            */
             {
               name:'Usuarios',
               selected:false, 
