@@ -12,6 +12,10 @@ import NuevoProveedor from '../../../screens/Empresa/Proveedores/NuevoProveedor/
 import ProveedorDetail from '../../../screens/Empresa/Proveedores/ProveedorDetail/ProveedorDetail'
 import ProductoEdit from '../../../screens/Empresa/ProductosServicios/ProductoEdit/ProductoEdit'
 import UsuariosDashboard from '../../../screens/Empresa/Usuarios/UsuariosDashboard'
+import ProductosServiciosDashboard from '../../../screens/Empresa/ProductosServicios/ProductosServiciosDashboard'
+import ListaDePreciosDashboard from '../../../screens/Empresa/ListaDePrecios/ListaDePreciosDashboard'
+import ProveedoresDashboard from '../../../screens/Empresa/Proveedores/ProveedoresDashboard'
+import NuevaListaDePrecio from '../../../screens/Empresa/ListaDePrecios/NuevaListaDePrecios/NuevaListaDePrecio'
 
 const EmpresaRoutes = [
   //USUARIOS
@@ -22,14 +26,16 @@ const EmpresaRoutes = [
   <Route path='/users/:id' element={<PrivateStructure><UsuarioDetail/></PrivateStructure>}/>,
   
   //PRODUCTOS Y SERVICIOS
-  <Route path='/products' element={<PrivateStructure><EmpresaNavigation/></PrivateStructure>}/>,
+  <Route path='/products' element={<PrivateStructure><ProductosServiciosDashboard/></PrivateStructure>}/>,
   <Route path='/products/new' element={<PrivateStructure><NuevoPS/></PrivateStructure>}/>,
   <Route path='/products/:id' element={<PrivateStructure><ProductoDetail/></PrivateStructure>}/>,
   <Route path='/products/:id/edit' element={<PrivateStructure><ProductoEdit/></PrivateStructure>}/>,
   //
-  <Route path='/price_lists' element={<PrivateStructure><EmpresaNavigation/></PrivateStructure>}/>,
+  <Route path='/price_lists' element={<PrivateStructure><ListaDePreciosDashboard/></PrivateStructure>}/>,
+  <Route path='/price_lists/new' element={<PrivateStructure><NuevaListaDePrecio/></PrivateStructure>}/>,
+
   //PROVEEDORES
-  <Route path='/providers' element={<PrivateStructure><EmpresaNavigation/></PrivateStructure>}/>,
+  <Route path='/providers' element={<PrivateStructure><ProveedoresDashboard/></PrivateStructure>}/>,
   <Route path='/providers/:id' element={<PrivateStructure><ProveedorDetail/></PrivateStructure>}/>,
   <Route path='/providers/new' element={<PrivateStructure><NuevoProveedor/></PrivateStructure>}/>,
   

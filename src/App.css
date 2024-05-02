@@ -784,6 +784,11 @@ h1, h2, h3, h4, h5 {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+
+.grid-5-columns{
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
 .principal-grid-item{
   align-items: center;
   justify-content: center;

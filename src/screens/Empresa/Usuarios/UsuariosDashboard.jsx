@@ -46,6 +46,7 @@ const UsuariosDashboard = () => {
           <span>Descargar</span>
         </Button>
       </div>
+      
       <div style={{width:"85%",margin:"0 auto"}}>
         <Table
           dataSource={[
@@ -126,8 +127,9 @@ const UsuariosDashboard = () => {
             }
           ]}
         />
-
       </div>
+
+
     </div>
     {
       /*
