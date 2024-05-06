@@ -487,26 +487,7 @@
   
 }
 
-@media screen and (max-width: 769px) {
-  /*LOGIN SCREEN*/
-  .login-bg{
-    padding: 4rem;
-  }
-  .login-form{
-    width: 100%;
-    height: 60%;
-  }
-  /*HOMESCREEN*/
-  .home-screen-section{
-    display: flex;
-    flex-direction: column;
-  }
 
-
-  .chart-container{
-    width: 700px;
-  }
-}
 
 @media screen and (max-width: 720px) {
   /*PRIVATE STRUCTURE*/
@@ -698,6 +679,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .principal-card{
+  margin-top: 15px;
   background-color: #FFFFFF;
   padding: 25px;
   border-radius: 15px;
@@ -851,7 +833,82 @@ h1, h2, h3, h4, h5 {
   gap: 60px;
 }
 /**HOME SCREEN**/
+/* Grafico proyecto  */
+.graficoProyecto {
+  width: 300px; /* Ocupa todo el ancho disponible */
+  height: auto; /* Altura automática para mantener el aspect ratio */
+  max-width: 500px; /* Máximo ancho que puede tener */
+  margin: auto;
+}
+.divProyecto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5%;
+}
+.proyectos-section h3, .divGastos h3{
+  font-size: 24px;
+}
 
+.datosProyecto {
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 149px;
+}
+
+.datos1 {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  gap: 20px;
+}
+
+
+.acept {
+  display: flex;
+  flex-direction: column;
+}
+
+.acept p {
+  color: #70707A;
+  font-family: "Nunito Sans";
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: -0.2px;
+}
+
+.porcent {
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 35px;
+  font-weight: 900;
+  line-height: 140%;
+  letter-spacing: -0.35px;
+  margin-top: 5%;
+}
+
+.datosAceptado,
+.datosEnproceso,
+.datosPendiente {
+  width: 4px;
+  height: 111px;
+  border-radius: 4px;
+}
+
+.datosAceptado { background: #00B69B; }
+.datosEnproceso { background: #FF7A00; }
+.datosPendiente { background: #D94868; }
+.graficoProyecto canvas {
+ width: 300px;
+ height: 150px;
+}
+.datosProyetosMobile{
+  display: none;
+}
 .proyectos-section{
   width: 100%;
   height: 100%;
@@ -909,57 +966,266 @@ h1, h2, h3, h4, h5 {
 }
 
 .home-egresos-ingresos-grid{
-  width: 100%;
-  border: 1px solid green;
-  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
 }
 
-
-.home-grid-egresos-ingresos{
-  width: 100%;
-  box-sizing: border-box;
+/* graficoGastos */
+.divGastos{
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
 }
-
-
-/*Egresos*/
-
-.home-gastos-grid{
-  width: 90%;
-  border: 1px solid black;
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
-}
-
-.home-gastos-grid-item{
-  border: 1px solid green;
+.graficoGastos{
   display: flex;
   flex-direction: row;
-  height: 100px;
+  justify-content: space-around;
+}
+
+.gastosDetails{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  gap: 100px;
+}
+.column1,.column2{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  justify-content: center;
+  gap: 100px;
+}
+.gasto1,
+.gasto2,
+.gasto3,
+.gasto4{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
   gap: 20px;
 }
+.gasto1Barra {background-color: #F93C65;}
+.gasto2Barra{background-color: #FDB738;}
+.gasto3Barra{background-color: #8280FF;}
+.gasto4Barra{background-color:  #FD7338;}
+
+.gasto1Barra,
+.gasto2Barra, 
+.gasto3Barra,
+.gasto4Barra{
+  width: 8px;
+  height: 64px;
+  border-radius: 4px;
+}
+
+.gasto1Detail p,
+.gasto2Detail p,
+.gasto3Detail p,
+.gasto4Detail p{
+  color: var(--Greyscale-Grey-500, #70707A);
+font-feature-settings: 'ss03' on;
+font-family: "Nunito Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 160%; /* 22.4px */
+letter-spacing: 0.14px;
+}
+.gasto1Detail span,
+.gasto2Detail span,
+.gasto3Detail span,
+.gasto4Detail span{
+  color: var(--Main-Color-Black, #0A112F);
+  font-family: "Nunito Sans";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 130%; /* 41.6px */
+  letter-spacing: -0.32px;
+}
+/* grafico ingresos */
+.ingresosDetails{
+  display: flex;
+  margin: auto;
+  justify-content:space-around;
+  gap: 100px;
+}
+.titleIngresos{
+  color: var(--Main-Color-Black, #0A112F);
+  font-family: "Nunito Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 27px */
+}
+.ingreso1Icon{color:#00B69B ;}
+.ingreso2Icon{color:#8280FF ;}
+.ingreso3Icon{color:#FFC300 ;}
+.ingreso4Icon{color: #FD7338;}
+
+.ingreso1Icon,
+.ingreso2Icon,
+.ingreso3Icon,
+.ingreso4Icon
+{
+  font-feature-settings: 'ss03' on;
+  font-family: "Nunito Sans";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 130%; /* 41.6px */
+  letter-spacing: -0.32px;
+}
+.ingreso1Detail p,
+.ingreso2Detail p ,
+.ingreso3Detail p,
+.ingreso4Detail p {
+  color: var(--Main-Color-Black, #0A112F);
+  font-family: "Nunito Sans";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 27px */
+}
+/* graficoflujo */
+.graphFlujo, .divVen{
+  margin-top: 15px;
+}
+.conciliado, .pendiente , .ingresos, .egresos{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+.labelfacturacion, .labelFlujo{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  gap: 71px;
+}
+
+.barraConciliado, .barraIngresos{
+  width: 8px;
+  height:auto;
+  flex-shrink: 0;
+  background-color: #00B69B;
+  border-radius: 4px;
+}
+.barraPendiente, .barraEgresos{
+  width: 8px;
+  height: auto;
+  flex-shrink: 0;
+  background-color: #FD7338;
+  border-radius: 4px;
+  
+}
+.pendiente p , .conciliado p{
+  color: var(--Greyscale-Grey-500, #70707A);
+  font-feature-settings: 'ss03' on;
+  font-family: "Nunito Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 22.4px */
+  letter-spacing: 0.14px;
+}
+.conciliado span, .pendiente span{
+  color: var(--Main-Color-Black, #0A112F);
+  font-feature-settings: 'ss03' on;
+  font-family: "Nunito Sans";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 130%; /* 41.6px */
+  letter-spacing: -0.32px;
+}
 
 
-.home-gastos-grid-item-aside{
-  height: 100%;
-  width:6px;
-  background-color: green;
-  border-radius: 20px;
+.container {
+  width: 100vw; /* Ancho de la ventana del navegador */
+  height: 100vh; /* Altura de la ventana del navegador */
+}
+
+.card-principal {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.children {
+  text-align: center;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0px 4px 6px rgba(59, 59, 59, 0.1);
+  width: 40%;
+  height: 44rem;
+  
+}
+
+.grid-column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  width: 28rem;
+  margin: 0 auto;
+  padding-top: 2rem
+}
+
+.gastos-number{
+  font-weight: 800;
+  font-size: 1.7rem;
+  position: absolute;
+  margin-left: 0.5rem;
+  padding-top: 0.5rem;
+}
+.containerPie{
+  position: relative;
+  width: 17rem;
+  margin: 0 auto
 }
 
 
 
-@media screen and (max-width:980px) {
-  .proyectos-section{
-
+@media (max-width: 800px) {
+  .card-principal {
+    flex-direction: column;
+    align-items: center;
+  }
+  .children {
+    margin-top: 1rem;
+    width: 60%;
   }
 }
+
+@media (max-width: 400px) {
+  .card-principal {
+    width: 100%;
+  }
+  .children {
+    width: 80%;
+  }
+  .grid-column {
+    width: 15rem;
+
+  }
+ .gastos-number{
+  font-size: 1.1rem;
+  padding-top: 1rem;
+ }
+ .containerPie{
+  width: 15rem;
+
+ }
+ 
+}
+
+
 
 /*PROFILE*/
 
@@ -1426,5 +1692,216 @@ h1, h2, h3, h4, h5 {
     background-color: var(--primary-color);
     font-size: 10px;
     color: #FFFFFF;
+  }
+}
+@media screen and (max-width: 769px) {
+  /*LOGIN SCREEN*/
+  .login-bg{
+    padding: 4rem;
+  }
+  .login-form{
+    width: 100%;
+    height: 60%;
+  }
+  /*HOMESCREEN*/
+  .home-screen-section{
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .chart-container{
+    width: 700px;
+  }
+  /* Grafico Proyecto */
+  .datosProyecto{
+    display: none;
+  }
+  .datosProyetosMobile{
+    display: flex;
+  }
+
+  .aceptadoMobile{
+    width: 4px;
+    height: 35px;
+    border-radius: 4px;
+     background: #00B69B;
+  }
+  .enprocesoMobile{
+    width: 4px;
+    height: 35px;
+    border-radius: 4px;
+    background: #FF7A00;
+    
+  }
+  .pendienteMobile{
+    width: 4px;
+    height: 35px;
+    border-radius: 4px;
+    background: #D94868;
+    
+  }
+  .aceptado p, .enProceso p , .pendientes p {
+    font-size: 16px;
+    color: #70707A;
+    width: 89px;
+    height: 28px;
+    font-family: "Nunito Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.18px;
+  }
+  .aceptado span ,.enProceso span ,.pendientes span{
+    color: #000;
+    width: 56px;
+    height: 40px;
+    font-family: "Nunito Sans";
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 140%;
+    letter-spacing: -0.25px;
+  }
+  .datosMobile{
+    display: flex;
+    flex-direction:column;
+  }
+  .aceptadoMobile{
+    display: flex;
+    flex-direction: row;
+  }
+  .dato1{
+    align-items: flex-start;
+  }
+  .aceptadoMobile span{
+    align-items: flex-end;
+  }
+  .datosProyetosMobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ajusta al ancho del contenedor */
+  }
+  
+  .datosMobile > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio entre los estados */
+  }
+  
+  .dato1, .enProceso > div, .pendientes > div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dato1 p, .enProceso p, .pendientes p {
+    margin-right: auto; /* Alinea el texto al inicio */
+  }
+  
+  .dato1 .aceptadoMobile, .enProceso .enprocesoMobile, .pendientes .pendienteMobile {
+
+    margin-right: 10px; /* Espacio entre la barra y el texto */
+  }
+  
+  span {
+    margin-left: auto; /* Alinea el porcentaje al final */
+  }
+  /* .graficoGastos */
+  .graficoGastos{
+    display: flex;
+    flex-direction: row;
+  }
+  .gastosDetails{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    gap: 35px;
+  }
+  .column1,.column2{
+    display: flex;
+    flex-direction: row;
+    gap: 31px;
+  }
+
+  .gasto1,
+  .gasto2,
+  .gasto3,
+  .gasto4{
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    gap: 15px;
+  }
+  .gasto1Barra,
+.gasto2Barra, 
+.gasto3Barra,
+.gasto4Barra{
+  width: 10px;
+  height: 64px;
+  border-radius: 4px;
+}
+  .gasto1Detail p,
+  .gasto2Detail p,
+  .gasto3Detail p,
+  .gasto4Detail p{
+    color: var(--Greyscale-Grey-500, #70707A);
+  font-feature-settings: 'ss03' on;
+  font-family: "Nunito Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 22.4px */
+  letter-spacing: 0.14px;
+  }
+  .gasto1Detail span,
+  .gasto2Detail span,
+  .gasto3Detail span,
+  .gasto4Detail span{
+    color: var(--Main-Color-Black, #0A112F);
+    font-family: "Nunito Sans";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 130%; /* 41.6px */
+    letter-spacing: -0.32px;
+  }
+  /* grafico ventas */
+  .ingreso1Detail p,
+.ingreso2Detail p ,
+.ingreso3Detail p,
+.ingreso4Detail p {
+  color: var(--Main-Color-Black, #0A112F);
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 27px */
+}
+.conciliado, .pendiente{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  justify-content: center;
+  gap: 5px;
+}
+.labelfacturacion{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  gap: 15px;
+}
+  .conciliado span ,.pendiente span{
+    font-size: 24px;
+  }
+  .divGraficosMobile{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    gap: 5px;
   }
 }
