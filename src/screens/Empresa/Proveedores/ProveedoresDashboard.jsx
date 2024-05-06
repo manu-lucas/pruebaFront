@@ -34,7 +34,7 @@ const ProveedoresDashboard = () => {
         <h1>Proveedores</h1>
         <div className='row'>
           <SearchBtn/>
-          <AddMoreBtn label={'Agregar'} />
+          <AddMoreBtn label={'Agregar'} HanldeClick={()=>{navigate('/providers/new')}}/>
         </div>
       </div>
       <Table

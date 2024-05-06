@@ -584,7 +584,6 @@ const ThirdStep = ({setStep}) =>{
       <div className='row-space-btw' style={{marginTop:30}}>
         <FormerBtn setStep={setStep} value={2}/>
         <CreateBtn label={'Crear guía'} HanldeClick={createDD}/>
-
       </div>
 
 

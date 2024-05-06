@@ -3,7 +3,7 @@ import { AppContext } from '../../../../context/AppContext';
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import PrincipalCard from '../../../../components/Card/PrincipalCard';
-import { Radio } from 'antd';
+import { Radio, Spin } from 'antd';
 import { Button, ConfigProvider, DatePicker, Slider, Space, Switch, Table } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import { FaPlus } from "react-icons/fa6";
@@ -15,15 +15,45 @@ import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import Success from '../../../../components/Modals/Success';
+import { FaRegCheckCircle, FaRegTimesCircle, FaRegTrashAlt } from 'react-icons/fa';
+import { v4 as uuidv4 } from 'uuid';
+import SelectComp from '../../../../components/Select/SelectComp';
+import { MdErrorOutline } from 'react-icons/md';
+import axios from 'axios';
+import { LoadingOutlined } from '@ant-design/icons';
 
 
+/*
+OBJECT CLIENTE
+{
+  user: "",
+  razon_social: "",
+  rut: "",
+  giro: null,
+  direccion: null,
+  comuna: null,
+  ciudad: null,
+  //bool
+  suscripcion_a_encuestas	: null,
+  activo: true, 
+  condicion_de_pago: "1",
+  linea_de_credito: 1,
+  //bull
+  exension_de_impuestos: null,
+  notas: null,
+  pie_de_pagina: null
+}
+*/
 
-const FirstStep = ({setStep}) =>{
-  const [value, setValue] = useState(1);
+
+const FirstStep = ({setStep,data,setData}) =>{
+  const [value, setValue] = useState(data.activo);
 
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
+    setData({ ...data,activo: e.target.value })
     setValue(e.target.value);
+    
   };
 
   return(
@@ -33,39 +63,39 @@ const FirstStep = ({setStep}) =>{
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Razón Social / Nombre <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la razón social o nombre'/>
+          <input style={{padding:8}} value={data.razon_social} onChange={(e)=>{setData({ ...data, razon_social: e.target.value })}} placeholder='Ingrese la razón social o nombre'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Rut</span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} value={data.rut} onChange={(e)=>{ setData({ ...data,rut: e.target.value }) }}/>
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Giro <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} value={data.giro} onChange={(e)=>{ setData({ ...data,giro: e.target.value }) }}/>
         </div>
         <div className='column' style={{gap:15, justifyContent:"center"}}>
           <span className='form-label'>Estado del cliente</span>
           <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Cliente activo</Radio>
-            <Radio value={2}>Cliente no activo</Radio>
+            <Radio value={true}>Cliente activo</Radio>
+            <Radio value={false}>Cliente no activo</Radio>
           </Radio.Group>
         </div>
       </div>
       <div className='principal-grid grid-3-columns'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Dirección</span>
-          <input style={{padding:8}} placeholder='Ingrese la dirección'/>
+          <input style={{padding:8}} value={data.direccion}  onChange={(e)=>{ setData({ ...data, direccion: e.target.value }) }} placeholder='Ingrese la dirección'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comuna</span>
-          <input style={{padding:8}} placeholder='Ingrese la comuna'/>
+          <input style={{padding:8}} value={data.comuna} onChange={(e)=>{setData({ ...data, comuna: e.target.value })}} placeholder='Ingrese la comuna'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Ciudad</span>
-          <input style={{padding:8}} placeholder='Ingrese la ciudad'/>
+          <input style={{padding:8}} value={data.ciudad} onChange={(e)=>{ setData({ ...data,ciudad: e.target.value }) }} placeholder='Ingrese la ciudad'/>
         </div>
       </div>
       <div className='container-item-flex-end' style={{marginTop:30}}>
@@ -76,10 +106,33 @@ const FirstStep = ({setStep}) =>{
 }
 
 
-const SecondStep = ({setStep}) => {
+const SecondStep = ({setStep,data,setData, contactos, setContactos}) => {
+  
+  const dd = [];
+
+  const contactInitialState = {
+    nombre: '',
+    celular: '',
+    email: '',
+    telefono: '',
+    vendedor : null,
+    vendedorId: null
+  }
+  const [ contactData,setContactData ] = useState(contactInitialState)
+
+  
   function AddData () {
     console.log('agregar mas datos')
+    setContactos([...contactos,{...contactData,id: uuidv4()}])
+    setContactData(contactInitialState)  
   }
+  
+  function deleteRecord (recordId) {
+    console.log(recordId)
+    const updateTable = contactos.filter((item)=>item.id !== recordId)
+    setContactos(updateTable)
+  }
+
   return (
     <div className='principal-container-column'>
 
@@ -87,37 +140,97 @@ const SecondStep = ({setStep}) => {
         <h2 style={{fontSize:20}}>Datos de contacto</h2>
         <AddMoreBtn label={'Agregar más datos'} HanldeClick={AddData}/>
       </div>
+      {
+        contactos.length === 0 ?
+        <></>
+        :
+        <Table
+          columns={[
+            {
+              title: 'Nombre',
+              dataIndex: 'nombre',
+              key: 'nombre'
+            },
+            {
+              title: 'Email',
+              dataIndex: 'email',
+              key: 'email'
+            },
+            {
+              title: 'N° de celular',
+              dataIndex: 'celular',
+              key: 'celular'
+            },
+            {
+              title: 'N° de telefono',
+              dataIndex: 'telefono',
+              key: 'telefono'
+            },
+            {
+              title: 'Vendedor',
+              dataIndex: 'vendedor',
+              key: 'vendedor',
+              
+            },
+            {
+              title: '',
+              render: (text, record) => (
+                <FaRegTrashAlt onClick={()=>{deleteRecord(record.id)}}/>
+              )
+            }
 
+          ]}
+          dataSource={contactos}
+        />
+      }
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Nombre <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese nombre del contacto'/>
+          <input style={{padding:8}} type='text' value={contactData.nombre}  onChange={(e)=>{setContactData({...contactData,nombre:e.target.value})}} placeholder='Ingrese nombre del contacto'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>N° de celular </span>
-          <input style={{padding:8}} placeholder='Ingrese número de celular del contacto'/>
+          <input style={{padding:8}} type='text' value={contactData.celular} onChange={(e)=>{setContactData({...contactData,celular:e.target.value})}} placeholder='Ingrese número de celular del contacto'/>
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Email <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese el email del contacto'/>
+          <input style={{padding:8}} type='text' value={contactData.email}  onChange={(e)=>{setContactData({...contactData,email:e.target.value})}} placeholder='Ingrese el email del contacto'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>N° de teléfono </span>
-          <input style={{padding:8}} placeholder='Ingrese número de teléfono del contacto'/>
+          <input style={{padding:8}} type='text' value={contactData.telefono} onChange={(e)=>{setContactData({...contactData,telefono:e.target.value})}} placeholder='Ingrese número de teléfono del contacto'/>
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Vendedor 1</span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Vendedor 2</span>
-          <SelectComponent/>
+          <span className='form-label'>Vendedor</span>
+          <SelectComp
+            placeholder={'Seleccionar vendedor'}
+            HandleChange={(value,record)=>{
+              console.log(`seleccionado ${value} ${record.label}`)
+              setContactData({...contactData, vendedor: record.label, vendedorId: value})
+            }}
+            options={[
+              {
+                //value es el id
+                value: 'ab-0223',
+                label: 'Vendedor 1'
+              },
+              {
+                value: 'ab-0224',
+                label: 'Vendedor 2'
+              },
+              {
+                value: 'ab-0225',
+                label: 'Vendedor 3'
+              }
+            ]}
+
+          />
         </div>
       </div>
 
@@ -130,16 +243,17 @@ const SecondStep = ({setStep}) => {
   )
 }
 
-const ThirdStep = ({setStep}) => {
+const ThirdStep = ({setStep,data,setData}) => {
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
   };
 
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(data.exension_de_impuestos);
 
   const onChange2 = (e) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
+    setData({...data,exension_de_impuestos:e.target.value})
   };
 
   return(
@@ -149,20 +263,47 @@ const ThirdStep = ({setStep}) => {
           <h2 style={{fontSize:20}}>Datos de pago</h2>
           <span>(Opcional)</span>
         </div>
-        <div className='row'>
+        <div className='row' style={{marginTop:20}}>
           <span>Agregar datos de pago</span>
           <Switch defaultChecked onChange={onChange} />
         </div>
       </div>
-
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Condición de pago</span>
-          <SelectComponent/>
+          <SelectComp
+            placeholder={'Seleccionar condición de pago'}
+            HandleChange={(value,record)=>{
+              setData({...data,condicion_de_pago:value})
+            }}
+            options={[
+              {
+                value: '1',
+                label: '10 días'
+              },
+              {
+                value: '2',
+                label: '15 días'
+              },
+              {
+                value: '3',
+                label: '30 días'
+              },
+              {
+                value: '4',
+                label: '45 días'
+              },
+              {
+                value: '5',
+                label: 'condición creada por el cliente'
+              },
+            ]}
+
+          />
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Línea de crédito </span>
-          <input style={{padding:8}}/>
+          <input value={data.linea_de_credito} onChange={(e)=>{setData({...data,linea_de_credito:e.target.value})}} style={{padding:8}} placeholder='Ej: 40000'/>
         </div>
       </div>
       
@@ -170,13 +311,37 @@ const ThirdStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Lista de precio</span>
-          <input style={{padding:8}}/>
+          <SelectComp
+            placeholder={'Seleccionar lista de precio'}
+            HandleChange={(value,record)=>{
+              console.log(`seleccionado ${value} ${record.label}`)
+              //setContactData({...contactData, vendedor: record.label, vendedorId: value})
+            }}
+            options={[
+              {
+                //value es el id
+                value: '1',
+                label: 'Lista 1'
+              },
+              {
+                //value es el id
+                value: '2',
+                label: 'Lista 2'
+              },
+              {
+                //value es el id
+                value: '3',
+                label: 'Lista 3'
+              },
+            ]}
+
+          />
         </div>
         <div className='column' style={{gap:15, justifyContent:"center"}}>
           <span className='form-label'>Exención de impuesto</span>
           <Radio.Group onChange={onChange2} value={value}>
-            <Radio value={1}>Si</Radio>
-            <Radio value={2}>No</Radio>
+            <Radio value={true}>Si</Radio>
+            <Radio value={false}>No</Radio>
           </Radio.Group>
         </div>
       </div>
@@ -184,11 +349,11 @@ const ThirdStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Notas</span>
-          <input style={{padding:8}} placeholder='Ingrese las notas que considere necesarias'/>
+          <input style={{padding:8}} value={data.notas} onChange={(e)=>{setData({...data,notas:e.target.value})}} placeholder='Ingrese las notas que considere necesarias'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Pie de pagina</span>
-          <input style={{padding:8}} placeholder='Ingrese el  pie de pagina de proyecto'/>
+          <input value={data.pie_de_pagina} onChange={(e)=>{setData({...data,pie_de_pagina:e.target.value})}} style={{padding:8}} placeholder='Ingrese el  pie de pagina de proyecto'/>
         </div>
       </div>
 
@@ -201,21 +366,105 @@ const ThirdStep = ({setStep}) => {
   )
 }
 
-const FourthStep = ({setStep}) => {
+const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,contactos, setContactos,setErrorScreen,setLoadingScreen,clienteInitialState}) => {
 
+  const puntoDeDespachiInitialState = {
+    direccion: '',
+    nombre_receptor: '',
+    lugar: '',
+    comuna: '',
+    ciudad: '',
+    datos_de_pago:true
+  }
+
+  const [ puntoDeDespacho,setPuntoDeDespacho ] = useState(puntoDeDespachiInitialState);
+
+  function AddData () {
+    setPuntosDeDespacho([...puntosDeDespacho, {...puntoDeDespacho,id:uuidv4()}])
+    setPuntoDeDespacho(puntoDeDespachiInitialState)
+  }
+
+  function deleteRecord (recordId) {
+    const updateTable = puntosDeDespacho.filter((item)=>item.id !== recordId)
+    setPuntosDeDespacho(updateTable)
+  }
 
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
+    setPuntoDeDespacho({...puntoDeDespacho,datos_de_pago:checked})
   };
 
   function createClient () {
-    //console.log('crear cliente')
+    //console.log({...data,contactos: contactos,puntos_de_despacho:puntosDeDespacho })
+    const dataRestructured = {
+      ...data,
+      user: '1114ad52-f699-4eb8-9a08-ef9e61eaa42a',
+      linea_de_credito : data.linea_de_credito === null || data.linea_de_credito.trim().replace(/\s/g, "") === "" ? null : parseFloat(data.linea_de_credito),
+      
+    } 
     
+    function restructureContactos ( contactArray ) {
+      const updateArray = contactArray.map((item)=>{
+        return {
+          nombre: item.nombre,
+          email: item.email,
+          celular: item.celular,
+          telefono: item.telefono,
+          vendedorId : item.vendedorId
+        }
+      })
+      return updateArray
+    }
+
+    console.log({
+      ...dataRestructured,
+      contactos: contactos.length === 0 ? contactos : restructureContactos(contactos),puntos_de_despacho:puntosDeDespacho
+    
+    })
+    
+    sendData(
+      {
+        ...dataRestructured,
+        contactos: contactos.length === 0 ? contactos : restructureContactos(contactos),puntos_de_despacho:puntosDeDespacho
+      
+      }
+    )
+    //console.log('crear cliente')
+    /*
     setStep(5)
     setTimeout(() => {
       setStep(1)
     }, 2000); 
-    
+    */
+  }
+
+
+  async function sendData (data) {
+    setLoadingScreen(true)
+    try{
+      const response = await axios.post(
+        `https://appify-black-side.vercel.app/clientes/cliente`,data
+      );
+      console.log(response)
+      
+      //sin error
+      setErrorScreen(false)
+      ///data inicial
+      setData(clienteInitialState)
+      //modal de producto creado
+      setLoadingScreen(false)
+      setStep(5)
+      setTimeout(() => {
+        setStep(1)
+      }, 3000);
+      
+    }catch(err){
+      console.log(err)
+      
+      setLoadingScreen(false)
+      setErrorScreen(true)
+      
+    }
   }
 
   return(
@@ -226,20 +475,81 @@ const FourthStep = ({setStep}) => {
           <h2 style={{fontSize:20}}>Dirección de despacho</h2>
           <span>(Opcional)</span>
         </div>
+        <AddMoreBtn label={'Agregar más datos'} HanldeClick={AddData}/>
+      </div>
+      {
+        puntosDeDespacho.length === 0 ?
+        <></>
+        :
+        <Table 
+          columns={[
+            {
+              title: 'Punto',
+              dataIndex: 'direccion',
+              key: 'direccion'
+            },
+            {
+              title: 'Atención a',
+              dataIndex: 'nombre_receptor',
+              key: 'nombre_receptor'
+            },
+            {
+              title: 'Lugar',
+              dataIndex: 'lugar',
+              key: 'lugar'
+            },
+            {
+              title: 'Comuna',
+              dataIndex: 'comuna',
+              key: 'comuna'
+            },
+            {
+              title: 'Ciudad',
+              dataIndex: 'ciudad',
+              key: 'ciudad'
+            },
+            {
+              title: 'Datos de pago',
+              render: (text, record) => (
+                <>
+                  {
+                    record.datos_de_pago === true ?
+                    <FaRegCheckCircle/>
+                    :
+                    <FaRegTimesCircle/>
+                  }
+                
+                </>
+              )
+            },
+            {
+              title: '',
+              render: (text, record) => (
+                <FaRegTrashAlt onClick={()=>{deleteRecord(record.id)}}/>
+              )
+            },
+            
+          ]}
+          dataSource={puntosDeDespacho}
+        />
+      }
+
+      <div className='container-item-flex-end' style={{marginTop:"40px"}}>
         <div className='row'>
           <span>Agregar datos de pago</span>
           <Switch defaultChecked onChange={onChange} />
         </div>
       </div>
 
+
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Punto <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}}/>
+          <input style={{padding:8}} value={puntoDeDespacho.direccion} onChange={(e)=>{setPuntoDeDespacho({...puntoDeDespacho,direccion:e.target.value})}}/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Atención a <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Introduce el nombre'/>
+          <input style={{padding:8}} placeholder='Introduce el nombre' value={puntoDeDespacho.nombre_receptor} onChange={(e)=>{setPuntoDeDespacho({...puntoDeDespacho,nombre_receptor: e.target.value})}}/>
         </div>
       </div>
 
@@ -247,20 +557,20 @@ const FourthStep = ({setStep}) => {
       <div className='principal-grid grid-3-columns'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Lugar <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la dirección'/>
+          <input style={{padding:8}} placeholder='Ingrese la dirección' value={puntoDeDespacho.lugar} onChange={(e)=>{setPuntoDeDespacho({...puntoDeDespacho,lugar: e.target.value})}}/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comuna <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la comuna'/>
+          <input style={{padding:8}} value={puntoDeDespacho.comuna} onChange={(e)=>{setPuntoDeDespacho({...puntoDeDespacho,comuna:e.target.value})}} placeholder='Ingrese la comuna'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Ciudad <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la ciudad'/>
+          <input style={{padding:8}} value={puntoDeDespacho.ciudad} onChange={(e)=>{setPuntoDeDespacho({...puntoDeDespacho,ciudad:e.target.value})}}  placeholder='Ingrese la ciudad'/>
         </div>
       </div>
 
       <div className='row-space-btw' style={{marginTop:30}}>
-        <FormerBtn setStep={setStep} value={2}/>
+        <FormerBtn setStep={setStep} value={3}/>
         <CreateBtn label={'Crear cliente'} HanldeClick={createClient}/>
       </div>      
 
@@ -272,7 +582,13 @@ const FourthStep = ({setStep}) => {
 const NuevoCliente = () => {
 
   const {menuOptions,setMenuOptions} = useContext(AppContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [ loadingScreen,setLoadingScreen ] = useState(false);
+
+  const [ errorScreen,setErrorScreen ] = useState(false);
+  
+
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
     const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/clients/dashboard')
@@ -281,22 +597,63 @@ const NuevoCliente = () => {
 
   const [step,setStep] = useState(1)
 
+  const clienteInitialState = {
+    
+    razon_social: "",
+    rut: "",
+    giro: null,
+    direccion: null,
+    comuna: null,
+    ciudad: null,
+    //bool
+    suscripcion_a_encuestas	: null,
+    activo: true, 
+    //varchar
+    condicion_de_pago: null,
+    //float
+    linea_de_credito: null,
+    //bull
+    exension_de_impuestos: null,
+    notas: null,
+    pie_de_pagina: null
+  }
+
+  const [ data,setData ] = useState(clienteInitialState)
+
+  const [ contactos, setContactos ] = useState([]);
+
+  const [ puntosDeDespacho,setPuntosDeDespacho ] = useState([])
 
   function formSetupSteps (){
     switch (step) {
       case 1:
-        return <FirstStep setStep={setStep}/>
+        return <FirstStep setStep={setStep} data={data} setData={setData}/>
       
       case 2:
-        return <SecondStep setStep={setStep}/>
+        return <SecondStep setStep={setStep} data={data} setData={setData} contactos={contactos} setContactos={setContactos}/>
       
       case 3:
-        return <ThirdStep setStep={setStep}/>
+        return <ThirdStep setStep={setStep} data={data} setData={setData}/>
         
       case 4:
-        return <FourthStep setStep={setStep}/>
+        return <FourthStep setStep={setStep} data={data} setData={setData} puntosDeDespacho={puntosDeDespacho} setPuntosDeDespacho={setPuntosDeDespacho} contactos={contactos} setContactos={setContactos} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} clienteInitialState={clienteInitialState}/>
      
     }
+  }
+
+
+
+  function tryAgain () {
+    setData(clienteInitialState)
+    setStep(1)
+    setLoadingScreen(false)
+    setErrorScreen(false)
+      
+  }
+
+  function goBack () {
+    navigate('/clients/dashboard')
+  
   }
   
   return (
@@ -307,83 +664,76 @@ const NuevoCliente = () => {
       </div>
       <h1>Agregar cliente</h1>
       {
-        step === 5 ?
-        <Success message={'Cliente creado con éxito!'}
-        />
-        :
-        <PrincipalCard>
-          <div className='step-container'>
-            <div className='step-container-item'>
-              <div className={ step >= 2 ? 'step-item-bar-cta' : 'step-item-bar' }></div>
-              <div className='step-item-dot-cta' style={{left:-20}}>1</div>
-              <div className={step >= 2 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>2</div>
-
-            </div>
-            <div className='step-container-item'>
-              <div className={step >= 3 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
-              <div className={step >= 3 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>3</div>
-            </div>
-            <div className='step-container-item'>
-              <div className={step >= 4 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
-              <div className={step >= 4 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>4</div>
-            </div>
+        loadingScreen === true ?
+        <>
+          <div style={{height:"80%",width:"100%",boxSizing:"border-box",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:85}}>
+            <h2>Creando cliente...</h2>
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{
+                    fontSize: 90,
+                  }}
+                  spin
+                />
+              }
+            />
           </div>
-          <form className='step-form'>
-            {formSetupSteps()}
-          </form>
-        </PrincipalCard>
+
+        </>
+        :
+        <>
+          {
+            errorScreen === true ?
+            <>
+              <div style={{height:"80%",width:"100%",boxSizing:"border-box",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:30}}>
+                <MdErrorOutline style={{fontSize:100, color:"#EA0234"}}/>
+                <h2>¡Error al crear el cliente!</h2>
+                <span>Vuelve a intentarlo más tarde</span>
+                <div className='row'>
+                  <Button onClick={()=>{goBack()}} type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+                    <span>Aceptar</span>
+                  </Button>
+                  <Button onClick={()=>{tryAgain()}} type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+                    <span>Volver a intentar</span>
+                  </Button>
+                </div>
+              </div>
+            </>
+            :
+            <>
+              {
+                step === 5 ?
+                <Success message={'Cliente creado con éxito!'}
+                />
+                :
+                <PrincipalCard>
+                  <div className='step-container'>
+                    <div className='step-container-item'>
+                      <div className={ step >= 2 ? 'step-item-bar-cta' : 'step-item-bar' }></div>
+                      <div className='step-item-dot-cta' style={{left:-20}}>1</div>
+                      <div className={step >= 2 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>2</div>
         
+                    </div>
+                    <div className='step-container-item'>
+                      <div className={step >= 3 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
+                      <div className={step >= 3 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>3</div>
+                    </div>
+                    <div className='step-container-item'>
+                      <div className={step >= 4 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
+                      <div className={step >= 4 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>4</div>
+                    </div>
+                  </div>
+                  <form className='step-form'>
+                    {formSetupSteps()}
+                  </form>
+                </PrincipalCard>
+              }
+            </>
+          }
+        </>
       }
-    {
-      /*
-      <div className='row-test'>
-        <h3 onClick={()=>{navigate('/clients/dashboard')}} style={{color:"red"}}>Clientes</h3>
-        <h3>Nuevo cliente</h3>
-      </div>
-      <form style={{display:"flex",flexDirection:"column"}}>
-          <h3>Datos Generales</h3>
-
-          <label>Razon social o nombre</label>
-          <input style={{width:"300px"}}/>
-
-          <label>RUT</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Giro</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Direccion</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Comuna</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Ciudad</label>
-          <input style={{width:"300px"}}/>
-
-          <h3>Contacto</h3>
-
-          <label>Nombre</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Email</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Celular</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Teléfono</label>
-          <input style={{width:"300px"}}/>
-
-          <label>Vendedor</label>
-          <input style={{width:"300px"}}/>
-
-
-          <button>EVIAR</button>    
-      </form>
-      */
-    }
-
+    
     </>
   )
 }

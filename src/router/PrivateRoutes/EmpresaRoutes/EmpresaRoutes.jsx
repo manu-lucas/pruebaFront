@@ -16,6 +16,7 @@ import ProductosServiciosDashboard from '../../../screens/Empresa/ProductosServi
 import ListaDePreciosDashboard from '../../../screens/Empresa/ListaDePrecios/ListaDePreciosDashboard'
 import ProveedoresDashboard from '../../../screens/Empresa/Proveedores/ProveedoresDashboard'
 import NuevaListaDePrecio from '../../../screens/Empresa/ListaDePrecios/NuevaListaDePrecios/NuevaListaDePrecio'
+import NuevoUsuario from '../../../screens/Empresa/Usuarios/NuevoUsuario.jsx/NuevoUsuario'
 
 const EmpresaRoutes = [
   //USUARIOS
@@ -23,6 +24,7 @@ const EmpresaRoutes = [
   //<Route path='/users/:id/edit' element={ <PrivateStructure><EditProfile/></PrivateStructure>}/>,
   <Route path='/users/:id/edit' element={ <PrivateStructure><UsuarioEdit/></PrivateStructure>}/>,  
   <Route path='/users' element={<PrivateStructure><UsuariosDashboard/></PrivateStructure>}/>,
+  <Route path='/users/new' element={<PrivateStructure><NuevoUsuario/></PrivateStructure>}/>,
   <Route path='/users/:id' element={<PrivateStructure><UsuarioDetail/></PrivateStructure>}/>,
   
   //PRODUCTOS Y SERVICIOS

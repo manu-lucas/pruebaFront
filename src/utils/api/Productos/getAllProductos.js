@@ -9,4 +9,6 @@ export const getAllProductos = async (id) => {
     }
 };
 
+
+
   

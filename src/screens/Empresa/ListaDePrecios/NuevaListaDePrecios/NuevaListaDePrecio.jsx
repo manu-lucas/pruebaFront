@@ -6,22 +6,23 @@ import { Button, ConfigProvider, Radio } from 'antd'
 import SelectComponent from '../../../../components/Select/SelectComponent'
 import { GrDownload } from 'react-icons/gr'
 import { FaPlus } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom'
 
 
 
 const NuevaListaDePrecio = () => {
   const [ step,setStep ] = useState(1)
   const [value, setValue] = useState(null);
-
+  const navigate = useNavigate();
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
   };
   return (
     <>
-      <div className='row' onClick={()=>{navigate('/sale_invoices')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+      <div className='row' onClick={()=>{navigate('/price_lists')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
         <FaArrowLeftLong/>
-        <span>Volver a lista de prec</span>
+        <span>Volver a lista de precios</span>
       </div>
       <h1>Nueva Lista de Precios</h1>
       {

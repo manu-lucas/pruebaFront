@@ -22,6 +22,7 @@ import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import FormerBtn from '../../../../components/Buttons/FormerBtn';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
+import SelectComp from '../../../../components/Select/SelectComp';
 
 const colors1 = ['#6253E1', '#04BEFE'];
 const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
@@ -34,39 +35,103 @@ const getActiveColors = (colors) =>
   colors.map((color) => new TinyColor(color).darken(5).toString());
 
 
-const FirstStep = ({setStep}) => {
-  const [disabled, setDisabled] = useState(false);
+const FirstStep = ({setStep,data,setData}) => {
+  const { clientes } = useContext(AppContext)
+
+  const [disabled, setDisabled] = useState(true);
+  
+  const [ contactos,setContactos ] = useState([])
+  
   const onChange = (checked) => {
     setDisabled(checked);
+    setData({...data,boton_de_pago:checked})
   };
+
+  useEffect(() => {
+    //console.log(clientes)
+    //console.log(clientesRestructured(clientes))
+  }, [])
+
+  function clientesRestructured (arrayClientes) {
+    const updateData = arrayClientes.map((item)=>{
+      return {
+        ...item, value: item.cliente.id, label: item.cliente.razon_social
+      }
+    })
+
+    return updateData
+  }
+
+
+  function contactosRestructured (arrayContactos) {
+    const updateData = arrayContactos.map((item)=>{
+      return {
+        ...item, value: item.id, label: item.nombre
+      }
+    })
+
+    return updateData
+  } 
+
+
+  const [ contactValue,setContactvalue ] = useState(null)
+
+
   return(
     <>
       <h2 style={{fontSize:20}}>Datos principales</h2>
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
+          <SelectComp
+            placeholder={'seleccionar cliente'}
+            HandleChange={(value,record)=>{
+              //console.log(`seleccionado ${value} ${record.label}`)
+              //console.log(value)
+              const clientContact = clientes.find((item)=>item.cliente.id === value)
+              //console.log(clientContact.contactos)
+              setContactos(clientContact.contactos)
+
+              setData({
+                ...data, cliente: value
+              })
+              //setear a null el contacto
+              setContactvalue(null)
+            }}
+            options={clientesRestructured(clientes)}
+          />
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
+          <SelectComp
+            value={contactValue}
+            placeholder={'seleccionar cliente'}
+            HandleChange={(value,record)=>{
+              //console.log(`seleccionado ${value} ${record.label}`)
+              setData({
+                ...data, contacto: value
+              })
+              setContactvalue(value)
+            }}
+            options={contactosRestructured(contactos)}
+          />
         </div>
       </div>
 
       <div className='column' style={{gap:5}}>
         <span className='form-label'>Nombre de proyecto</span>
-        <input style={{padding:8}} placeholder='Ingrese nombre para el proyecto'/>
+        <input style={{padding:8}} value={data.nombre_etiqueta} onChange={(e)=>{setData({...data,nombre_etiqueta:e.target.value})}} placeholder='Ingrese nombre para el proyecto'/>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
-
+          {/*Terminar esto*/}
           <SelectComponent/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Comision</span>
-          <input style={{padding:6}} placeholder='Ingrese el valor de la comisión'/>
+          <input style={{padding:6}} type='number' value={data.comision} onChange={(e)=>{setData({...data,comision:e.target.value})}} placeholder='Ingrese el valor de la comisión'/>
         </div>
       </div>
 
@@ -75,7 +140,34 @@ const FirstStep = ({setStep}) => {
           <div className='column' style={{gap:5}}>
             <span className='form-label'>Condicion de pago <span style={{color:"red"}}>*</span></span>
 
-            <SelectComponent/>
+            <SelectComp
+              placeholder={'Seleccionar condición de pago'}
+              options={[
+                {
+                  value: '1',
+                  label: '10 días'
+                },
+                {
+                  value: '2',
+                  label: '15 días'
+                },
+                {
+                  value: '3',
+                  label: '30 días'
+                },
+                {
+                  value: '4',
+                  label: '45 días'
+                },
+                {
+                  value: '5',
+                  label: 'condición creada por el cliente'
+                },
+              ]}
+              HandleChange={(value,record)=>{
+                setData({...data,condicion_de_pago:value})
+              }}
+            />
           </div>
           <div className='column' style={{gap:5}}>
             <span className='form-label'>Moneda</span>
@@ -85,7 +177,6 @@ const FirstStep = ({setStep}) => {
         <div style={{width:"200px"}} className='column'>
           <span className='form-label'>Botón de pago</span>
           <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
-
         </div>
       </div>
 
@@ -97,8 +188,29 @@ const FirstStep = ({setStep}) => {
   )
 }
 
-const SecondStep = ({setStep}) => {
+const SecondStep = ({setStep,data,setData}) => {
+
+  const { products } = useContext(AppContext);
+
+  const [ bonificacion,setBonificacion ] = useState(null)
   const [disabled, setDisabled] = useState(false);
+  
+
+  const currentItemInitialState = {
+    product_name: '',
+    product_id: '',
+    descripcion: '',
+    cantidad: null,
+    precio: null,
+    porcentaje: null,
+    neto: null,
+    iva: null,
+    total: null,
+    porcentaje: null
+  }
+
+  const [ currentItemData,setCurrentItemData ] = useState(currentItemInitialState)
+  
   const onChange = (checked) => {
     setDisabled(checked);
   };
@@ -117,6 +229,16 @@ const SecondStep = ({setStep}) => {
       iva: 19,
       total: 2600
     }])
+  }
+
+  function productsRestructured (productsArray) {
+    const updateData = productsArray.map((item)=>{
+      return {
+        ...item, value: item.id, label: item.nombre
+      }
+    })
+
+    return updateData
   }
 
   return(
@@ -193,7 +315,40 @@ const SecondStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
+          <SelectComp
+            placeholder={'Seleccionar producto/servicio'}
+            options={productsRestructured(products)}
+            HandleChange={(value,record)=>{
+              /*
+              console.log(record)
+              console.log({
+                product_name: record.nombre,
+                product_id: record.id,
+                descripcion: '',
+                cantidad: 1,
+                precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                porcentaje: null,
+                neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                iva: record.iva === true ? ( record.precio * 0.19 ).toFixed(2) : null,
+                total: record.precio,
+                porcentaje: null
+              })
+              */
+              
+              setCurrentItemData({
+                product_name: record.nombre,
+                product_id: record.id,
+                descripcion: '',
+                cantidad: 1,
+                precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ) : record.precio,
+                porcentaje: null,
+                neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ) : record.precio,
+                iva: record.iva === true ? ( record.precio * 0.19 ) : null,
+                total: record.precio,
+              })
+              
+            }}
+          />
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Descripcion</span>
@@ -203,29 +358,31 @@ const SecondStep = ({setStep}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
+          <input style={{padding:8}} type='number' value={currentItemData.cantidad } placeholder='Ingrese la cantidad'/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Precio <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese el precio'/>
+          <input style={{padding:8}} type='number' value={currentItemData.precio} placeholder='Ingrese el precio'/>
         </div>
       </div>
       <div className='form-grid-price'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>%</span>
+          <span className='form-label' onChange={(e)=>{
+            
+          }}>%</span>
           <input style={{padding:9}}/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Neto</span>
-          <input style={{padding:9}}/>
+          <input style={{padding:9}} type='number' value={currentItemData.neto} />
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>IVA</span>
-          <input style={{padding:9}}/>
+          <input style={{padding:9}} type='number' value={currentItemData.iva}/>
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Total</span>
-          <input style={{padding:9}}/>
+          <input style={{padding:9}} type='number' value={currentItemData.total}/>
         </div>
       </div>
       <div className='form-grid-price-footer'>
@@ -254,7 +411,7 @@ const SecondStep = ({setStep}) => {
 }
 
 
-const ThirdStep = ({setStep}) => {
+const ThirdStep = ({setStep,data,setData}) => {
   return(
     <>
       <h2>Direccion de despacho</h2>
@@ -283,7 +440,7 @@ const ThirdStep = ({setStep}) => {
   )
 }
 
-const FourthStep = ({setStep}) => {
+const FourthStep = ({setStep,data,setData}) => {
 
   function createProject () {
     setStep(5)
@@ -324,8 +481,64 @@ const FourthStep = ({setStep}) => {
 
 
 const NuevoProyecto = () => {
+
+  /*
+    {
+      //id
+      user: '',
+      //idVendedor
+      vendedor: null,
+      //idCliente
+      cliente: null,
+      //numero de proyecto a partir del ultimo
+      numero_proyecto: '1',
+      //idContacto
+      contacto: null,
+      //float
+      comision: null,
+      //varchar
+      nombre_etiqueta: '',
+      //varchar
+      condicion_de_pago: null,
+      boton_de_pago: true,
+      //int
+      plazo_de_entrega_dias: null,
+      nota_interna: '',
+      //varchar
+      estado: 'Pendiente'
+    }
+  
+  */
+
   const navigate = useNavigate();
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
+  const {menuOptions,setMenuOptions,clientes} = useContext(AppContext);
+  const proyectoInitialState = {
+    //id
+    user: '',
+    //idVendedor
+    vendedor: null,
+    //idCliente
+    cliente: null,
+    //numero de proyecto a partir del ultimo
+    numero_proyecto: '1',
+    //idContacto
+    contacto: null,
+    //float
+    comision: null,
+    //varchar
+    nombre_etiqueta: '',
+    //varchar
+    condicion_de_pago: null,
+    boton_de_pago: true,
+    //int
+    plazo_de_entrega_dias: null,
+    nota_interna: '',
+    //varchar
+    estado: 'Pendiente'
+  }
+
+
+  const [ data,setData ] = useState(proyectoInitialState);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
     const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/quotes')
@@ -334,19 +547,22 @@ const NuevoProyecto = () => {
 
   const [ step,setStep ] = useState(1);
 
+
   function formSetupSteps (){
     switch (step) {
       case 1:
-        return <FirstStep setStep={setStep}/>
+        return <FirstStep setStep={setStep} data={data} setData={setData}/>
       case 2:
-        return <SecondStep setStep={setStep}/>
+        return <SecondStep setStep={setStep} data={data} setData={setData}/>
       case 3:
-        return <ThirdStep setStep={setStep}/>
+        return <ThirdStep setStep={setStep} data={data} setData={setData}/>
       case 4:
-        return <FourthStep setStep={setStep}/>
+        return <FourthStep setStep={setStep} data={data} setData={setData}/>
       
     }
   }
+
+  
 
   return (
     <>

@@ -33,7 +33,7 @@ const UsuariosDashboard = () => {
         <h1>Usuarios</h1>
         <div className='row'>
           <SearchBtn/>
-          <AddMoreBtn label={'Agregar'} />
+          <AddMoreBtn label={'Agregar'} HanldeClick={()=>{navigate('/users/new')}}/>
         </div>
       </div>
       <div className='row-space-btw'>

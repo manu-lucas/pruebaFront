@@ -40,10 +40,12 @@ const ProductoDetail = () => {
   }
   */
 
+  const navigate = useNavigate()
+
   return (
     <>
     <div className='principal-container-column'>
-      <div className='row' onClick={()=>{}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+      <div className='row' onClick={()=>{navigate('/products')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
         <FaArrowLeftLong/>
         <span>Volver a productos</span>
       </div>
