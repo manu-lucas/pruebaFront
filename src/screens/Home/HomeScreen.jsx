@@ -14,7 +14,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { PieChart } from '@mui/x-charts/PieChart';
 import Elementobar from '../../components/Test/Elementobar';
 
-
+//Hola je ☺️
 const data1 = [
   { label: 'Group A', value: 400 },
   { label: 'Group B', value: 300 },
