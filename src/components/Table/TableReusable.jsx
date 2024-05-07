@@ -1,10 +1,13 @@
 import React from "react";
 import { Table, ConfigProvider } from "antd";
 
+/*
 const customTokens = {
     colorPrimary: '#006F76', 
 };
-  
+*/
+
+
 export const TableReusable = ({ dataSource, columns }) => {
   const paginationConfig = {
     defaultPageSize: 10,
@@ -13,15 +16,15 @@ export const TableReusable = ({ dataSource, columns }) => {
   };
 
   return (
-    <ConfigProvider theme={{ token: customTokens }}>
+    //<ConfigProvider theme={{ token: customTokens }}>
     <div style={{ marginBottom: 10 }}>
       <Table
         dataSource={dataSource}
         columns={columns}
         pagination={paginationConfig}
-        scroll={{ x: 1300 }}
+        scroll={{ x: 800 }}
       />
     </div>
-  </ConfigProvider>
+  //</ConfigProvider>
   );
 };

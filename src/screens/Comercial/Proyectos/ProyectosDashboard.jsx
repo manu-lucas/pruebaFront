@@ -23,6 +23,7 @@ import { AiOutlineFall } from "react-icons/ai";
 import Filter from '../../../components/Filter/Filter'
 import SearchBtn from '../../../components/Buttons/SearchBtn';
 import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 const ProyectosHeader = () =>{
   const navigate = useNavigate()
@@ -55,7 +56,7 @@ const ConsultasHeader = () =>{
 
 const ProyectosDashboard = () => {
 
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
+  const {menuOptions,setMenuOptions,proyectos,setProyectos} = useContext(AppContext);
   const navigate = useNavigate()
 
   const location = useLocation();
@@ -113,6 +114,21 @@ const ProyectosDashboard = () => {
 
   function newProject () {
     navigate('/quotes/new')
+  }
+
+  useEffect(() => {
+    console.log(proyectos)
+  }, [])
+  
+
+  function renderProducts (productsArray) {
+    let char_product = '';
+    productsArray.forEach(element => {
+      char_product += `${element.nombre} , `
+    });
+    char_product = char_product.slice(0, -2)
+    return char_product
+    
   }
 
   return (
@@ -196,8 +212,100 @@ const ProyectosDashboard = () => {
       </Button>
     </div>
     <div style={{marginBottom:10}}>
+
+      <TableReusable
+        dataSource={proyectos}
+        columns={
+          [
+            {
+              title: 'N°',
+              dataIndex: 'numero',
+              key: 'numero',
+            },
+            {
+              title: 'Nombre',
+              dataIndex: 'nombre',
+              key: 'nombre',
+            },
+            {
+              title: 'Cliente',
+              dataIndex: 'cliente',
+              key: 'cliente',
+            },
+            {
+              title: 'Producto/Servicio',
+              dataIndex: 'product',
+              key: 'product',
+              render: (text, record) => (
+                <>{renderProducts(record.productos_servicios.productos)}</>
+              )
+            },
+            {
+              title: 'Vendedor',
+              dataIndex: 'vendedor',
+              key: 'vendedor',
+            },
+            {
+              title: 'Neto',
+              dataIndex: 'neto',
+              key: 'neto',
+              render: (text, record) => (
+                <>{`$${record.neto}`}</>
+              ),
+            },
+            {
+              title: 'Total',
+              dataIndex: 'total',
+              key: 'total',
+              render: (text, record) => (
+                <>{`$${record.total}`}</>
+              ),
+            },
+            {
+              title: 'Fecha',
+              dataIndex: 'fecha',
+              key: 'fecha',
+              render : (text, record) => (
+                <>
+                  {text.split("T")[0]}
+                </>
+              )
+            },
+            {
+              title: 'Estado',
+              dataIndex: 'status',
+              key: 'status',
+              render: (text, record) => (
+                <>
+                {
+                  record.estado === 'Aceptado' ? 
+                  <div className='item-green'>Aceptado</div>
+                  :
+                  <>
+                  {
+                    record.estado === 'En proceso' ?
+                    <div className='item-yellow'>En proceso</div>
+                    :
+                    <div className='item-red'>Pendiente</div>
+
+                  }
+                  </>
+                }
+                </>
+              ),
+            },
+            {
+              title:'',
+              render: (text, record) => (
+                <Button type='primary'  onClick={()=>{navigate(`/quotes/${record.id}`)}}>Ver</Button>
+              ),
+            }
+          ]
+        }
+      />
       <Table
-        dataSource={
+        dataSource={ proyectos
+          /*
           [ 
             {
               key:1,
@@ -235,7 +343,7 @@ const ProyectosDashboard = () => {
               date:'26/03',
               estado: 'Pendiente'
             }
-            /*
+            
             {
               key: '1',
               name: 'Mike',
@@ -248,8 +356,8 @@ const ProyectosDashboard = () => {
               age: 42,
               address: '10 Downing Street',
             },
-            */
           ]
+            */
         }
         columns={
           [
@@ -260,18 +368,21 @@ const ProyectosDashboard = () => {
             },
             {
               title: 'Nombre',
-              dataIndex: 'name',
-              key: 'name',
+              dataIndex: 'nombre',
+              key: 'nombre',
             },
             {
               title: 'Cliente',
-              dataIndex: 'client',
-              key: 'client',
+              dataIndex: 'cliente',
+              key: 'cliente',
             },
             {
               title: 'Producto/Servicio',
               dataIndex: 'product',
               key: 'product',
+              render: (text, record) => (
+                <>{renderProducts(record.productos_servicios.productos)}</>
+              )
             },
             {
               title: 'Vendedor',
@@ -296,8 +407,13 @@ const ProyectosDashboard = () => {
             },
             {
               title: 'Fecha',
-              dataIndex: 'date',
-              key: 'date',
+              dataIndex: 'fecha',
+              key: 'fecha',
+              render : (text, record) => (
+                <>
+                  {text.split("T")[0]}
+                </>
+              )
             },
             {
               title: 'Estado',
@@ -325,7 +441,7 @@ const ProyectosDashboard = () => {
             {
               title:'',
               render: (text, record) => (
-                <Button type='primary'  onClick={()=>{navigate(`/quotes/${text.key}`)}}>Ver</Button>
+                <Button type='primary'  onClick={()=>{navigate(`/quotes/${record.id}`)}}>Ver</Button>
               ),
             }
           ]
