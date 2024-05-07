@@ -1452,12 +1452,7 @@ letter-spacing: 0.14px;
 
 
 .presupuesto-bar-container{
-  width: 80%;
-  border: 1px solid black;
-  box-sizing: border-box;
-  margin: 30px auto;
-  display: flex;
-  align-items: center;
+ margin-top: 46px;
 }
 
 .proyectos-detail-header{
@@ -2148,4 +2143,77 @@ line-height: normal;
   border-radius: 16px;
 
 box-shadow: 0px 4px 8px -4px rgba(22, 34, 51, 0.08), 0px 16px 24px 0px rgba(22, 34, 51, 0.08);
+}
+.containerBarraProyectos {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.labelsBProyectos {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.barBProyectos {
+  display: flex;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #ddd; /* color de fondo si las barras no cubren el 100% */
+}
+
+.barSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+.titleFacturado,
+.titleProduccion,
+.titleNoFacturado{
+  color: #000;
+  text-align: center;
+  font-family: "Nunito Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.facturadoPorcent{
+  color: #2DD99C;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.produccionPorcent{
+  color: #3498db;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal
+}
+.noFacturadoPorcent{
+  color: #e74c3c;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal
+}
+.facturado {
+  background-color: #2ecc71;
+}
+
+.produccion {
+  background-color: #3498db;
+}
+
+.noFacturado {
+  background-color: #e74c3c;
 }
