@@ -43,6 +43,10 @@ const LoginScreen = () => {
 
     if (Object.keys(newErrors).length === 0) {
       setLoading(true); 
+      setTimeout(() => {
+        setLoading(false)
+      }, 3000);
+      /*
       try {
         // Llamada API usando axios
         const response = await axios.post('http://localhost:8080/login', formData);
@@ -57,7 +61,9 @@ const LoginScreen = () => {
         setErrors(newErrors);
       } finally {
         setLoading(false);  // Terminar la carga
-    }
+
+    }*/
+    
     } else {
       setErrors(newErrors);
     }

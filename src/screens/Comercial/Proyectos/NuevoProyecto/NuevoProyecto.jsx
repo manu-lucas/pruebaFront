@@ -40,7 +40,7 @@ const getActiveColors = (colors) =>
   colors.map((color) => new TinyColor(color).darken(5).toString());
 
 
-const FirstStep = ({setStep,data,setData}) => {
+const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
   const { clientes } = useContext(AppContext)
 
   const [disabled, setDisabled] = useState(true);
@@ -96,7 +96,8 @@ const FirstStep = ({setStep,data,setData}) => {
               const clientContact = clientes.find((item)=>item.cliente.id === value)
               //console.log(clientContact.contactos)
               setContactos(clientContact.contactos)
-
+              //////////////////////////
+              setClientName(record.label)
               setData({
                 ...data, cliente: value
               })
@@ -110,7 +111,7 @@ const FirstStep = ({setStep,data,setData}) => {
           <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
           <SelectComp
             value={contactValue}
-            placeholder={'seleccionar cliente'}
+            placeholder={'seleccionar contacto'}
             HandleChange={(value,record)=>{
               //console.log(`seleccionado ${value} ${record.label}`)
               setData({
@@ -136,6 +137,9 @@ const FirstStep = ({setStep,data,setData}) => {
           placeholder={'Seleccionar vendedor'}
           HandleChange={(value,record)=>{
             //console.log(`seleccionado ${value} ${record.label}`)
+
+            ////////////////////////////
+            setVendedorName(record.label)
             setData({
               ...data, vendedor: value
             })
@@ -470,7 +474,10 @@ const ThirdStep = ({setStep,data,setData,direcPrestacion,setDirecPrestacion}) =>
   )
 }
 
-const FourthStep = ({setStep,data,setData,items,direcPrestacion,setLoadingScreen,setErrorScreen,directPrestacionInitialState}) => {
+const FourthStep = ({setStep,data,setData,items,direcPrestacion,setLoadingScreen,setErrorScreen,directPrestacionInitialState,clientName,vendedorName}) => {
+
+  const { proyectos,setProyectos } = useContext(AppContext);
+
 
   const onChange = (date, dateString) => {
     console.log(date, dateString);
@@ -498,24 +505,83 @@ const FourthStep = ({setStep,data,setData,items,direcPrestacion,setLoadingScreen
     return updateData
   }
 
+
+  function restructuredItemSetter (itemsArray) {
+
+    const updateData = itemsArray.map((item)=>{
+      return {
+        idProducto: item.product_id,
+        cantidad: parseInt(item.cantidad),
+        porcentaje_descuento: 0,
+        nombre_impuesto: 'IVA',
+        impuesto: 0.19,
+        precio: parseFloat(item.precio),
+        total: parseFloat(item.total),
+        nombre: item.product_name
+      }
+    })
+    return updateData
+  }
+
+  function getTotal (itemsArray){
+    let total = 0;
+    itemsArray.forEach(element => {
+      total = total + parseFloat(element.total)
+    });
+    return total
+  }
+
+  function getNeto (itemsArray){
+    let neto = 0;
+    itemsArray.forEach(element => {
+      neto = neto + parseFloat(element.neto)
+    });
+    return neto
+  }
+
   function createProject () {
     console.log(data)
+    const fecha = new Date()
+    const fecha_formated = fecha.toISOString();
+
     const objtData = {
-      proyectos: data,
+      proyectos: {...data, fecha: fecha_formated},
       direccion_de_prestacion_proyecto:  {...direcPrestacion, atencion_a: data.cliente },
       item_producto_proyecto: restructuredItems(items)
     }
-
+    const objtArray = {
+      ...data,
+      numero: data.numero_proyecto,
+      fecha: fecha_formated,
+      vendedor: vendedorName,
+      cliente: clientName,
+      nombre: data.nombre_etiqueta,
+      productos_servicios: {
+        productos: restructuredItemSetter(items),
+        servicios: []
+      },
+      total: getTotal(items),
+      neto: getNeto(items)
+    }
+    console.log('objeto para setear al contexto')
+    console.log(objtArray)
+    console.log('objeto para mandar al back')
     console.log(objtData)
-    sendData(objtData)
+    
+    sendData(objtData,objtArray)
   }
 
 
-  async function sendData (data){
+  async function sendData (data,objtArray){
     setLoadingScreen(true)
     try{
       const response = await axios.post(`https://appify-black-side.vercel.app/projects/crearProject`,data)
       console.log(response)
+      setProyectos([...proyectos, {...objtArray, id: response.data.payload.proyecto.id} ])
+      //setProyectos([...proyectos, response.data.payload ])
+
+      
+
       setErrorScreen(false)
       setData(directPrestacionInitialState)
       setLoadingScreen(false)
@@ -720,17 +786,20 @@ const NuevoProyecto = () => {
 
   const [ step,setStep ] = useState(1);
 
+  const [ clientName,setClientName ] = useState(null)
+
+  const [ vendedorName,setVendedorName ] = useState(null)
 
   function formSetupSteps (){
     switch (step) {
       case 1:
-        return <FirstStep setStep={setStep} data={data} setData={setData}/>
+        return <FirstStep setStep={setStep} data={data} setData={setData} setClientName={setClientName} setVendedorName={setVendedorName}/>
       case 2:
         return <SecondStep setStep={setStep} data={data} setData={setData} items={items} setItems={setItems}/>
       case 3:
         return <ThirdStep setStep={setStep} data={data} setData={setData} direcPrestacion={direcPrestacion} setDirecPrestacion={setDirecPrestacion}/>
       case 4:
-        return <FourthStep setStep={setStep} data={data} setData={setData} items={items} direcPrestacion={direcPrestacion} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} directPrestacionInitialState={directPrestacionInitialState}/>
+        return <FourthStep setStep={setStep} data={data} setData={setData} items={items} direcPrestacion={direcPrestacion} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} directPrestacionInitialState={directPrestacionInitialState} vendedorName={vendedorName} clientName={clientName}/>
       
     }
   }

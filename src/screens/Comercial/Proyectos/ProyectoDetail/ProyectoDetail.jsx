@@ -20,7 +20,7 @@ import SelectComp from '../../../../components/Select/SelectComp'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppContext } from '../../../../context/AppContext'
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers'
-
+import { useParams } from 'react-router-dom'
 
 const Detalles = () =>{
   return(
@@ -437,6 +437,8 @@ const ProyectoDetail = () => {
   const navigate = useNavigate();
   const [ layout,setLayout ] = useState(0);
 
+  const { proyectos } = useContext(AppContext)
+
   const {menuOptions,setMenuOptions} = useContext(AppContext);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
@@ -444,6 +446,14 @@ const ProyectoDetail = () => {
     setMenuOptions(updateData)
   }, [])
 
+  const params = useParams()
+
+  useEffect(() => {
+    const findProyect = proyectos.find((item)=>item.id === params.id)
+    console.log(params.id)
+    console.log(findProyect)
+  }, [])
+  
 
   function RenderPrincipalComponent () {
     switch (layout) {
