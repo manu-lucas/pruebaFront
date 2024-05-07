@@ -30,6 +30,36 @@ export const AppContextProvider = (props) =>{
       id:'1114ad52-f699-4eb8-9a08-ef9e61eaa42a',
       name: 'SuperUsuario'
     })
+
+    const [ condicionesDePago,seetCondicionesDePago ] = useState([
+      {
+        id: "1",
+        numero_dias: 10,
+        nombre: null
+      },
+      {
+        id: "2",
+        numero_dias: 15,
+        nombre: null
+      },
+      {
+        id: "3",
+        numero_dias: 30,
+        nombre: null
+      },
+      {
+        id: "4",
+        numero_dias: 45,
+        nombre: null
+      },
+      {
+        id: "5",
+        numero_dias: 40,
+        nombre: 'condición creada por el cliente'
+
+      }
+    ])
+
     const menuOptionsinitialState = [
         { icon: <LuHome />, text: 'Inicio', route:'/', selected:true },
     
@@ -721,6 +751,7 @@ export const AppContextProvider = (props) =>{
             proveedores,setProveedores,
             clientes,setClientes,
             proyectos,setProyectos,
+            condicionesDePago,seetCondicionesDePago,
             setModalContent,
             columns_proyects_table,
             columns_quotes_table,

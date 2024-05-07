@@ -21,8 +21,40 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppContext } from '../../../../context/AppContext'
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { Loader } from '../../../../components/Loader/Loader'
+import { TableReusable } from '../../../../components/Table/TableReusable'
 
-const Detalles = () =>{
+const Detalles = ({project}) =>{
+
+  const { condicionesDePago } = useContext(AppContext)
+  
+  useEffect(() => {
+    //console.log(project.condicion_pago)
+    //matchCondicionDePago (project.condicion_pago)
+  }, [])
+
+  function formatedDate (project) {
+    const date = new Date(project.fecha.split("T")[0])
+
+    return project.fecha.split("T")[0]
+    //console.log(date.getDate())
+  }
+
+  function matchCondicionDePago (id) {
+    const condicion = condicionesDePago.find((item)=>item.id === id)    
+    let value;
+
+    if(condicion.nombre === null){
+      value = `${condicion.numero_dias} días`
+    }else{
+      value = condicion.nombre
+    }
+
+    return value
+    
+  }
+  
   return(
     <PrincipalCard>
       <div className='column' style={{gap:30,boxSizing:"border-box"}}>
@@ -30,120 +62,109 @@ const Detalles = () =>{
           <RiEdit2Fill/>
         </div>
         <div className='row-space-btw' style={{fontSize:20,color:"grey"}}>
-          <span>N° 2297</span>
-          <span>01/03/2023</span>
+          <span>N° {project.numero}</span>
+          <span>{formatedDate(project)}</span>
         </div>
-        <h2>Comercializadora</h2>
+        <h2>{project.cliente.cliente.razon_social}</h2>
         <h2>Datos principales</h2>
         <div className='proyectos-detail-grid-data'>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>Avenida 1193</span>
+            <span className='proyectos-detail-grid-value'>{project.cliente.cliente.direccion} - {project.cliente.cliente.comuna} - {project.cliente.cliente.ciudad}</span>
             <span>Dirección</span>
           </div>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>email@mail.com</span>
+            <span className='proyectos-detail-grid-value'>{project.cliente.contactos[0].email}</span>
             <span>Email</span>
           </div>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>+5693165215</span>
+            <span className='proyectos-detail-grid-value'>{project.cliente.contactos[0].celular}</span>
             <span>N° de celular</span>
           </div>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>Vendedor 1</span>
+            <span className='proyectos-detail-grid-value'>{project.vendedor.replace(",", " ")}</span>
             <span>Vendedor</span>
           </div>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>0</span>
+            <span className='proyectos-detail-grid-value'>{project.comision}</span>
             <span>Comisión</span>
           </div>
           <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
-            <span className='proyectos-detail-grid-value'>4 cuotas</span>
+            <span className='proyectos-detail-grid-value'>{ matchCondicionDePago (project.condicion_pago)}</span>
             <span>Condición de pago</span>
           </div>
         </div>
         <h2>Ítems</h2>
-        <Table
-              dataSource={
-                [
-                  {
-                    key: 1,
-                    producto: `producto ${1}`,
-                    cantidad: 1,
-                    precio: 2300,
-                    porcentaje: 0,
-                    neto: 2450,
-                    iva: 19,
-                    total: 2600
-                  }
-                ]
-              }
-              columns={
-                [
-                  {
-                    title: 'Producto/Servicio',
-                    dataIndex: 'producto',
-                    key: 'producto',
-                  },
-                  {
-                    title: 'Cantidad',
-                    dataIndex: 'cantidad',
-                    key: 'cantidad',
-                  },
-                  {
-                    title: 'Precio',
-                    dataIndex: 'precio',
-                    key: 'precio',
-                  },
-                  {
-                    title: '%',
-                    dataIndex: 'porcentaje',
-                    key: 'porcentaje',
-                  },
-                  {
-                    title: 'Neto',
-                    dataIndex: 'neto',
-                    key: 'neto',
-                  },
-                  {
-                    title: 'IVA',
-                    dataIndex: 'iva',
-                    key: 'iva',
-                  },
-                  {
-                    title: 'Total',
-                    dataIndex: 'total',
-                    key: 'total',
-                  },
-                  
-                ]
-              }
+        <TableReusable
+          columns={[
+            {
+              title: 'Producto/Servicio',
+              dataIndex: 'nombre',
+              key: 'nombre',
+            },
+            {
+              title: 'Cantidad',
+              dataIndex: 'cantidad',
+              key: 'cantidad',
+            },
+            {
+              title: 'Precio',
+              dataIndex: 'precio',
+              key: 'precio',
+            },
+            {
+              title: '%',
+              dataIndex: 'porcentaje_descuento',
+              key: 'porcentaje_descuento',
+              
+            },
+            {
+              title: 'Neto',
+              dataIndex: 'precio',
+              key: 'precio',
+            },
+            {
+              title: 'IVA',
+              render: (text,record) => (
+                <>
+                  {record.impuesto * 100}
+                </>
+              ),
+            },
+            {
+              title: 'Total',
+              dataIndex: 'total',
+              key: 'total',
+            },
+          ]}
+          dataSource={project.productos_servicios.productos}
         />
+        
 
         <div className='row-space-btw' style={{width:"90%",margin:"0 auto"}}>
           <div className='column'>
             <h3>Dirección de despacho</h3>
             <div className='row'>
               <span>Direccion:</span>
-              <span>Una direc</span>
+              <span>{project.cliente.puntos[0].direccion}</span>
             </div>
             <div className='row'>
               <span>Comuna:</span>
-              <span>Una comuna</span>
+              <span>{project.cliente.puntos[0].comuna}</span>
             </div>
             <div className='row'>
               <span>Ciudad:</span>
-              <span>Una ciudad</span>
+              <span>{project.cliente.puntos[0].ciudad}</span>
             </div>
           </div>
           <div className='column'>
             <h3>Plazo de entrega</h3>
             <div className='row'>
               <span>Días hábiles:</span>
-              <span>6</span>
+              <span>{project.plazo_de_entrega_dias}</span>
             </div>
             <div className='row'>
               <span>Fecha:</span>
-              <span>07/03/2023</span>
+              <span>{project.plazo_de_entrega.split("T")[0]}</span>
             </div>
           </div>
         </div>
@@ -153,16 +174,33 @@ const Detalles = () =>{
 }
 
 
-const OrdenesDeTrabajo = () =>{
+const OrdenesDeTrabajo = ({project}) =>{
   return(
     <>
-      <div className='proyectos-ot-new-bg'>
-        <div className='proyectos-ot-new-container'>
-            <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
-            <HiPlus className='proyectos-ot-new-icon'/>
-            <h2>Agregar orden</h2>
-        </div>
-      </div>
+      
+        {
+          project.orden_trabajo === null? 
+          <PrincipalCard>
+            <div className='principal-container-column'>
+              <div style={{width:"100%",display:"flex",justifyContent:"flex-end",fontSize:23,color:"grey"}}>
+                <RiEdit2Fill/>
+              </div>
+              <div className='row-space-btw' style={{fontSize:20,color:"grey"}}>
+                <span>N° {project.numero}</span>
+                <span></span>
+              </div>
+            </div>
+          </PrincipalCard>
+          :
+          <div className='proyectos-ot-new-bg'>
+            <div className='proyectos-ot-new-container'>
+                <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
+                <HiPlus className='proyectos-ot-new-icon'/>
+                <h2>Agregar orden</h2>
+            </div>
+          </div>
+        }
+      
     </>
   )
 }
@@ -434,12 +472,16 @@ const Tesoreria = () =>{
 
 
 const ProyectoDetail = () => {
+  const { proyectos,menuOptions,setMenuOptions } = useContext(AppContext)
   const navigate = useNavigate();
+
+  const [ loading,setLoading ] = useState(true);
+  const [ error,setError ] = useState(false);
+  
+  const [ project,setProject ] = useState(null)
+
   const [ layout,setLayout ] = useState(0);
 
-  const { proyectos } = useContext(AppContext)
-
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
     const updateData = updateSubMenuAsideOptions(menuOptions,'Gestión','/quotes')
@@ -454,13 +496,34 @@ const ProyectoDetail = () => {
     console.log(findProyect)
   }, [])
   
+  useEffect(() => {
+    getData()
+  }, [])
+  
 
+  /*Traer la data del proyecto*/
+  async function getData (){
+    try {
+      const response = await axios.get(`https://appify-black-side.vercel.app/projects/project/${params.id}`)
+      console.log(response)
+      console.log(response.data.payload[0])
+      setProject(response.data.payload[0])
+      setError(false)
+    } catch (err) {
+      console.log(err)
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  /*Renderizado de la pantalla*/
   function RenderPrincipalComponent () {
     switch (layout) {
       case 0:
-        return <Detalles/>
+        return <Detalles project={project}/>
       case 1:
-        return <OrdenesDeTrabajo/>
+        return <OrdenesDeTrabajo project={project}/>
       case 2:
         return <Costos/>
       case 3:
@@ -474,50 +537,66 @@ const ProyectoDetail = () => {
 
   return (
     <>
-    <div className='row' onClick={()=>{navigate('/quotes')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
-      <FaArrowLeftLong/>
-      <span>Volver</span>
-    </div>
-    <div className='row-space-btw' style={{marginBottom:20}}>
-      <div className='row'>
-        <h1>Nombre Proyecto</h1>
-        <div style={{borderRadius:3,padding:"3px 9px",width:"fit-content",color:"#00B69B",backgroundColor:"#00b69b3f",boxSizing:"border-box"}}>Aceptado</div>
+      <div className='row' onClick={()=>{navigate('/quotes')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+        <FaArrowLeftLong/>
+        <span>Volver</span>
       </div>
-
-      <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
-        <FaFileDownload/>
-        <span>Reporte</span>
-      </Button>
-    </div>
-    <div style={{width:"97%",margin:"0px auto"}}>
-      <div className='row-space-btw proyectos-detail-header'>
-        <div onClick={()=>{setLayout(0)}} className={layout === 0 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <FaFile/>
-          <span>Detalles</span>
-        </div>
-        <div onClick={()=>{setLayout(1)}} className={layout === 1 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <BsFillClipboard2Fill/>
-          <span>Ordenes de trabajo</span>
-        </div>
-        <div onClick={()=>{setLayout(2)}} className={layout === 2 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <FaMoneyBill/>
-          <span>Costos</span>
-        </div>
-        <div onClick={()=>{setLayout(3)}} className={layout === 3 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <FaFileInvoiceDollar/>
-          <span>Facturacion</span>
-        </div>
-        <div onClick={()=>{setLayout(4)}} className={layout === 4 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <RiBankFill/>
-          <span>Tesoreria</span>
-        </div>
-        <div onClick={()=>{setLayout(5)}} className={layout === 5 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
-          <FaUserAlt/>
-          <span>Cliente</span>
-        </div>
-      </div>
-      {RenderPrincipalComponent()}
-    </div>
+    {
+      loading === true ?
+      <>
+        <Loader/>
+      </>
+      :
+      <>
+        {
+          error === true ?
+          <div>Error!</div>
+          :
+          <>
+            <div className='row-space-btw' style={{marginBottom:20}}>
+              <div className='row'>
+                <h1>{project.nombre}</h1>
+                <div className={project.estado === 'Pendiente' ? 'item-red' : (project.estado === 'Aceptado' ? 'item-green' : 'item-yellow')}>{project.estado}</div>
+              </div>
+        
+              <Button type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
+                <FaFileDownload/>
+                <span>Reporte</span>
+              </Button>
+            </div>
+            <div style={{width:"97%",margin:"0px auto"}}>
+              <div className='row-space-btw proyectos-detail-header'>
+                <div onClick={()=>{setLayout(0)}} className={layout === 0 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <FaFile/>
+                  <span>Detalles</span>
+                </div>
+                <div onClick={()=>{setLayout(1)}} className={layout === 1 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <BsFillClipboard2Fill/>
+                  <span>Ordenes de trabajo</span>
+                </div>
+                <div onClick={()=>{setLayout(2)}} className={layout === 2 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <FaMoneyBill/>
+                  <span>Costos</span>
+                </div>
+                <div onClick={()=>{setLayout(3)}} className={layout === 3 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <FaFileInvoiceDollar/>
+                  <span>Facturacion</span>
+                </div>
+                <div onClick={()=>{setLayout(4)}} className={layout === 4 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <RiBankFill/>
+                  <span>Tesoreria</span>
+                </div>
+                <div onClick={()=>{setLayout(5)}} className={layout === 5 ? 'proyectos-detail-header-item proyectos-detail-header-item-cta row' : 'proyectos-detail-header-item row'}>
+                  <FaUserAlt/>
+                  <span>Cliente</span>
+                </div>
+              </div>
+              {RenderPrincipalComponent()}
+            </div>
+          </>
+        }
+      </>
+    }
     
     </>
   )
