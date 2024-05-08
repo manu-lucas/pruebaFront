@@ -13,6 +13,7 @@ import { IoFolder } from 'react-icons/io5';
 import Filter from '../../../components/Filter/Filter';
 import SelectComp from '../../../components/Select/SelectComp';
 import PrincipalCard from '../../../components/Card/PrincipalCard';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 const DocumentosDeVentaHeader = () =>{
   const navigate = useNavigate()
@@ -183,128 +184,118 @@ const VentasDashboard = () => {
             <span>Reporte</span>
           </Button>
         </div>
-        
-        <Table
+        <TableReusable
           dataSource={
-            [ 
-              {
-                key:1,
-                numero: 2297,
-                name: 'Comercializadora',
-                client: 'Cristobal',
-                product: 'Servicio tributario',
-                vendedor: 'Cesar',
-                compromiso:null,
-                date:'26/03',
-                estado: 'Aceptado'
-              },
-              {
-                key:2,
-                numero: 2297,
-                name: 'Comercializadora',
-                client: 'Cristobal',
-                product: 'Servicio tributario',
-                vendedor: 'Cesar',
-                compromiso:null,
-                date:'26/03',
-                estado: 'En proceso'
-              },
-              {
-                key:3,
-                numero: 2297,
-                name: 'Comercializadora',
-                client: 'Cristobal',
-                product: 'Servicio tributario',
-                vendedor: 'Cesar',
-                compromiso:null,
-                date:'26/03',
-                estado: 'Pendiente'
-              }
-              /*
-              {
-                key: '1',
-                name: 'Mike',
-                age: 32,
-                address: '10 Downing Street',
-              },
-              {
-                key: '2',
-                name: 'John',
-                age: 42,
-                address: '10 Downing Street',
-              },
-              */
-            ]
-          }
-          columns={
-            [
-              {
-                title: 'N°',
-                dataIndex: 'numero',
-                key: 'numero',
-              },
-              {
-                title: 'Nombre',
-                dataIndex: 'name',
-                key: 'name',
-              },
-              {
-                title: 'Cliente',
-                dataIndex: 'client',
-                key: 'client',
-              },
-              {
-                title: 'Producto/Servicio',
-                dataIndex: 'product',
-                key: 'product',
-              },
-              {
-                title: 'Vendedor',
-                dataIndex: 'vendedor',
-                key: 'vendedor',
-              },
-              {
-                title: 'Compromiso',
-                dataIndex: 'compromiso',
-                key: 'compromiso',
-              },
-              {
-                title: 'Fecha',
-                dataIndex: 'date',
-                key: 'date',
-              },
-              {
-                title: 'Estado',
-                dataIndex: 'status',
-                key: 'status',
-                render: (text, record) => (
+          [ 
+            {
+              key: '1',
+              id: '001',
+              client: 'Empresa A',
+              date: '2024-05-08',
+              neto: 5000,
+              bruto: 6000,
+            },
+            {
+              key: '1',
+              id: '001',
+              client: 'Empresa A',
+              date: '2024-05-08',
+              neto: 5000,
+              bruto: 6000,
+            },
+            {
+              key: '1',
+              id: '001',
+              client: 'Empresa A',
+              date: '2024-05-08',
+              neto: 5000,
+              bruto: 6000,
+            }
+          ]
+        }
+        columns={
+          [
+            {
+              title: 'Id',
+              dataIndex: 'id',
+              key: 'id',
+            },
+            {
+              title: 'Cliente',
+              dataIndex: 'client',
+              key: 'client',
+            },
+            {
+              title: 'Fecha',
+              dataIndex: 'date',
+              key: 'date',
+            },
+            {
+              title: 'Neto',
+              dataIndex: 'neto',
+              key: 'neto',
+            },
+            {
+              title: 'Bruto',
+              dataIndex: 'Bruto',
+              key: 'Bruto',
+            },
+            {
+              title: 'Descargar',
+              dataIndex: 'download',
+              key: 'download',
+                render: () => (
                   <>
-                  {
-                    record.estado === 'Aceptado' ? 
-                    <div className='item-green'>Aceptado</div>
-                    :
-                    <>
-                    {
-                      record.estado === 'En proceso' ?
-                      <div className='item-yellow'>En proceso</div>
-                      :
-                      <div className='item-red'>Pendiente</div>
-
-                    }
-                    </>
-                  }
+                    <div className='row' onClick={() => console.log('Descargar')}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M14.25 2.5C14.25 2.36193 14.1381 2.25 14 2.25H7C5.48122 2.25 4.25 3.48122 4.25 5V19C4.25 20.5188 5.48122 21.75 7 21.75H17C18.5188 21.75 19.75 20.5188 19.75 19V9.14706C19.75 9.00899 19.6381 8.89706 19.5 8.89706H15C14.5858 8.89706 14.25 8.56127 14.25 8.14706V2.5ZM14.0315 13.1643C14.355 12.9056 14.8269 12.958 15.0857 13.2815C15.3444 13.6049 15.292 14.0769 14.9685 14.3357L12.4746 16.3308C12.3459 16.4361 12.1816 16.4994 12.0025 16.5L12.0001 16.5L11.9937 16.5C11.8177 16.4985 11.6561 16.4364 11.5288 16.3335L9.03151 14.3357C8.70806 14.0769 8.65562 13.6049 8.91438 13.2815C9.17313 12.958 9.6451 12.9056 9.96855 13.1643L11.2501 14.1896V10.75C11.2501 10.3358 11.5858 10 12.0001 10C12.4143 10 12.7501 10.3358 12.7501 10.75V14.1895L14.0315 13.1643Z" fill="#979797"/>
+                        <path d="M15.75 2.82414C15.75 2.63964 15.9426 2.5225 16.0862 2.63839C16.2071 2.736 16.3158 2.85036 16.4085 2.97955L19.4217 7.17745C19.4903 7.27302 19.416 7.39706 19.2983 7.39706H16C15.8619 7.39706 15.75 7.28513 15.75 7.14706V2.82414Z" fill="#979797"/>
+                      </svg>
+                    </div>
                   </>
                 ),
-              },
-              {
-                title:'',
-                render: (text, record) => (
-                  <Button type='primary'  onClick={()=>{console.log('agregar')}}>Ver</Button>
-                ),
-              }
-            ]
-          }
+            },
+            {
+              title: 'Compartir',
+              dataIndex: 'share',
+              key: 'share',
+              render: () => (
+                <>
+                  <div className='row' onClick={() => console.log('Compartir')}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <g clipPath="url(#clip0_246_6592)">
+                      <path d="M14.4994 11.0003C13.932 11.0005 13.3731 11.1387 12.8709 11.403C12.3688 11.6674 11.9385 12.0499 11.6172 12.5176L6.74218 10.3163C7.08406 9.4768 7.08675 8.53734 6.74968 7.69585L11.6202 5.4841C12.0951 6.17315 12.8013 6.66915 13.6106 6.8821C14.42 7.09505 15.2788 7.01085 16.0314 6.64477C16.784 6.27869 17.3804 5.65499 17.7125 4.88681C18.0445 4.11864 18.0903 3.25688 17.8413 2.45787C17.5924 1.65887 17.0654 0.975552 16.3558 0.531889C15.6462 0.0882255 14.801 -0.0863923 13.9737 0.0397141C13.1464 0.165821 12.3917 0.584297 11.8465 1.21922C11.3013 1.85415 11.0017 2.66347 11.0022 3.50035C11.0022 3.69941 11.019 3.89811 11.0524 4.09435L5.88418 6.44035C5.38595 5.97567 4.76294 5.66649 4.09155 5.55074C3.42016 5.43498 2.72959 5.51767 2.10451 5.78868C1.47944 6.05968 0.947039 6.50721 0.572606 7.07639C0.198173 7.64556 -0.00201597 8.31164 -0.00341063 8.99293C-0.00480529 9.67422 0.192655 10.3411 0.564755 10.9118C0.936854 11.4825 1.46742 11.9322 2.09138 12.2058C2.71534 12.4793 3.40557 12.5649 4.07742 12.4519C4.74928 12.3389 5.37355 12.0322 5.87368 11.5696L11.0487 13.9073C10.927 14.6146 11.0258 15.3422 11.3315 15.9915C11.6371 16.6408 12.135 17.1805 12.7577 17.5374C13.3803 17.8943 14.0976 18.0511 14.8124 17.9867C15.5272 17.9223 16.2049 17.6398 16.7537 17.1773C17.3025 16.7149 17.6959 16.0949 17.8806 15.4014C18.0653 14.7079 18.0324 13.9744 17.7863 13.3002C17.5402 12.6261 17.0928 12.0439 16.5047 11.6325C15.9167 11.2211 15.2164 11.0004 14.4987 11.0003H14.4994Z" fill="#979797"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_246_6592">
+                        <rect width="18" height="18" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  </div>
+                </>
+              )
+            },
+            {
+              title: 'Ceder',
+              dataIndex: 'ceder',
+              key: 'ceder',
+              render: () => (
+                <>
+                  <div className='row' onClick={() => console.log('Ceder')}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none">
+                    <path d="M5.07922 1.98245C5.53273 1.52893 5.53273 0.793646 5.07922 0.340134C4.62571 -0.113378 3.89042 -0.113378 3.43691 0.340134L0.340134 3.43691C-0.113378 3.89042 -0.113378 4.62571 0.340134 5.07922L3.43691 8.17599C3.89042 8.62951 4.62571 8.62951 5.07922 8.17599C5.53273 7.72248 5.53273 6.98719 5.07922 6.53368L3.96489 5.41935H19.7419C20.3833 5.41935 20.9032 4.89943 20.9032 4.25806C20.9032 3.6167 20.3833 3.09677 19.7419 3.09677H3.96489L5.07922 1.98245Z" fill="#979797"/>
+                    <path d="M18.9208 12.7272C18.4673 13.1807 18.4673 13.916 18.9208 14.3695L20.0351 15.4839H4.25806C3.6167 15.4839 3.09677 16.0038 3.09677 16.6452C3.09677 17.2865 3.6167 17.8065 4.25806 17.8065H20.0351L18.9208 18.9208C18.4673 19.3743 18.4673 20.1096 18.9208 20.5631C19.3743 21.0166 20.1096 21.0166 20.5631 20.5631L23.6599 17.4663C24.1134 17.0128 24.1134 16.2775 23.6599 15.824L20.5631 12.7272C20.1096 12.2737 19.3743 12.2737 18.9208 12.7272Z" fill="#979797"/>
+                  </svg>
+                  </div>
+                </>
+              ),
+            },
+          ]
+        }
+        onRowClick={false}
         />
+  
 
         <div className='container-item-flex-end'>
           <div style={{minWidth:300,padding:30,borderRadius:20,backgroundColor:"white"}} className='column'>
