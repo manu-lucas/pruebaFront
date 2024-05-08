@@ -1,4 +1,4 @@
-export const Loader = ( ) => {
+export const Loader = ( {label} ) => {
 
     return (
         <div className="loadingBackground">
@@ -9,7 +9,7 @@ export const Loader = ( ) => {
                     <div></div>
                     <div></div>
                 </div>
-                <p>Cargando...</p>
+                <p>{label}</p>
             </div>
         </div>
     )

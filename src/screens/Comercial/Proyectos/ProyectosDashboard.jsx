@@ -24,6 +24,7 @@ import Filter from '../../../components/Filter/Filter'
 import SearchBtn from '../../../components/Buttons/SearchBtn';
 import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
 import { TableReusable } from '../../../components/Table/TableReusable';
+import GraficoBarra from '../../../components/Bar/BarraProyectos';
 
 const ProyectosHeader = () =>{
   const navigate = useNavigate()
@@ -236,6 +237,7 @@ const ProyectosDashboard = () => {
               title: 'Producto/Servicio',
               dataIndex: 'product',
               key: 'product',
+              width:200,
               render: (text, record) => (
                 <>{renderProducts(record.productos_servicios.productos)}</>
               )
@@ -265,6 +267,7 @@ const ProyectosDashboard = () => {
               title: 'Fecha',
               dataIndex: 'fecha',
               key: 'fecha',
+              width: 130,
               render : (text, record) => (
                 <>
                   {text.split("T")[0]}
@@ -361,8 +364,8 @@ const ProyectosDashboard = () => {
     <PrincipalCard>
       <h2>Presupuesto</h2>
       <div className='presupuesto-bar-container'>
-        TERMINAR ESTO
-      </div>
+        <GraficoBarra facturado={13} noFacturado={15} produccion={15} />
+      </div> 
     </PrincipalCard>
     
     </>

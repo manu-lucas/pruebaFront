@@ -2124,6 +2124,9 @@ letter-spacing: 0.14px;
   cursor: pointer;
   background-color: #FFC300 !important;
 }
+.custom-table .ant-table-tbody > tr > td {
+  font-size: 13px;
+}
 .custom-table .ant-table-thead {
   border-radius: 16px;
   background: var(--common-white_states-main, #FFF);

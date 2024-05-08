@@ -70,7 +70,7 @@ const LoginScreen = () => {
   };
  return(
     <>
-    {loading && <Loader/>}
+    {loading && <Loader label={'Cargando...'}/>}
     <div className="login-bg">
       <div className='login-logo-container'>
           <img src={LogoLogin} alt='My SVG' className='login-logo'/>
