@@ -97,13 +97,17 @@ const SecondStep = ({setStep}) => {
 
   return(
     <div className='principal-container-column'>
-      <div className='row-space-btw'>
+      <div className='row-space-btw form-header-step'>
+
         <div className='row'>
+
           <h2 style={{fontSize:20}}>Ítems</h2>
           <div className='rounded-item' style={{height:30,width:30,color:"black",backgroundColor:"#b9b9b98d",fontSize:15}}>
             <FiDownload />
           </div>
+
         </div>
+        
         <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
 
       </div>
