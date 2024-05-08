@@ -278,6 +278,12 @@ const PrivateStructure = ({ children }) => {
     }
   }
 
+
+  function logOut () {
+    //borrar datos del localstorage
+    setLogged(false)
+  }
+
   return (
     <>
     <main className={`private-main ${allowInteraction ? 'private-main-contract' : 'private-main-expanded'}`}>
@@ -565,6 +571,12 @@ const PrivateStructure = ({ children }) => {
               <div className='private-header-menu-item'>
                 <FaCheckCircle/>
                 <span>Permisos</span>
+              </div>
+              <div onClick={()=>{
+                logOut()
+              }} className='private-header-menu-item'>
+                <FaCheckCircle/>
+                <span>Cerrar sesion</span>
               </div>
             </div>
             :

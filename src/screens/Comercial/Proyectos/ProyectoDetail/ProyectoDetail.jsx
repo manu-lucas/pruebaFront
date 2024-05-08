@@ -184,22 +184,6 @@ const OrdenesDeTrabajo = ({project,setProject}) =>{
   const [ loading,setLoading ] = useState(false);
   const [ error,setError ] = useState(false);
 
-  /*
-    
-    {
-      "idProyecto": "identificador_del_proyecto",
-      "idVendedor": "identificador_del_vendedor",
-      "fecha": "2024-05-03T00:00:00Z",
-      "estado": "estado_de_la_orden"
-    }
-
-  */
-
-  function verFecha () {
-    const date = new Date()
-    console.log(date.toISOString())
-  }
-
   async function createOrdenDeTrabajo () {
     setLoading(true)
     const date = new Date()
@@ -207,7 +191,8 @@ const OrdenesDeTrabajo = ({project,setProject}) =>{
       idProyecto: project.id,
       idVendedor: project.idVendedor,
       fecha: `${date.toISOString()}`,
-      estado: 'Pendiente'
+      estado: 'Pendiente',
+      user: '1114ad52-f699-4eb8-9a08-ef9e61eaa42a'
     }
     console.log(data)
         
