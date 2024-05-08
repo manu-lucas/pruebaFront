@@ -90,6 +90,7 @@ const HomeScreen = () => {
       <div>
         <h1>Hola Juan !</h1>
         <h2>Bienvenido a Appify</h2>
+        <button>Actualizar</button>
         {/*Proyectos*/}
         <PrincipalCard>
        <div style={{width: '100%', height: '100%', position: 'relative', background: 'white', borderRadius: 16}}>

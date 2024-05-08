@@ -1,11 +1,19 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LogoLogin from '../../assets/logo_login.svg';
 import IsologoLogin from '../../assets/isologo_login.svg';
 import { Loader } from '../../components/Loader/Loader';
+//import { decodeToken } from './LoginFunction';
+import { jwtDecode } from "jwt-decode";
+import { AppContext } from '../../context/AppContext';
+
+
 const LoginScreen = () => {
+
+  const { setUserLoggedData,setLogged } = useContext(AppContext)
+  
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,9 +51,29 @@ const LoginScreen = () => {
 
     if (Object.keys(newErrors).length === 0) {
       setLoading(true); 
+      /*
       setTimeout(() => {
         setLoading(false)
       }, 3000);
+      */
+      try{
+        const response = await axios.post(`https://appify-black-side.vercel.app/user/login`, formData)
+        console.log(response)
+        
+        const tokenDecode = jwtDecode(response.data.payload.token)
+        console.log(tokenDecode)
+
+        setUserLoggedData(tokenDecode)
+        setLogged(true)
+        
+      }catch(err){
+        console.log(err)
+        newErrors.credentials = '*Error al iniciar sesión';
+        setErrors(newErrors);
+      }finally{
+        setLoading(false);  // Terminar la carga
+        console.log('peticion finalizada')
+      }
       /*
       try {
         // Llamada API usando axios

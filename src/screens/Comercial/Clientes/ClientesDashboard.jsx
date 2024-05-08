@@ -15,6 +15,7 @@ import { FiDownload } from 'react-icons/fi';
 import { GrDownload } from "react-icons/gr";
 import SearchBtn from '../../../components/Buttons/SearchBtn';
 import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 
 const ClientesDashboard = () => {
@@ -23,7 +24,6 @@ const ClientesDashboard = () => {
 
   const location = useLocation();
 
-  const [ path_name,set_path_name ] = useState('');
 
   const [ layout,setLayout ] = useState(0);
 
@@ -48,6 +48,10 @@ const ClientesDashboard = () => {
   function newClient () {
     navigate('/clients/new')
   }
+
+  const getRowClickPath = (record) => {
+    return `/clients/detail/${record.cliente.id}`;
+  };
 
   return (
     <>
@@ -111,106 +115,55 @@ const ClientesDashboard = () => {
           </Button>
         </div>
       </div>
-      <Table
-          dataSource={[
-            {
-              key:1,
-              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
-              rut: '76.742.482 - 5',
-              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
-              telefono: '+54 243 2311990',
-              credito: '$0000'
-            },
-            {
-              key:2,
-              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
-              rut: '76.742.482 - 5',
-              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
-              telefono: '+54 243 2311990',
-              credito: '$0000'
-            },
-            {
-              key:3,
-              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
-              rut: '76.742.482 - 5',
-              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
-              telefono: '+54 243 2311990',
-              credito: '$0000'
-            },
-            {
-              key:4,
-              nombre:'ALTA GESTIÓN EMPRESARIAL SPA',
-              rut: '76.742.482 - 5',
-              contacto:'ALTA GESTIÓN EMPRESARIAL SPA',
-              telefono: '+54 243 2311990',
-              credito: '$0000'
-            }
-          ]}
-          columns={
-            [
-              {
-                title: 'Razon social / Nombre',
-                dataIndex: 'nombre',
-                key: 'nombre',
-              },
-              {
-                title: 'Rut',
-                dataIndex: 'rut',
-                key: 'rut',
-              },
-              {
-                title: 'Contacto',
-                dataIndex: 'contacto',
-                key: 'contacto',
-              },
-              {
-                title: 'Telefono',
-                dataIndex: 'telefono',
-                key: 'telefono',
-              },
-              {
-                title: 'Credito',
-                dataIndex: 'credito',
-                key: 'credito',
-              },
-              {
-                title: '',
-                render: (text, record) => (
-                  <>
-                    <Button onClick={()=>{navigate(`/clients/detail/${record.key}`)}}>Ver</Button>
-                  </>
-                ),
-              }
-            ]
-          }
-        />
+      <TableReusable
+        columns={[
+          {
+            title: 'Razon social / Nombre',
+            dataIndex: 'razon_social',
+            key: 'razon_social',
+            render: (text,record) => (
+              <>{record.cliente.razon_social}</>
+            )
+          },
+          {
+            title: 'Rut',
+            dataIndex: 'rut',
+            key: 'rut',
+            render: (text,record) => (
+              <>{record.cliente.rut}</>
+            )
+          },
+          {
+            title: 'Contacto',
+            dataIndex: 'contacto',
+            key: 'contacto',
+            render: (text,record) => (
+              <>{record.contactos.length == 0 ? '-' : record.contactos[0].nombre}</>
+            )
+          },
+          {
+            title: 'Telefono',
+            dataIndex: 'telefono',
+            key: 'telefono',
+            render: (text,record) => (
+              <>{record.contactos.length == 0 ? '-' : record.contactos[0].telefono}</>
+            )
+          },
+          {
+            title: 'Credito',
+            dataIndex: 'linea_de_credito',
+            key: 'linea_de_credito',
+            render: (text,record) => (
+              <>${record.cliente.linea_de_credito ? record.cliente.linea_de_credito : '0' }</>
+            )
+          },
+          
+        ]}
+        dataSource={clientes}
+        onRowClick={true} 
+        getRowClickPath={getRowClickPath} 
+      />
     </div>
-
-    {
-      /*
-      <div className='row-space-btw-test'>
-        <h3>Clientes</h3>
-        <div className='row-test'>
-          <FaDownload/>
-          <button onClick={()=>{navigate('/clients/new')}}>Agregar</button>
-        </div>
-      </div>
-      <div className='row-space-btw-test'>
-        <div className='row-test'>
-          <button className={layout === 0 ? 'btn-cta' : 'btn'} onClick={()=>{setLayout(0)}}>ACTIVADO</button>
-          <button className={layout === 1 ? 'btn-cta' : 'btn'} onClick={()=>{setLayout(1)}}>DESACTIVADO</button>
-        </div>
-        <input placeholder='buscar' style={{padding:10}}/>
-      </div>
-      <button onClick={()=>{navigate('/clients/detail/3')}}>Detalle cliente</button>
-      {
-        clientes === null ? 
-        <div>Data no encontrada</div>
-        :
-        <>{RenderComponent()}</>
-      }
-      */
-    }
       
     </>
   )
