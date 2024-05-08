@@ -1,5 +1,6 @@
 import React from "react";
 import { Table , ConfigProvider} from "antd";
+import { useNavigate } from "react-router-dom";
 
 const customTokens = {
     borderRadius:10,
@@ -11,7 +12,8 @@ const customLocale={
 }
 
 
-export const TableReusable = ({ dataSource, columns }) => {
+export const TableReusable = ({ dataSource, columns, onRowClick, getRowClickPath }) => {
+  const navigate = useNavigate();
   const paginationConfig = {
     defaultPageSize: 10,
     showSizeChanger: true,
@@ -19,6 +21,13 @@ export const TableReusable = ({ dataSource, columns }) => {
     
   };
 
+  const handleRowClick = (record) => {
+    if (onRowClick && getRowClickPath) {
+      console.log("Fila seleccionada:", record);
+      const path = getRowClickPath(record);  // Obtener la ruta dinámica basada en el registro
+      navigate(path);
+  }
+};
   return (
     <div style={{ marginBottom: 10 }}>
      <ConfigProvider theme={{ token: customTokens }} locale={customLocale}>
@@ -29,8 +38,20 @@ export const TableReusable = ({ dataSource, columns }) => {
         pagination={paginationConfig}
         scroll={{ x: 800 }} 
         className="custom-table"
+        onRow={onRowClick ? (record) => ({
+          onClick: () => handleRowClick(record),
+      }) : undefined}
       />
       </ConfigProvider>
     </div>
   );
 };
+
+// Si en la tabla no se debe hacer click en una fila para que rediriga el componente debe llamarse asi:
+// <TableReusable
+//   dataSource={dataSource}
+//   columns={columns}
+//   onRowClick={false}
+//   // No se necesita rowClickPath si onRowClick es false
+// />
+
