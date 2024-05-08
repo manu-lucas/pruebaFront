@@ -24,6 +24,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Loader } from '../../../../components/Loader/Loader'
 import { TableReusable } from '../../../../components/Table/TableReusable'
+import ModalError from '../../../../components/Modal/ModalError'
 
 const Detalles = ({project}) =>{
 
@@ -168,37 +169,127 @@ const Detalles = ({project}) =>{
             </div>
           </div>
         </div>
+          
+
+          
+      
       </div>
+
     </PrincipalCard>
   )
 }
 
 
 const OrdenesDeTrabajo = ({project}) =>{
+  const [ loading,setLoading ] = useState(false);
+  const [ error,setError ] = useState(false);
+
+  /*
+    
+    {
+      "idProyecto": "identificador_del_proyecto",
+      "idVendedor": "identificador_del_vendedor",
+      "fecha": "2024-05-03T00:00:00Z",
+      "estado": "estado_de_la_orden"
+    }
+
+  */
+
+  async function createOrdenDeTrabajo () {
+    try {
+      const data = {
+        idProyecto: project.id,
+        idVendedor: project.idVendedor,
+        fecha: '',
+        estado: 'Pendiente'
+      }
+      const response = await axios.get(`https://appify-black-side.vercel.app//ordenTrabajo/ordenTrabajo`,)
+    } catch (err) {
+
+    } finally {
+
+    }
+  }
+
   return(
     <>
-      
         {
-          project.orden_trabajo === null? 
-          <PrincipalCard>
-            <div className='principal-container-column'>
-              <div style={{width:"100%",display:"flex",justifyContent:"flex-end",fontSize:23,color:"grey"}}>
-                <RiEdit2Fill/>
-              </div>
-              <div className='row-space-btw' style={{fontSize:20,color:"grey"}}>
-                <span>N° {project.numero}</span>
-                <span></span>
-              </div>
-            </div>
-          </PrincipalCard>
+          loading === true ?
+          <Loader label={'Creando orden de trabajo...'}/>
           :
-          <div className='proyectos-ot-new-bg'>
-            <div className='proyectos-ot-new-container'>
-                <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
-                <HiPlus className='proyectos-ot-new-icon'/>
-                <h2>Agregar orden</h2>
-            </div>
-          </div>
+          <>
+            {
+              error === true ?
+              <ModalError errorMessage={'Algo salio mal al crear la orden de trabajo!'}/>
+              :
+              <>
+                {
+                  project.orden_trabajo ? 
+                  <PrincipalCard>
+                    <div className='principal-container-column'>
+                      <div style={{width:"100%",display:"flex",justifyContent:"flex-end",fontSize:23,color:"grey"}}>
+                        <RiEdit2Fill/>
+                      </div>
+                      <div className='row-space-btw' style={{fontSize:20,color:"grey"}}>
+                        <span>N° {project.numero}</span>
+                        <span>fecha</span>
+                      </div>
+        
+                      <h2>Plazo de entrega</h2>
+        
+                      <div className='proyectos-detail-grid-data'>
+                        <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+                          <span className='proyectos-detail-grid-value'> - </span>
+                          <span>Días hábiles</span>
+                        </div>
+                        <div className='column' style={{alignItems:"center",justifyContent:"center"}}>
+                          <span className='proyectos-detail-grid-value'></span>
+                          <span>Fecha</span>
+                        </div>
+                      </div>
+        
+                      <h2>Ítems</h2>
+        
+                      <TableReusable
+                        columns={[
+                          {
+                            title: 'Producto/Servicio',
+                            dataIndex:'producto',
+                            key:'producto'
+                          },
+                          {
+                            title: 'Cantidad',
+                            dataIndex:'cantidad',
+                            key:'cantidad'
+                          },
+                          {
+                            title: 'Insumos',
+                            dataIndex:'insumos',
+                            key:'insumos'
+                          },
+                          {
+                            title: 'Responsable',
+                            dataIndex:'responsable',
+                            key:'responsable'
+                          },
+                        ]}
+                      />
+                      <h2>Notas</h2>
+        
+                    </div>
+                  </PrincipalCard>
+                  :
+                  <div className='proyectos-ot-new-bg'>
+                    <div className='proyectos-ot-new-container'>
+                        <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
+                        <HiPlus className='proyectos-ot-new-icon'/>
+                        <h2>Agregar orden</h2>
+                    </div>
+                  </div>
+                }
+              </>
+            }
+          </>
         }
       
     </>
@@ -544,7 +635,7 @@ const ProyectoDetail = () => {
     {
       loading === true ?
       <>
-        <Loader/>
+        <Loader label={'Cargando...'}/>
       </>
       :
       <>
