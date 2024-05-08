@@ -168,8 +168,7 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
         </div>
       </div>
 
-      <div className='row-space-btw' style={{gap:40}}>
-        <div className='form-grid'>
+      <div className='principal-grid grid-3-columns'>
           <div className='column' style={{gap:5}}>
             <span className='form-label'>Condicion de pago <span style={{color:"red"}}>*</span></span>
 
@@ -206,12 +205,12 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
             <span className='form-label'>Moneda</span>
             <SelectComponent/>
           </div>
-        </div>
-        <div style={{width:"200px"}} className='column'>
-          <span className='form-label'>Botón de pago</span>
-          <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
+          <div  className='column'>
+            <span className='form-label'>Botón de pago</span>
+            <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
         </div>
       </div>
+      
 
       <div className='container-item-flex-end' style={{marginTop:30}}>
         <FollowingBtn setStep={setStep} value={2}/>
@@ -278,9 +277,7 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
   return(
     <>
       
-      <div className='row-space-btw'>
-        <>
-        </>
+      <div className='row-space-btw form-header-step' >
         <h2>Items</h2>
         <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
       </div>
