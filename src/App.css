@@ -1415,7 +1415,123 @@ letter-spacing: 0.14px;
   align-items: center;
   justify-content: center;
 }
-
+/* Productividad */
+.productividadCards{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.cardProductividad{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.titlePresupuesto{
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.cardProductividad h2{
+  color: #000;
+  text-align: center;
+  font-family: "Nunito Sans";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 23px;
+}
+.cardProdDetail{
+  display: flex;
+  flex-direction: column;
+  margin:11 21 14 26 ;
+  width: 336px;
+  height: 160px;
+  border-radius: 16px;
+  background: var(--common-white_states-main, #FFF);
+ margin-bottom: 15px;
+  box-shadow: 0px 4px 8px -4px rgba(22, 34, 51, 0.08) inset, 0px 16px 24px 0px rgba(22, 34, 51, 0.08);
+}
+.proyectoProducHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 133px;
+  padding: 12px;
+}
+.conversionesProducHeader{
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 94px;
+  padding: 12px;
+}
+.clienteProducHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 66px;
+  padding: 12px;
+}
+.proyectoProducHeader h4 , .conversionesProducHeader h4 ,.clienteProducHeader h4{
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.prodValue{
+  margin: auto;
+}
+.prodValue span{
+  color: #000;
+  text-align: center;
+  font-family: "Nunito Sans";
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: auto;
+}
+.prodAnalytic{
+  display: inline-flex;
+  padding: 12px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.prodAnalytic span{
+  color: #00B69B;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.converAnalityc{
+  display: inline-flex;
+  padding: 12px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.converAnalityc .converSpan{
+  color: #F93C65;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
 .productividad-grid{
   width: 100%;
   display: grid;
@@ -1435,15 +1551,7 @@ letter-spacing: 0.14px;
   margin-left: 15px;
 }
 
-.productividad-item-icon{
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  border-radius: 50%;
-}
+
 
 .productividad-item-analytic{
   font-size: 16px;
@@ -2118,6 +2226,26 @@ letter-spacing: 0.14px;
     align-items: start;
     gap: 5px;
   }
+  /* productividad */
+  .cardProductividad h2{
+    color: #000;
+    text-align: center;
+    font-family: "Nunito Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 23px;
+  }
+
+  .proyectoProducHeader h4 , .conversionesProducHeader h4 ,.clienteProducHeader h4{
+    color: #000;
+    font-family: "Nunito Sans";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 }
 /*Estilo tabla*/
 .custom-table .ant-table-tbody > tr:hover > td {
@@ -2257,4 +2385,29 @@ box-shadow: 0px 4px 8px -4px rgba(22, 34, 51, 0.08), 0px 16px 24px 0px rgba(22, 
     align-items: flex-start;
     margin-bottom: 30px;
   }
+}
+.contenedorFiltro{
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  border: 0.6px solid #D5D5D5;
+  background: #F9F9FB;
+  width: 922px;
+height: 70px;
+}
+.headerFiltro{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.headerFiltro h1{
+  color: #202224;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.line{
+margin-left: 15px;
 }
