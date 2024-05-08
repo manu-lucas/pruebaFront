@@ -14,7 +14,7 @@ import AddMoreBtn from '../../../components/Buttons/AddMoreBtn'
 import SearchBtn from '../../../components/Buttons/SearchBtn'
 import Filter from '../../../components/Filter/Filter'
 import SelectComp from '../../../components/Select/SelectComp'
-
+import { TableReusable } from '../../../components/Table/TableReusable'
 const EnProcesoHeader = () => {
   return (
     <>
@@ -127,127 +127,121 @@ const OrdenesDeTrabajoDashboard = () => {
           />
         </div>
       </Filter>
-      
-      <Table
-        dataSource={
-          [ 
-            {
-              key:1,
-              numero: 2297,
-              name: 'Comercializadora',
-              client: 'Cristobal',
-              product: 'Servicio tributario',
-              vendedor: 'Cesar',
-              compromiso:null,
-              date:'26/03',
-              estado: 'Aceptado'
-            },
-            {
-              key:2,
-              numero: 2297,
-              name: 'Comercializadora',
-              client: 'Cristobal',
-              product: 'Servicio tributario',
-              vendedor: 'Cesar',
-              compromiso:null,
-              date:'26/03',
-              estado: 'En proceso'
-            },
-            {
-              key:3,
-              numero: 2297,
-              name: 'Comercializadora',
-              client: 'Cristobal',
-              product: 'Servicio tributario',
-              vendedor: 'Cesar',
-              compromiso:null,
-              date:'26/03',
-              estado: 'Pendiente'
-            }
-            /*
-            {
-              key: '1',
-              name: 'Mike',
-              age: 32,
-              address: '10 Downing Street',
-            },
-            {
-              key: '2',
-              name: 'John',
-              age: 42,
-              address: '10 Downing Street',
-            },
-            */
-          ]
-        }
-        columns={
-          [
-            {
-              title: 'N°',
-              dataIndex: 'numero',
-              key: 'numero',
-            },
-            {
-              title: 'Nombre',
-              dataIndex: 'name',
-              key: 'name',
-            },
-            {
-              title: 'Cliente',
-              dataIndex: 'client',
-              key: 'client',
-            },
-            {
-              title: 'Producto/Servicio',
-              dataIndex: 'product',
-              key: 'product',
-            },
-            {
-              title: 'Vendedor',
-              dataIndex: 'vendedor',
-              key: 'vendedor',
-            },
-            {
-              title: 'Compromiso',
-              dataIndex: 'compromiso',
-              key: 'compromiso',
-            },
-            {
-              title: 'Fecha',
-              dataIndex: 'date',
-              key: 'date',
-            },
-            {
-              title: 'Estado',
-              dataIndex: 'status',
-              key: 'status',
-              render: (text, record) => (
+      <TableReusable
+      dataSource={
+        [ 
+          {
+            key:1,
+            numero: 2297,
+            name: 'Comercializadora',
+            client: 'Cristobal',
+            product: 'Servicio tributario',
+            vendedor: 'Cesar',
+            compromiso:null,
+            date:'26/03',
+            estado: 'Aceptado'
+          },
+          {
+            key:2,
+            numero: 2297,
+            name: 'Comercializadora',
+            client: 'Cristobal',
+            product: 'Servicio tributario',
+            vendedor: 'Cesar',
+            compromiso:null,
+            date:'26/03',
+            estado: 'En proceso'
+          },
+          {
+            key:3,
+            numero: 2297,
+            name: 'Comercializadora',
+            client: 'Cristobal',
+            product: 'Servicio tributario',
+            vendedor: 'Cesar',
+            compromiso:null,
+            date:'26/03',
+            estado: 'Pendiente'
+          }
+          /*
+          {
+            key: '1',
+            name: 'Mike',
+            age: 32,
+            address: '10 Downing Street',
+          },
+          {
+            key: '2',
+            name: 'John',
+            age: 42,
+            address: '10 Downing Street',
+          },
+          */
+        ]
+      }
+      columns={
+        [
+          {
+            title: 'N°',
+            dataIndex: 'numero',
+            key: 'numero',
+          },
+          {
+            title: 'Nombre',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          {
+            title: 'Cliente',
+            dataIndex: 'client',
+            key: 'client',
+          },
+          {
+            title: 'Producto/Servicio',
+            dataIndex: 'product',
+            key: 'product',
+          },
+          {
+            title: 'Vendedor',
+            dataIndex: 'vendedor',
+            key: 'vendedor',
+          },
+          {
+            title: 'Compromiso',
+            dataIndex: 'compromiso',
+            key: 'compromiso',
+          },
+          {
+            title: 'Fecha',
+            dataIndex: 'date',
+            key: 'date',
+          },
+          {
+            title: 'Estado',
+            dataIndex: 'status',
+            key: 'status',
+            render: (text, record) => (
+              <>
+              {
+                record.estado === 'Aceptado' ? 
+                <div className='item-green'>Aceptado</div>
+                :
                 <>
                 {
-                  record.estado === 'Aceptado' ? 
-                  <div className='item-green'>Aceptado</div>
+                  record.estado === 'En proceso' ?
+                  <div className='item-yellow'>En proceso</div>
                   :
-                  <>
-                  {
-                    record.estado === 'En proceso' ?
-                    <div className='item-yellow'>En proceso</div>
-                    :
-                    <div className='item-red'>Pendiente</div>
+                  <div className='item-red'>Pendiente</div>
 
-                  }
-                  </>
                 }
                 </>
-              ),
-            },
-            {
-              title:'',
-              render: (text, record) => (
-                <Button type='primary'  onClick={()=>{console.log('agregar')}}>Ver</Button>
-              ),
-            }
-          ]
-        }
+              }
+              </>
+            ),
+          },
+        ]
+      }
+      onRowClick={false}
       />
     </div>
     {

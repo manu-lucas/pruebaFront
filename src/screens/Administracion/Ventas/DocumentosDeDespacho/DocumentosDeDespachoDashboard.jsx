@@ -9,7 +9,7 @@ import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn'
 import Filter from '../../../../components/Filter/Filter'
 import { FaFileDownload } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-
+import { TableReusable } from '../../../../components/Table/TableReusable'
 const DocumentosDeDespachoDashboard = () => {
   const { column_shipping_invoices_table,setMenuOptions } = useContext(AppContext);
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const DocumentosDeDespachoDashboard = () => {
       </div>
 
 
-      <Table
+      <TableReusable
         dataSource={
           [ 
             {
@@ -129,14 +129,15 @@ const DocumentosDeDespachoDashboard = () => {
               key: 'bruto',
             },
             
-            {
-              title:'',
-              render: (text, record) => (
-                <Button type='primary'  onClick={()=>{}}>Ver</Button>
-              ),
-            }
+            // {
+            //   title:'',
+            //   render: (text, record) => (
+            //     <Button type='primary'  onClick={()=>{}}>Ver</Button>
+            //   ),
+            // }
           ]
         }
+        onRowClick={false}
       />
 
 

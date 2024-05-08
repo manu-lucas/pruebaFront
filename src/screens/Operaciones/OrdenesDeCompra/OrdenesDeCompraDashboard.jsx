@@ -11,7 +11,7 @@ import Filter from '../../../components/Filter/Filter';
 import SelectComp from '../../../components/Select/SelectComp';
 import { BsListCheck } from "react-icons/bs";
 import { FaFileDownload } from 'react-icons/fa';
-
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 
 const OrdenesDeCompraDashboard = () => {
@@ -40,6 +40,9 @@ const OrdenesDeCompraDashboard = () => {
 
   function newODC (){
     navigate('/purchases/new')
+  }
+  const getRowClickPath = (text)=>{
+    return`/purchases/detail/${text.key}`;
   }
   return (
     <>
@@ -104,7 +107,7 @@ const OrdenesDeCompraDashboard = () => {
         </Button>
       </div>
 
-      <Table
+      <TableReusable
         dataSource={
           [ 
             {
@@ -183,14 +186,10 @@ const OrdenesDeCompraDashboard = () => {
                 </>
               ),
             },
-            {
-              title:'',
-              render: (text, record) => (
-                <Button type='primary'  onClick={()=>{navigate(`/purchases/detail/${text.key}`)}}>Ver</Button>
-              ),
-            }
           ]
         }
+        onRowClick={true}
+        getRowClickPath={getRowClickPath}
       />
 
     </div>
