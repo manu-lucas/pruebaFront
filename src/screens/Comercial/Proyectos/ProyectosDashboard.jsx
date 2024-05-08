@@ -256,7 +256,7 @@ const getRowClickPath = (record) => {
               dataIndex: 'neto',
               key: 'neto',
               render: (text, record) => (
-                <>{`$${record.neto}`}</>
+                <>{`$${record.neto.toFixed(2)}`}</>
               ),
             },
             {
@@ -264,7 +264,7 @@ const getRowClickPath = (record) => {
               dataIndex: 'total',
               key: 'total',
               render: (text, record) => (
-                <>{`$${record.total}`}</>
+                <>{`$${record.total.toFixed(2)}`}</>
               ),
             },
             {

@@ -180,7 +180,7 @@ const Detalles = ({project}) =>{
 }
 
 
-const OrdenesDeTrabajo = ({project}) =>{
+const OrdenesDeTrabajo = ({project,setProject}) =>{
   const [ loading,setLoading ] = useState(false);
   const [ error,setError ] = useState(false);
 
@@ -195,20 +195,36 @@ const OrdenesDeTrabajo = ({project}) =>{
 
   */
 
+  function verFecha () {
+    const date = new Date()
+    console.log(date.toISOString())
+  }
+
   async function createOrdenDeTrabajo () {
-    try {
-      const data = {
-        idProyecto: project.id,
-        idVendedor: project.idVendedor,
-        fecha: '',
-        estado: 'Pendiente'
-      }
-      const response = await axios.get(`https://appify-black-side.vercel.app//ordenTrabajo/ordenTrabajo`,)
-    } catch (err) {
-
-    } finally {
-
+    setLoading(true)
+    const date = new Date()
+    const data = {
+      idProyecto: project.id,
+      idVendedor: project.idVendedor,
+      fecha: `${date.toISOString()}`,
+      estado: 'Pendiente'
     }
+    console.log(data)
+        
+    try {
+      const response = await axios.post(`https://appify-black-side.vercel.app/ordenTrabajo/ordenTrabajo`,data)
+      console.log(response)
+      setProject({...project,orden_trabajo: response.data.payload})
+      console.log('data actualizada')
+      console.log({...project,orden_trabajo: response.data.payload})
+      setError(false)
+    } catch (err) {
+      console.log(err)
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  
   }
 
   return(
@@ -220,7 +236,7 @@ const OrdenesDeTrabajo = ({project}) =>{
           <>
             {
               error === true ?
-              <ModalError errorMessage={'Algo salio mal al crear la orden de trabajo!'}/>
+              <ModalError onCancel={()=>{setError(false)}} errorMessage={'Algo salio mal al crear la orden de trabajo!'}/>
               :
               <>
                 {
@@ -280,7 +296,7 @@ const OrdenesDeTrabajo = ({project}) =>{
                   </PrincipalCard>
                   :
                   <div className='proyectos-ot-new-bg'>
-                    <div className='proyectos-ot-new-container'>
+                    <div className='proyectos-ot-new-container' onClick={()=>{createOrdenDeTrabajo()}}>
                         <h3>No hay órdenes de trabajo asociadas al proyecto</h3>
                         <HiPlus className='proyectos-ot-new-icon'/>
                         <h2>Agregar orden</h2>
@@ -596,7 +612,7 @@ const ProyectoDetail = () => {
   async function getData (){
     try {
       const response = await axios.get(`https://appify-black-side.vercel.app/projects/project/${params.id}`)
-      console.log(response)
+      //console.log(response)
       console.log(response.data.payload[0])
       setProject(response.data.payload[0])
       setError(false)
@@ -614,7 +630,7 @@ const ProyectoDetail = () => {
       case 0:
         return <Detalles project={project}/>
       case 1:
-        return <OrdenesDeTrabajo project={project}/>
+        return <OrdenesDeTrabajo project={project} setProject={setProject}/>
       case 2:
         return <Costos/>
       case 3:
