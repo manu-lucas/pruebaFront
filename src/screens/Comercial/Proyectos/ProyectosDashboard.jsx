@@ -131,6 +131,10 @@ const ProyectosDashboard = () => {
     return char_product
     
   }
+// Define cómo se debe redireccionar cuando se hace clic en una fila
+const getRowClickPath = (record) => {
+  return `/quotes/${record.id}`;
+};
 
   return (
     <>
@@ -297,14 +301,16 @@ const ProyectosDashboard = () => {
                 </>
               ),
             },
-            {
-              title:'',
-              render: (text, record) => (
-                <Button type='primary'  onClick={()=>{navigate(`/quotes/${record.id}`)}}>Ver</Button>
-              ),
-            }
+            // {
+            //   title:'',
+            //   render: (text, record) => (
+            //     <Button type='primary'  onClick={()=>{navigate(`/quotes/${record.id}`)}}>Ver</Button>
+            //   ),
+            // }
           ]
         }
+        onRowClick={true} 
+        getRowClickPath={getRowClickPath} 
       />
      
     </div>
