@@ -1946,7 +1946,29 @@ letter-spacing: 0.14px;
     width: 90%; /* Ajusta el ancho de la barra de progreso en pantallas pequeñas */
   }
 }
-
+.labelImgInput{
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  background-color: var(--color-neutral-0);
+  border: 2px dashed var(--color-neutral-20);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  cursor: pointer;
+  margin: 50px auto;
+  gap: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.labelImgInput p {
+  color: var(--color-neutral-50);
+  font-size: 14px;
+  margin-bottom: 5px;
+}
 /* estilos del loading */
 .loadingBackground{
   height: 100vh;

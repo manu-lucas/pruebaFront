@@ -12,11 +12,12 @@ import FormerBtn from '../../../../components/Buttons/FormerBtn';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { LoadingOutlined } from '@ant-design/icons';
-
+import { ImgInput } from '../../../../components/img/ImgInput';
 
 const FirstStep = ({setStep,data,setData}) =>{
   const [value, setValue] = useState(null);
-
+  const [errors, setErrors] = useState({});
+  const [imgLink, setImgLink]= useState('');//guardo el enlace
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setData({...data,iva:e.target.value})
@@ -31,18 +32,28 @@ const FirstStep = ({setStep,data,setData}) =>{
 
   };
 
+  //Validacion step
+  const validateStep = () => {
+    let newErrors = {};
+    if (!data.nombre.trim()) {
+      newErrors.nombre = 'Debe ingresar el nombre del producto';
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
 
   return (
     <div className='principal-container-column'>
 
       <h2 style={{fontSize:20}}>Datos principales</h2>
-
       <div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",boxSizing:"border-box"}}>
         <div className='column' style={{width:"fit-content",boxSizing:"border-box",alignItems:"center",padding:20,gap:20}}>
-            <span style={{fontSize:20}}>Agregar imagen</span>
+            {/* <span style={{fontSize:20}}>Agregar imagen</span> */}
             <div className='profile-header-container'>              
               <div className='profile-img-container'>
-                <MdImage/>
+              <ImgInput setImgLink={setImgLink} />
               </div>
             </div>
         </div>
@@ -59,6 +70,7 @@ const FirstStep = ({setStep,data,setData}) =>{
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Nombre <span style={{color:"red"}}>*</span></span>
           <input style={{padding:8}} type='text' placeholder='Ingrese el nombre del producto' value={data.nombre} onChange={(e)=>{setData({...data,nombre:e.target.value})}}/>
+          {errors.nombre && <div style={{ color: 'red' }}>{errors.nombre}</div>}
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Precio sugerido</span>
@@ -76,7 +88,16 @@ const FirstStep = ({setStep,data,setData}) =>{
       
 
       <div className='container-item-flex-end' style={{marginTop:30}}>
-        <FollowingBtn setStep={setStep} value={2}/>
+      <FollowingBtn
+        setStep={setStep}
+        value={2}
+        handleClick={() => {
+          if (validateStep()) {
+            setStep(2);
+          }
+        }}
+      />
+
       </div>
 
     </div>
@@ -85,7 +106,7 @@ const FirstStep = ({setStep,data,setData}) =>{
 
 const SecondStep = ({setStep,data,setData}) => {
   const [value, setValue] = useState(null);
-
+  
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setData({...data,exencion_valor:null,exencion_impuesto:e.target.value})
@@ -164,7 +185,10 @@ const SecondStep = ({setStep,data,setData}) => {
       
       <div className='row-space-btw' style={{marginTop:30}}>
         <FormerBtn setStep={setStep} value={1}/>
-        <FollowingBtn setStep={setStep} value={3}/>
+        <FollowingBtn
+          setStep={setStep}
+          value={3}
+        />
       </div>
 
     </div>
