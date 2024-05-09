@@ -8,11 +8,12 @@ import { Loader } from '../../components/Loader/Loader';
 //import { decodeToken } from './LoginFunction';
 import { jwtDecode } from "jwt-decode";
 import { AppContext } from '../../context/AppContext';
+import { getAllProductos } from '../../utils/api/Productos/getAllProductos';
 
 
 const LoginScreen = () => {
 
-  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios } = useContext(AppContext)
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra } = useContext(AppContext)
   
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -97,47 +98,70 @@ const LoginScreen = () => {
     getClientes(userId)
     getOTs(userId)
     getAllUsers(userId)
+    getAllProviders(userId)
+    //getAllProductos(userId)
+    getAllProducts(userId)
+    getOCs(userId)
   }
 
 
   async function getProyectos (userId){
     try{
       const response = await axios.get(`https://appify-black-side.vercel.app/projects/alldata/${userId}`)
-      console.log(response)
+      //console.log(response)
       setProyectos(response.data.payload)
     }catch (err) {
       console.log(err)
-    }finally {
-      console.log('peticion finalizada')
     }
   }
 
   async function getClientes (userId){
     try{
       const response = await axios.get(`https://appify-black-side.vercel.app/clientes/alldata/${userId}`)
-      console.log(response)
+      //console.log(response)
       setClientes(response.data.payload)
     }catch (err) {
       console.log(err)
-    }finally {
-      console.log('peticion finalizada')
     }
   }
 
+
+  //Obtener ordenes de trabajp
   async function getOTs (userId){
     try{
       const response = await axios.get(`https://appify-black-side.vercel.app/ordenTrabajo/alldata/${userId}`)
-      console.log(response)
+      //console.log(response)
       setOrdenesDeTrabajo(response.data.payload)
     }catch (err) {
       console.log(err)
-    }finally {
-      console.log('peticion finalizada')
     }
   }
 
 
+  //Obtener usuarios
   async function getAllUsers (userId){
+    try{
+      
+      const activeUsers = await getAllUsersActive(userId)
+      
+      const inactiveUsers = await getAllUsersInactive(userId)
+
+      let array = [...activeUsers,...inactiveUsers]
+      array.sort((a, b) => {
+        return a.nombre.localeCompare(b.nombre);
+      });
+
+
+      console.log('usuarios!')
+      console.log(array)
+      setSubusuarios(array)
+      
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function getAllUsersActive (userId){
     try{
       const responseUsersAct = await axios.get(`https://appify-black-side.vercel.app/user/allUsersAct/${userId}`)
       console.log('usuarios activos')
@@ -145,26 +169,102 @@ const LoginScreen = () => {
         return {...item, estado: "Activo"}
       })
       console.log(activeUsers)
+      return activeUsers
+    }catch (err) {
+      return []
+    }
+  }
 
+
+  async function getAllUsersInactive (userId){
+    try{
       const responseUsersInac = await axios.get(`https://appify-black-side.vercel.app/user/allUsersInact/${userId}`)
       console.log('usuarios inactivos')
       const inactiveUsers = responseUsersInac.data.payload.map((item)=>{
         return {...item, estado: "Inactivo"}
       })
       console.log(inactiveUsers)
+      return inactiveUsers
+    }catch (err) {
+      return []
+    }
+  }
 
-      let array = [...activeUsers,...inactiveUsers]
+
+
+
+  ///Obtener proveedores
+
+  async function getAllProviders (userId){
+    try{
+      
+      const activeProv = await getAllProvidersActive(userId)
+
+      const inactiveProv = await getAllProvidersInactive(userId)
+
+      
+      let array = [...activeProv,...inactiveProv]
+      
       array.sort((a, b) => {
-        return a.nombre.localeCompare(b.nombre);
+        return a.razon_social.localeCompare(b.razon_social);
       });
-      console.log('usuarios!')
+      console.log('Proveedores todos:')
       console.log(array)
-      setSubusuarios(array)
+      setProveedores(array)
       
     }catch (err) {
       console.log(err)
-    }finally {
-      console.log('peticion finalizada')
+    }
+  }
+
+
+  async function getAllProvidersActive (userId){
+    try{
+      const responseProvAct = await axios.get(`https://appify-black-side.vercel.app/proveedor/allProvAct/${userId}`)
+      const activeProv = responseProvAct.data.payload.map((item)=>{
+        return {...item, estado: "Activo"}
+      })
+      return activeProv
+    }catch(err){
+      return []
+    }
+  }
+
+
+  async function getAllProvidersInactive (userId){
+    try{
+      const responseProvInac = await axios.get(`https://appify-black-side.vercel.app/proveedor/allProvInact/${userId}`)
+      const inactiveProv = responseProvInac.data.payload.map((item)=>{
+        return {...item, estado: "Inactivo"}
+      })
+      return inactiveProv
+    }catch(err){
+      return []
+    }
+  }
+
+
+  
+  //Obtener productos:
+
+  async function getAllProducts (userId){
+    try{
+      const response = await axios.get(`https://appify-black-side.vercel.app/products/products/${userId}`)
+      console.log('productos:')
+      console.log(response.data.payload)
+      setProducts(response.data.payload)
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
+  //Obtener ordenes de compra
+  async function getOCs (userId) {
+    try{
+      const response = await axios.get(`https://appify-black-side.vercel.app/ordenCompra/alldata/${userId}`)
+      setOrdenesDeTrabajo(response.data.payload)
+    }catch (err){
+      console.log(err)
     }
   }
 
