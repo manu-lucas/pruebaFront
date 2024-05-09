@@ -19,6 +19,8 @@ import CreateBtn from '../../../../components/Buttons/CreateBtn';
 
 
 const FirstStep = ({setStep}) =>{
+  
+
   return(
     <div className='principal-container-column'>
       <h2 style={{fontSize:20}}>Datos principales</h2>
