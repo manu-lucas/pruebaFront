@@ -206,7 +206,8 @@ export const AppContextProvider = (props) =>{
     //LISTA DE ORDENES DE TRABAJO 
     const [ ordenesDeTrabajo,setOrdenesDeTrabajo ] = useState([])
 
-    
+    //LISTA ORDENES DE COMPRA 
+    const [ ordenesDeCompra,setOrdenesDeCompra ] = useState([])
 
   
 
@@ -223,6 +224,7 @@ export const AppContextProvider = (props) =>{
             proveedores,setProveedores,
             clientes,setClientes,
             ordenesDeTrabajo,setOrdenesDeTrabajo,
+            ordenesDeCompra,setOrdenesDeCompra,
             proyectos,setProyectos,
             condicionesDePago,seetCondicionesDePago,
             setModalContent,

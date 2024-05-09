@@ -12,11 +12,15 @@ import Filter from '../../../components/Filter/Filter';
 import { GrDownload } from 'react-icons/gr';
 import { Button, Table } from 'antd';
 import SelectComp from '../../../components/Select/SelectComp';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 const ProductosServiciosDashboard = () => {
 
   const { products } = useContext(AppContext)
-
+  useEffect(() => {
+    console.log(products)
+  }, [])
+  
   const navigate = useNavigate();
   
   const [ loading,setLoading ] = useState(true);
@@ -72,63 +76,72 @@ const ProductosServiciosDashboard = () => {
           <span>Importar</span>
         </Button>
       </div>
-      
-      
-        <Table
-          dataSource={[
-            {
-              key:1,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:2,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:3,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:4,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:5,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
+        <TableReusable
 
-
-          ]}
+          dataSource={products}
           columns={[
             {
-              title: 'Usuario',
-              dataIndex: 'usuario',
-              key: 'usuario',
+              title: 'Nombre',
+              dataIndex: 'nombre',
+              key: 'nombre',
             },
             {
-              title: 'Cargo',
-              dataIndex: 'cargo',
-              key: 'cargo',
+              title: 'Código',
+              dataIndex: 'codigo',
+              key: 'codigo',
+              render: (text,record) => (
+                <>
+                {
+                  text === null || text.trim().replace(/\s/g, "") === ""?
+                  <>-</>
+                  :
+                  <>{text}</>
+                }
+                </>
+              )
             },
             {
-              title: 'Email',
+              title: 'Costo',
+              dataIndex: 'costo',
+              key: 'costo',
+              render: (text,record) =>(
+                <>
+                  {
+                    text === null ? 
+                    <>$0</>
+                    :
+                    <>${text}</>
+                  }
+                </>
+              )
+            },
+            {
+              title: 'Precio neto',
+              dataIndex: 'neto',
+              key: 'neto',
+            },
+            {
+              title: 'Exención de IVA',
+              dataIndex: 'iva',
+              key: 'iva',
+              render: (text,record) =>(
+                <>
+                {
+                  text === null ?
+                  <>0</>
+                  :
+                  <>19</>
+                }
+                </>
+              )
+            },
+            {
+              title: 'Descripción',
               dataIndex: 'email',
               key: 'email',
+              render: (text,record) => (
+                <>-</>
+              )
             },
             {
               title: 'Estado',
@@ -145,40 +158,19 @@ const ProductosServiciosDashboard = () => {
                 </>
               ),
             },
+            /*
             {
               title:'',
               render: (text, record) => (
                 <Button type='primary'  onClick={()=>{navigate(`/products/:${record.key}`)}}>Ver</Button>
               ),
             }
+            */
           ]}
+          onRowClick={false} 
         />
-
     </div>
-    {
-      /*
-      <div className='row-test' style={{justifyContent:"flex-end"}}>
-        <MdUpload/>
-        <button onClick={()=>{navigate('/products/new')}}>agregar</button>
-      </div>
-      <div className='row-space-btw-test'>
-        <div className='row-test'>
-          <button className={layout === 0 ? 'btn-cta' : 'btn'} onClick={()=>{setLayout(0)}}>Activado</button>
-          <button className={layout === 1 ? 'btn-cta' : 'btn'} onClick={()=>{setLayout(1)}}>Desactivado</button>
-        </div>
-        <input placeholder='buscar'/>
-      </div>
-      <>
-        {
-          products === null ?
-          <div>Error en los datos</div>
-          :
-          <>{RenderPrincipalComponent()}</>
-        }
-      </>
-      
-      */
-    }
+    
 
     </>
   )

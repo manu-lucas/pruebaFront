@@ -82,12 +82,14 @@ const UsuariosDashboard = () => {
                 </>
               ),
             },
+            /*
             {
               title:'',
               render: (text, record) => (
                 <Button type='primary'  onClick={()=>{navigate(`/users/${record.key}`)}}>Ver</Button>
               ),
             }
+            */
           ]}
           onRowClick={false} 
         />

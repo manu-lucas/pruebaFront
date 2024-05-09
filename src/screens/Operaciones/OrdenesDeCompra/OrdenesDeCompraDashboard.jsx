@@ -15,7 +15,7 @@ import { TableReusable } from '../../../components/Table/TableReusable';
 
 
 const OrdenesDeCompraDashboard = () => {
-  const {menuOptions,setMenuOptions,columns_purchases_table} = useContext(AppContext);
+  const {menuOptions,setMenuOptions,columns_purchases_table,ordenesDeCompra} = useContext(AppContext);
   const navigate = useNavigate()
   //abrir el submenu cuando se renderice este componente
   useEffect(() => {
@@ -108,7 +108,8 @@ const OrdenesDeCompraDashboard = () => {
       </div>
 
       <TableReusable
-        dataSource={
+        dataSource={ ordenesDeCompra
+          /*
           [ 
             {
               key:1,
@@ -138,6 +139,7 @@ const OrdenesDeCompraDashboard = () => {
               bruto: 200,
             },
           ]
+          */
         }
         columns={
           [

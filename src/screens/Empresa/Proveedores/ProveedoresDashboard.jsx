@@ -8,11 +8,16 @@ import axios from 'axios';
 import SearchBtn from '../../../components/Buttons/SearchBtn';
 import AddMoreBtn from '../../../components/Buttons/AddMoreBtn';
 import { Button, Table } from 'antd';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 const ProveedoresDashboard = () => {
   
   const { proveedores } = useContext(AppContext);
 
+  useEffect(() => {
+    console.log(proveedores)
+  }, [])
+  
 
   const navigate = useNavigate();
   
@@ -37,85 +42,56 @@ const ProveedoresDashboard = () => {
           <AddMoreBtn label={'Agregar'} HanldeClick={()=>{navigate('/providers/new')}}/>
         </div>
       </div>
-      <Table
-          dataSource={[
-            {
-              key:1,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:2,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:3,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:4,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:5,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-
-
-          ]}
-          columns={[
-            {
-              title: 'Usuario',
-              dataIndex: 'usuario',
-              key: 'usuario',
-            },
-            {
-              title: 'Cargo',
-              dataIndex: 'cargo',
-              key: 'cargo',
-            },
-            {
-              title: 'Email',
-              dataIndex: 'email',
-              key: 'email',
-            },
-            {
-              title: 'Estado',
-              dataIndex: 'activo',
-              key: 'activo',
-              render: (text, record) => (
-                <>
-                {
-                  record.activo === true ? 
-                  <div className='item-green'>Activo</div>
-                  :
-                  <div className='item-red'>No activo</div>
-                }
-                </>
-              ),
-            },
-            {
-              title:'',
-              render: (text, record) => (
-                <Button type='primary'  onClick={()=>{console.log('ver')}}>Ver</Button>
-              ),
-            }
-          ]}
-        />
+      <TableReusable
+        columns={[
+          {
+            title: 'Razón social / Nombre',
+            dataIndex: 'razon_social',
+            key: 'razon_social',
+          },
+          {
+            title: 'Rut',
+            dataIndex: 'rut',
+            key: 'rut',
+          },
+          {
+            title: 'Contacto',
+            dataIndex: 'contacto',
+            key: 'contacto',
+          },
+          {
+            title: 'Telefono',
+            dataIndex: 'telefono',
+            key: 'telefono',
+          },
+          {
+            title: 'Estado',
+            dataIndex: 'estado',
+            key: 'estado',
+            render: (text, record) => (
+              <>
+              {
+                record.estado === "Activo" ? 
+                <div className='item-green'>Activo</div>
+                :
+                <div className='item-red'>No activo</div>
+              }
+              </>
+            ),
+          },
+          /*
+          {
+            title:'',
+            render: (text, record) => (
+              <Button type='primary'  onClick={()=>{console.log('ver')}}>Ver</Button>
+            ),
+          }
+          */
+        ]}
+        dataSource={proveedores}
+        onRowClick={false} 
+      />
+      
 
     </div>
     {
