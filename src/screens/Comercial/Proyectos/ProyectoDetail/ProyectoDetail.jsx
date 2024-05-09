@@ -146,15 +146,15 @@ const Detalles = ({project}) =>{
             <h3>Dirección de despacho</h3>
             <div className='row'>
               <span>Direccion:</span>
-              <span>{project.cliente.puntos[0].direccion}</span>
+              <span>{project.cliente.puntos.lenght === 0 ? null : project.cliente.puntos[0].direccion}</span>
             </div>
             <div className='row'>
               <span>Comuna:</span>
-              <span>{project.cliente.puntos[0].comuna}</span>
+              <span>{project.cliente.puntos.lenght === 0 ? null : project.cliente.puntos[0].comuna}</span>
             </div>
             <div className='row'>
               <span>Ciudad:</span>
-              <span>{project.cliente.puntos[0].ciudad}</span>
+              <span>{project.cliente.puntos.lenght === 0 ? null : project.cliente.puntos[0].ciudad}</span>
             </div>
           </div>
           <div className='column'>
@@ -683,7 +683,9 @@ const ProyectoDetail = () => {
                   <span>Cliente</span>
                 </div>
               </div>
-              {RenderPrincipalComponent()}
+              {
+              RenderPrincipalComponent()
+              }
             </div>
           </>
         }
