@@ -11,6 +11,7 @@ import Filter from '../../../components/Filter/Filter';
 import { Button, Table } from 'antd';
 import { FaFileDownload } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { TableReusable } from '../../../components/Table/TableReusable';
 
 const UsuariosDashboard = () => {
   //lista de subusuarios:
@@ -48,51 +49,13 @@ const UsuariosDashboard = () => {
       </div>
       
       <div style={{width:"85%",margin:"0 auto"}}>
-        <Table
-          dataSource={[
-            {
-              key:1,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:2,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:3,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-            {
-              key:4,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: true
-            },
-            {
-              key:5,
-              usuario: 'Nombre usuario',
-              cargo:'Cargo',
-              email:'email.example@gmail.com',
-              activo: false
-            },
-
-
-          ]}
+        <TableReusable
+          dataSource={subusuarios}
           columns={[
             {
               title: 'Usuario',
-              dataIndex: 'usuario',
-              key: 'usuario',
+              dataIndex: 'nombre',
+              key: 'nombre',
             },
             {
               title: 'Cargo',
@@ -106,12 +69,12 @@ const UsuariosDashboard = () => {
             },
             {
               title: 'Estado',
-              dataIndex: 'activo',
-              key: 'activo',
+              dataIndex: 'estado',
+              key: 'estado',
               render: (text, record) => (
                 <>
                 {
-                  record.activo === true ? 
+                  record.estado === 'Activo' ? 
                   <div className='item-green'>Activo</div>
                   :
                   <div className='item-red'>No activo</div>
@@ -126,32 +89,14 @@ const UsuariosDashboard = () => {
               ),
             }
           ]}
+          onRowClick={false} 
         />
+        
       </div>
 
 
     </div>
-    {
-      /*
-        <div className='row-test' style={{justifyContent:"flex-end"}}>
-          <button>reporte</button>
-          <button>agregar</button>
-        </div>
-        <div className='row-space-btw-test'>
-          <div className='row-test'>
-            <button onClick={()=>{setLayout(0)}} className={layout === 0 ? 'btn-cta' : 'btn'}>ACTIVADO</button>
-            <button onClick={()=>{setLayout(1)}} className={layout === 1 ? 'btn-cta' : 'btn'}>DESACTIVADO</button>
-          </div>
-          <input placeholder='buscar'/>
-        </div>
-        {
-          subusuarios === null ?
-          <div>Error en la carga de los datos</div>
-          :
-          <>{RenderPrincipalComponent()}</>
-        }
-      */
-    }
+    
     </>
   )
 }

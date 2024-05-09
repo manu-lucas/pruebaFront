@@ -12,7 +12,7 @@ import { AppContext } from '../../context/AppContext';
 
 const LoginScreen = () => {
 
-  const { setUserLoggedData,setLogged } = useContext(AppContext)
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios } = useContext(AppContext)
   
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -64,6 +64,10 @@ const LoginScreen = () => {
         console.log(tokenDecode)
 
         setUserLoggedData(tokenDecode)
+        
+        getLoginData(tokenDecode.data.user)
+
+
         setLogged(true)
         
       }catch(err){
@@ -73,29 +77,97 @@ const LoginScreen = () => {
       }finally{
         setLoading(false);  // Terminar la carga
         console.log('peticion finalizada')
-      }
-      /*
-      try {
-        // Llamada API usando axios
-        const response = await axios.post('http://localhost:8080/login', formData);
-        console.log(response.data);
-        // Almacenamiento del userId y redirección, asumiendo que estos datos vienen en la respuesta.
-        localStorage.setItem('userId', response.data.userId);
-        navigate('/'); // Redireccionar al usuario a la página de inicio
-      } catch (err) {
-        // Manejo simple del error
-        console.error('Error de autenticación:', err);
-        newErrors.credentials = '*Error al iniciar sesión';
-        setErrors(newErrors);
-      } finally {
-        setLoading(false);  // Terminar la carga
 
-    }*/
+      }
     
     } else {
       setErrors(newErrors);
     }
   };
+
+
+
+  //Peticiones del login
+
+  async function getLoginData (userId) {
+    //Esta funcion es para hacer todas las llamsdas correspondoentes
+    //proyectos
+    
+    getProyectos(userId)
+    getClientes(userId)
+    getOTs(userId)
+    getAllUsers(userId)
+  }
+
+
+  async function getProyectos (userId){
+    try{
+      const response = await axios.get(`https://appify-black-side.vercel.app/projects/alldata/${userId}`)
+      console.log(response)
+      setProyectos(response.data.payload)
+    }catch (err) {
+      console.log(err)
+    }finally {
+      console.log('peticion finalizada')
+    }
+  }
+
+  async function getClientes (userId){
+    try{
+      const response = await axios.get(`https://appify-black-side.vercel.app/clientes/alldata/${userId}`)
+      console.log(response)
+      setClientes(response.data.payload)
+    }catch (err) {
+      console.log(err)
+    }finally {
+      console.log('peticion finalizada')
+    }
+  }
+
+  async function getOTs (userId){
+    try{
+      const response = await axios.get(`https://appify-black-side.vercel.app/ordenTrabajo/alldata/${userId}`)
+      console.log(response)
+      setOrdenesDeTrabajo(response.data.payload)
+    }catch (err) {
+      console.log(err)
+    }finally {
+      console.log('peticion finalizada')
+    }
+  }
+
+
+  async function getAllUsers (userId){
+    try{
+      const responseUsersAct = await axios.get(`https://appify-black-side.vercel.app/user/allUsersAct/${userId}`)
+      console.log('usuarios activos')
+      const activeUsers = responseUsersAct.data.payload.map((item)=>{
+        return {...item, estado: "Activo"}
+      })
+      console.log(activeUsers)
+
+      const responseUsersInac = await axios.get(`https://appify-black-side.vercel.app/user/allUsersInact/${userId}`)
+      console.log('usuarios inactivos')
+      const inactiveUsers = responseUsersInac.data.payload.map((item)=>{
+        return {...item, estado: "Inactivo"}
+      })
+      console.log(inactiveUsers)
+
+      let array = [...activeUsers,...inactiveUsers]
+      array.sort((a, b) => {
+        return a.nombre.localeCompare(b.nombre);
+      });
+      console.log('usuarios!')
+      console.log(array)
+      setSubusuarios(array)
+      
+    }catch (err) {
+      console.log(err)
+    }finally {
+      console.log('peticion finalizada')
+    }
+  }
+
  return(
     <>
     {loading && <Loader label={'Cargando...'}/>}

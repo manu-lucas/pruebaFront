@@ -54,6 +54,7 @@ const PrivateStructure = ({ children }) => {
 
   const [allowInteraction, setAllowInteraction] = useState(false); 
 
+  //Esta parte
   useEffect(() => {
     const handleResize = () => {
       setAllowInteraction(window.innerWidth < 750); 

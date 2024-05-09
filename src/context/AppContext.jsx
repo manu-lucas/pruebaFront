@@ -203,12 +203,12 @@ export const AppContextProvider = (props) =>{
     //LISTA DE PROYECTOS:
     const [ proyectos,setProyectos ] = useState([{"id":"project-018eae1c-9655-4eff-b554-69a178176118","numero":"1","nombre":"kesesto","estado":"Pendiente","fecha":"2024-05-06T00:00:00.000Z","cliente":"Cliente de prueba desde el front","vendedor":"mage2 banyu","productos_servicios":{"productos":[{"id":"item-product-project-1d6ca1a7-79c0-4d42-9184-53f9eaa3d0f4","idProyecto":"project-018eae1c-9655-4eff-b554-69a178176118","idProducto":"product-26c93822-ea7a-4e69-882f-7bb4357e796d","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":9908,"total":12233,"nombre":"Producto desde el frontt 1"},{"id":"item-product-project-bfb4363c-facb-41d6-bd10-0a8af28640b9","idProyecto":"project-018eae1c-9655-4eff-b554-69a178176118","idProducto":"product-23e85a79-1b6d-4ac0-8d08-6950d98c6f68","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":8,"total":10,"nombre":"Nombre_del_producto2"}],"servicios":[]},"neto":9916,"total":12243},{"id":"project-52719069-dac4-4219-aeef-036d3e551bdf","numero":"1","nombre":"Proyecto testterrr","estado":"Pendiente","fecha":"2024-05-10T00:00:00.000Z","cliente":"Cliente de prueba desde el front","vendedor":"mage2 banyu","productos_servicios":{"productos":[{"id":"item-product-project-062e71dd-9b71-4b32-a45b-fe51254e99ba","idProyecto":"project-52719069-dac4-4219-aeef-036d3e551bdf","idProducto":"product-23e85a79-1b6d-4ac0-8d08-6950d98c6f68","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":8,"total":10,"nombre":"Nombre_del_producto2"},{"id":"item-product-project-4de73d24-e0b3-43b9-8e81-f1ad47d942be","idProyecto":"project-52719069-dac4-4219-aeef-036d3e551bdf","idProducto":"product-4c188782-0df9-4676-85f8-45db8c604102","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":99908,"total":123344,"nombre":"CHANCHA 123"},{"id":"item-product-project-9f785163-b11b-4be7-adf5-65da89315b2c","idProyecto":"project-52719069-dac4-4219-aeef-036d3e551bdf","idProducto":"product-2fba40e0-3909-4c80-b0ad-9ccb7be9317d","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":998,"total":1233,"nombre":"Nombre producto desde el front"}],"servicios":[]},"neto":100914,"total":124587},{"id":"project-f7d57476-042a-469a-8336-8523b89f9619","numero":"1","nombre":"KSJSJ","estado":"Pendiente","fecha":"2024-05-10T00:00:00.000Z","cliente":"Cliente de prueba desde el front","vendedor":"mage2 banyu","productos_servicios":{"productos":[{"id":"item-product-project-4d03bf04-595d-4e56-acec-b003248ae245","idProyecto":"project-f7d57476-042a-469a-8336-8523b89f9619","idProducto":"product-24750755-e9bb-4e48-b1ce-72a6dd7d1198","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":998,"total":1233,"nombre":"Producto Tal"},{"id":"item-product-project-cdd548f0-d41a-4e03-b851-9e3434c1bf9d","idProyecto":"project-f7d57476-042a-469a-8336-8523b89f9619","idProducto":"product-10138c0d-ff35-4381-b069-c9cc9b92c1b3","cantidad":1,"porcentaje_descuento":0,"nombre_impuesto":"IVA","impuesto":0.19,"precio":1233,"total":1233,"nombre":"Nombre"}],"servicios":[]},"neto":2231,"total":2466}])
 
+    //LISTA DE ORDENES DE TRABAJO 
+    const [ ordenesDeTrabajo,setOrdenesDeTrabajo ] = useState([])
 
+    
 
-    function getPrincipalData () {
-
-    }
- 
+  
 
     return (
         <AppContext.Provider value={{
@@ -222,6 +222,7 @@ export const AppContextProvider = (props) =>{
             products,setProducts,
             proveedores,setProveedores,
             clientes,setClientes,
+            ordenesDeTrabajo,setOrdenesDeTrabajo,
             proyectos,setProyectos,
             condicionesDePago,seetCondicionesDePago,
             setModalContent,

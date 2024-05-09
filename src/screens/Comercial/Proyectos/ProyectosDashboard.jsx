@@ -281,8 +281,8 @@ const getRowClickPath = (record) => {
             },
             {
               title: 'Estado',
-              dataIndex: 'status',
-              key: 'status',
+              dataIndex: 'estado',
+              key: 'estado',
               render: (text, record) => (
                 <>
                 {

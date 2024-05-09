@@ -38,7 +38,7 @@ const FinalizadoHeader = () => {
 }
 
 const OrdenesDeTrabajoDashboard = () => {
-  const {menuOptions,setMenuOptions} = useContext(AppContext);
+  const {menuOptions,setMenuOptions,ordenesDeTrabajo} = useContext(AppContext);
   const [ layout,setLayout ] = useState(0);
   const navigate = useNavigate();
 
@@ -73,6 +73,19 @@ const OrdenesDeTrabajoDashboard = () => {
   function newOT (){
     navigate('/work_orders/new')
   }
+
+
+  function renderProducts (productsArray) {
+    let char_product = '';
+    productsArray.forEach(element => {
+      char_product += `${element.nombre} , `
+    });
+    char_product = char_product.slice(0, -2)
+    return char_product
+    
+  }
+
+
 
   return (
     <>
@@ -128,57 +141,7 @@ const OrdenesDeTrabajoDashboard = () => {
         </div>
       </Filter>
       <TableReusable
-      dataSource={
-        [ 
-          {
-            key:1,
-            numero: 2297,
-            name: 'Comercializadora',
-            client: 'Cristobal',
-            product: 'Servicio tributario',
-            vendedor: 'Cesar',
-            compromiso:null,
-            date:'26/03',
-            estado: 'Aceptado'
-          },
-          {
-            key:2,
-            numero: 2297,
-            name: 'Comercializadora',
-            client: 'Cristobal',
-            product: 'Servicio tributario',
-            vendedor: 'Cesar',
-            compromiso:null,
-            date:'26/03',
-            estado: 'En proceso'
-          },
-          {
-            key:3,
-            numero: 2297,
-            name: 'Comercializadora',
-            client: 'Cristobal',
-            product: 'Servicio tributario',
-            vendedor: 'Cesar',
-            compromiso:null,
-            date:'26/03',
-            estado: 'Pendiente'
-          }
-          /*
-          {
-            key: '1',
-            name: 'Mike',
-            age: 32,
-            address: '10 Downing Street',
-          },
-          {
-            key: '2',
-            name: 'John',
-            age: 42,
-            address: '10 Downing Street',
-          },
-          */
-        ]
-      }
+      dataSource={ordenesDeTrabajo}
       columns={
         [
           {
@@ -193,13 +156,16 @@ const OrdenesDeTrabajoDashboard = () => {
           },
           {
             title: 'Cliente',
-            dataIndex: 'client',
-            key: 'client',
+            dataIndex: 'cliente',
+            key: 'cliente',
           },
           {
             title: 'Producto/Servicio',
             dataIndex: 'product',
             key: 'product',
+            render : (text,record) => (
+              <>{renderProducts(record.productos_servicios.productos)}</>
+            )
           },
           {
             title: 'Vendedor',
@@ -209,17 +175,22 @@ const OrdenesDeTrabajoDashboard = () => {
           {
             title: 'Compromiso',
             dataIndex: 'compromiso',
-            key: 'compromiso',
+            render : (text,record) => (
+              <>-</>
+            )
           },
           {
             title: 'Fecha',
-            dataIndex: 'date',
-            key: 'date',
+            dataIndex: 'fechaOrden',
+            key: 'fechaOrden',
+            render : (text,record) => (
+              <>{text.split("T")[0]}</>
+            )
           },
           {
             title: 'Estado',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'estado',
+            key: 'estado',
             render: (text, record) => (
               <>
               {
