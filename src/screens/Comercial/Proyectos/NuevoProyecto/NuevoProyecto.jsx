@@ -781,7 +781,7 @@ const NuevoProyecto = () => {
     setMenuOptions(updateData)
   }, [])
 
-  const [ step,setStep ] = useState(1);
+  const [ step,setStep ] = useState(2);
 
   const [ clientName,setClientName ] = useState(null)
 

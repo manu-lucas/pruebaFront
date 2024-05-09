@@ -3,7 +3,7 @@ import { Button, ConfigProvider, DatePicker, Slider, Space, Switch, Table } from
 import { BsArrowRight } from "react-icons/bs";
 
 
-const FollowingBtn = ({setStep,value}) => {
+const FollowingBtn = ({setStep,value,handleClick}) => {
   return (
     <ConfigProvider
       theme={{
@@ -17,7 +17,10 @@ const FollowingBtn = ({setStep,value}) => {
         },
       }}
     >
-      <Button onClick={()=>{setStep(value)}} type="primary" size="large" style={{display:"flex",alignItems:"center",gap:15}}>
+      <Button onClick={handleClick
+        //setStep(value)
+
+      } type="primary" size="large" style={{display:"flex",alignItems:"center",gap:15}}>
         <span>Continuar</span>
         <BsArrowRight/>
       </Button>
