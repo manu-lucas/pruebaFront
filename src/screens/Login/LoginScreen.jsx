@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LogoLogin from '../../assets/logo_login.svg';
@@ -94,6 +94,7 @@ const LoginScreen = () => {
   async function getLoginData (userId) {
     //Esta funcion es para hacer todas las llamsdas correspondoentes
     //proyectos
+    setLoading(true)
     
     getProyectos(userId,setProyectos)
     getClientes(userId,setClientes)
@@ -104,14 +105,21 @@ const LoginScreen = () => {
     getAllProducts(userId,setProducts)
     getOCs(userId,setOrdenesDeCompra)
     getVentas(userId,setVentas)
+    
+
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000);
+    
   }
 
-
-
-
-
   function registerAcount (){
-    setSignUpCode(true)
+    setLoading(true)
+    console.log('registrar cuenta')
+    setTimeout(() => {
+      setSignUpCode(true)
+      setLoading(false)
+    }, 1000);
   }
 
  return(
@@ -168,7 +176,7 @@ const LoginScreen = () => {
             <button type="submit" className='login-button'>Iniciar sesión</button>
           </div>
 
-          <div className='login-sign-up' onClick={registerAcount} >Crear cuenta nueva</div>
+          <div className='login-sign-up' onClick={()=>{registerAcount()}} >Crear cuenta nueva</div>
         </form>
 
       </div>

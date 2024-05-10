@@ -183,7 +183,7 @@ export async function getClientes (userId,setClientes){
   "factura_venta": {
     "idCliente": "cliente-26a583c8-5130-48a6-82eb-4796430bb354",
     "tipo_documento": "Factura",
-    "numero_documento": "0001-00000234",
+    "dataInitialState": "0001-00000234",
     "fecha": "2024-04-08T00:00:00Z",
     "idVendedor": "sub-user-b6034146-e508-4da5-bad9-eb7ec18fa5d7",
     "condicion_de_pago": "Contado",
