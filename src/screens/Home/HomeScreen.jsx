@@ -84,13 +84,17 @@ const HomeScreen = () => {
 
   //esto es para saber donde estoy parado y setear las opciones del menu options
   
+  const { userLoggedData } = useContext(AppContext);
+
+  useEffect(() => {
+    console.log(userLoggedData)
+  }, [])
   
   return (
     <>
       <div>
-        <h1>Hola Juan !</h1>
+        <h1>Hola {userLoggedData.data.nombre} !</h1>
         <h2>Bienvenido a Appify</h2>
-        <button>Actualizar</button>
         {/*Proyectos*/}
         <PrincipalCard>
        <div style={{width: '100%', height: '100%', position: 'relative', background: 'white', borderRadius: 16}}>
