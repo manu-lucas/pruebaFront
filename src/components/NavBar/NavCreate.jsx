@@ -1,5 +1,7 @@
 import NewFileSubMenu from './NewFileSubMenu';
+import { useNavigate } from 'react-router-dom';
 export const NavCreate = ({onHeaderClick}) =>{
+    const navigate = useNavigate()
     return(
         <>
         <div className="container-create">
@@ -19,25 +21,25 @@ export const NavCreate = ({onHeaderClick}) =>{
             <h1 className="title-create">Crear</h1>
             </div>
             <div className="submenu-create">
-               <div className='sub-create'>
+               <div className='sub-create' onClick={()=>{navigate('/quotes/new')}}>
                <svg className='spanSub' xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
                 <path d="M5.84212 3.68294C6.40671 4.08135 6.40671 4.91865 5.84212 5.31706L1.82656 8.15064C1.16413 8.61808 0.250001 8.14433 0.250001 7.33358L0.250001 1.66642C0.250001 0.855667 1.16413 0.381915 1.82656 0.849358L5.84212 3.68294Z" fill="#047679"/>
                 </svg>
                 <span className='spanSub'>Proyecto</span>
                </div>
-               <div className='sub-create'>
+               <div className='sub-create' onClick={()=>{navigate('/clients/new')}}>
                <svg className='spanSub' xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
                     <path d="M5.84212 3.68294C6.40671 4.08135 6.40671 4.91865 5.84212 5.31706L1.82656 8.15064C1.16413 8.61808 0.250001 8.14433 0.250001 7.33358L0.250001 1.66642C0.250001 0.855667 1.16413 0.381915 1.82656 0.849358L5.84212 3.68294Z" fill="#047679"/>
                 </svg>
                <span className='spanSub'> Cliente</span>
                 </div>
-                <div className='sub-create'>
+                <div className='sub-create' onClick={()=>{navigate('/sale_invoices/new')}}>
                 <svg className='spanSub'xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
                     <path d="M5.84212 3.68294C6.40671 4.08135 6.40671 4.91865 5.84212 5.31706L1.82656 8.15064C1.16413 8.61808 0.250001 8.14433 0.250001 7.33358L0.250001 1.66642C0.250001 0.855667 1.16413 0.381915 1.82656 0.849358L5.84212 3.68294Z" fill="#047679"/>
                 </svg>
                 <span className='spanSub'>Factura</span>
                 </div>
-                <div className='sub-create'>
+                <div className='sub-create'onClick={()=>{navigate('/work_orders/new')}} >
                 <svg className='spanSub' xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
                 <path d="M5.84212 3.68294C6.40671 4.08135 6.40671 4.91865 5.84212 5.31706L1.82656 8.15064C1.16413 8.61808 0.250001 8.14433 0.250001 7.33358L0.250001 1.66642C0.250001 0.855667 1.16413 0.381915 1.82656 0.849358L5.84212 3.68294Z" fill="#047679"/>
                 </svg>

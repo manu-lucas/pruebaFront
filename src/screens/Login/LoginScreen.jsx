@@ -167,7 +167,7 @@ const LoginScreen = () => {
              {errors.password && <p className='errorInput'>{errors.password}</p>}
             <div >
             <div className='reset-pass-wrapper'>
-              <button className='reset-pass'>Olvidé mi contraseña</button>
+              <button type="button"  className='reset-pass' onClick={() => console.log('Botón clickeado!')}>Olvidé mi contraseña</button>
             </div>
           </div>
           </div>
