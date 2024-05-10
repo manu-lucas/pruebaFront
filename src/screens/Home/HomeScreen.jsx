@@ -119,14 +119,14 @@ const HomeScreen = () => {
                   <div className='datosAceptado'></div>
                   <div className='acept'>
                       <p>Aceptado</p>
-                      <span className='porcent'>35%</span>
+                      <span className='porcent'>15%</span>
                   </div>
                 </div>
                 <div className='datos1'>
                   <div className='datosEnproceso'></div>
                   <div className='acept'>
                     <p>En proceso</p>
-                    <span className='porcent'>15%</span>
+                    <span className='porcent'>35%</span>
                   </div>
             
                 </div>
@@ -134,7 +134,7 @@ const HomeScreen = () => {
                   <div className='datosPendiente'></div>
                   <div className='acept'>
                   <p>Pendiente</p>
-                  <span className='porcent'>5%</span>
+                  <span className='porcent'>50%</span>
                   </div>
 
                 </div>

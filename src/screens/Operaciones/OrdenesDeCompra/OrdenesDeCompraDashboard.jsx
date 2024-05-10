@@ -44,6 +44,8 @@ const OrdenesDeCompraDashboard = () => {
   const getRowClickPath = (text)=>{
     return`/purchases/detail/${text.key}`;
   }
+
+
   return (
     <>
     {
@@ -108,8 +110,8 @@ const OrdenesDeCompraDashboard = () => {
       </div>
 
       <TableReusable
-        dataSource={ ordenesDeCompra
-          /*
+        dataSource={ //ordenesDeCompra
+          
           [ 
             {
               key:1,
@@ -139,7 +141,7 @@ const OrdenesDeCompraDashboard = () => {
               bruto: 200,
             },
           ]
-          */
+          
         }
         columns={
           [

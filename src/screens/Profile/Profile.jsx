@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PrincipalCard from '../../components/Card/PrincipalCard'
 import { CiEdit } from "react-icons/ci";
 import { MdImage } from "react-icons/md";
+import { AppContext } from '../../context/AppContext';
 
 
 const Profile = () => {
+  const { userLoggedData } = useContext(AppContext);
+
   return (
     <div >
         <h1>Mi Perfil</h1>
@@ -17,8 +20,8 @@ const Profile = () => {
               <div className='profile-img-container'>
                 <MdImage/>
               </div>
-              <h2>Juan Gonzalez</h2>
-              <span>Gestor Comercial</span>
+              <h2>{userLoggedData.data.nombre} {userLoggedData.data.apellido}</h2>
+              <span>{userLoggedData.data.cargo ? userLoggedData.data.cargo : 'Administrador'}</span>
             </div>
             <div style={{width:"100%",padding:"10px 0px"}}>
               <h2>Datos del perfil</h2>
@@ -26,15 +29,15 @@ const Profile = () => {
             {/*Segunda seccion*/}
             <div className='profile-grid'>
               <div className='column' style={{alignItems:"center"}}>
-                <span className='profile-grid-value'>+54 261 5734889</span>
+                <span className='profile-grid-value'>+{userLoggedData.data.celular}</span>
                 <span>N de telefono</span>
               </div>
               <div className='column' style={{alignItems:"center"}}>
-                <span className='profile-grid-value'>06/02/1997</span>
+                <span className='profile-grid-value'>-</span>
                 <span>Fecha de nacimiento</span>
               </div>
               <div className='column' style={{alignItems:"center"}}>
-                <span className='profile-grid-value'>appemail@gmail.com</span>
+                <span className='profile-grid-value'>{userLoggedData.data.email}</span>
                 <span>Email</span>
               </div>
             </div>

@@ -19,7 +19,7 @@ import NuevaListaDePrecio from '../../../screens/Empresa/ListaDePrecios/NuevaLis
 import NuevoUsuario from '../../../screens/Empresa/Usuarios/NuevoUsuario.jsx/NuevoUsuario'
 
 const EmpresaRoutes = [
-  //USUARIOS
+  //USUARIOS  
   <Route path='/users/my_profile' element={<PrivateStructure><Profile/></PrivateStructure>}/>,
   //<Route path='/users/:id/edit' element={ <PrivateStructure><EditProfile/></PrivateStructure>}/>,
   <Route path='/users/:id/edit' element={ <PrivateStructure><UsuarioEdit/></PrivateStructure>}/>,  

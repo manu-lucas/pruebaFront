@@ -8,10 +8,10 @@ import { DatePicker } from 'antd';
 import { Loader } from '../../components/Loader/Loader';
 import LogoLogin from '../../assets/assets/logo_login.svg';
 import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getOTs, getProyectos, getVentas } from '../../utils/api/Login/LoginFunction';
+import { useNavigate } from 'react-router-dom';
 
 const FirstStep = ({setStep}) =>{
-
-
+  const [ loading,setLoading ] = useState(false);
   const [ data,setData ] = useState({email:''})
 
   function sendCode (e) {
@@ -23,6 +23,7 @@ const FirstStep = ({setStep}) =>{
 
 
   async function sendEmail () {
+    setLoading(true)
     try{
       const response = await axios.post('https://appify-black-side.vercel.app/user/send-mail',data)
       console.log(response)
@@ -32,6 +33,7 @@ const FirstStep = ({setStep}) =>{
       localStorage.setItem('code_screen',2)
       localStorage.setItem('user_email',data.email)
       setStep(2)
+      setLoading(false)
     }
   }
 
@@ -69,10 +71,18 @@ const FirstStep = ({setStep}) =>{
           <div>
             <button 
             type="submit" 
-            className='login-button'>Enviar codigo</button>
+            className='login-button'>Enviar código</button>
           </div>
         </form>
       </div>
+
+      {
+        loading === true ?
+        <Loader label={'Enviando código'}/>
+        :
+        <></>
+      }
+
     </>
   )
 }
@@ -234,7 +244,7 @@ const ThirdStep = ({setStep}) =>{
 
 
   const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
-
+  const navigate = useNavigate()
 
   const [ loading,setLoading ] = useState(false);
   const dataInitialState = {
@@ -263,15 +273,27 @@ const ThirdStep = ({setStep}) =>{
   function registrarUsuario (e) {
     e.preventDefault()
     console.log(data)
-    //sendData(data)
+    sendData(data)
   }
 
   async function sendData (data) {
+    console.log('inicando')
     setLoading(true)
     try{
       const response = await axios.post('https://appify-black-side.vercel.app/user/register',data)
       console.log('usuario creado')
       console.log(response)
+//      setLoading(false)
+
+      const userData = {
+        data: response.data.payload.result[1],
+        email: data.email,
+        id: response.data.payload.result[0].id,
+        permisos: "all",
+        userType: "superusuario"
+      }
+
+      getLoginData(response.data.payload.result[0].id, userData)
 
     }catch (err){
       console.log('error')
@@ -282,10 +304,10 @@ const ThirdStep = ({setStep}) =>{
   }
 
 
-  async function getLoginData (userId){
+  async function getLoginData (userId,data){
     //Esta funcion es para hacer todas las llamsdas correspondoentes
     //proyectos
-    
+    setUserLoggedData(data)
     getProyectos(userId,setProyectos)
     getClientes(userId,setClientes)
     getOTs(userId,setOrdenesDeTrabajo)
@@ -295,6 +317,14 @@ const ThirdStep = ({setStep}) =>{
     getAllProducts(userId,setProducts)
     getOCs(userId,setOrdenesDeCompra)
     getVentas(userId,setVentas)
+    
+    localStorage.clear()
+    setLogged(true)
+    navigate('/')
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+
   }
 
   return(
@@ -416,12 +446,9 @@ const SignUpScreen = () => {
     }else{
       setStep(1)
     }
-    
     setTimeout(() => {
       setLoading(false)
     }, 1000);
-    
-    
   }
 
   function renderPrincipalComponent () {

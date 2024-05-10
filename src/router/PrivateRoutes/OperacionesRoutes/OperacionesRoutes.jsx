@@ -8,7 +8,7 @@ import NuevaODT from '../../../screens/Operaciones/OrdenesDeTrabajo/NuevaODT/Nue
 import NuevaODC from '../../../screens/Operaciones/OrdenesDeCompra/NuevaODC/NuevaODC';
 import ODCDetail from '../../../screens/Operaciones/OrdenesDeCompra/ODCDetail/ODCDetail';
 const OperacionesRoutes = [
-      //ORDENES DE TRABAJO
+      //ORDENES DE TRABAJO 
       <Route path='/work_orders' element={<PrivateStructure><OrdenesDeTrabajoDashboard/></PrivateStructure>}/>,
       <Route path='/work_orders/new' element={<PrivateStructure><NuevaODT/></PrivateStructure>}/>,
 

@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
     setProducts,
     setClientes,
     //setError,
-    //setLoading 
+    //setLoading s
   } = useContext(AppContext);
 
 

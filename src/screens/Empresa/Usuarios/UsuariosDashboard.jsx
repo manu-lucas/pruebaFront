@@ -26,6 +26,10 @@ const UsuariosDashboard = () => {
         return <UsuariosDesactivados/>
     }
   }
+  const getRowClickPath = (record) => {
+    return `/users/${record.id}`;
+  };
+
   return (
     <>
     <div className='principal-container-column'>
@@ -91,7 +95,8 @@ const UsuariosDashboard = () => {
             }
             */
           ]}
-          onRowClick={false} 
+          onRowClick={true} 
+          getRowClickPath={getRowClickPath} 
         />
         
       </div>
