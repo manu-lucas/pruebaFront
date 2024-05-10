@@ -235,7 +235,7 @@ const ThirdStep = ({setStep}) =>{
 
   const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
 
-  
+
   const [ loading,setLoading ] = useState(false);
   const dataInitialState = {
       nombre: null,
@@ -443,14 +443,11 @@ const SignUpScreen = () => {
 
   return (
     <>
-      {
-        loading === true ?
-        <div>Loading...</div>
-        :
+      
         <div className="login-bg">
           {renderPrincipalComponent()}
         </div>
-      }
+      
     </>
   )
 }

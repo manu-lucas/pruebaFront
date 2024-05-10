@@ -18,15 +18,21 @@ import SelectComp from '../../../../components/Select/SelectComp';
 
 /*STEPS*/
 
-const FirstStep = ({setStep}) =>{
+const FirstStep = ({setStep,tipoDeDocumento,setTipoDeDocumento,tipoDeNota,setTipoDeNota,tipoDeDocumentoRelacionado,setTipoDeDocumentoRelacionado,vendedor,setVendedor,condicionDePago,setCondicionDePago,centoBeneficio,setCentoBeneficio  }) =>{
 
-  const selectedDocumentInitialState = {
-    label:'Factura',
-    value:1
+  const { subusuarios } = useContext(AppContext)
+
+
+  function restructuredData(subusuarios) {
+    const vendedores = subusuarios.map((item)=>{
+      return {
+        ...item, value: item.id, label: item.nombre
+      }
+    })
+
+    return vendedores
   }
 
-  const [selectedDocument,setSelectedDocument] = useState(selectedDocumentInitialState);
-  
   return(
     <div className='principal-container-column'>
       <h2 style={{fontSize:20}}>Información de documento</h2>
@@ -35,7 +41,7 @@ const FirstStep = ({setStep}) =>{
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
           <SelectComp
-            value={selectedDocument.value}
+            value={tipoDeDocumento.value}
             options={[
               {
                 label:'Factura',
@@ -60,17 +66,41 @@ const FirstStep = ({setStep}) =>{
             ]}
 
             HandleChange={(value,record)=>{
-              setSelectedDocument(record)
-              console.log('documento seleccionado')
-              console.log(record)
+              setTipoDeNota(null)
+              setTipoDeDocumentoRelacionado(null)
+              setVendedor(null)
+              setCondicionDePago(null)
+              setCentoBeneficio(null)
+              setTipoDeDocumento(record)
+              
             }}
           />
         </div>
         {
-          selectedDocument.value === 3 || selectedDocument.value === 4 ?
+          tipoDeDocumento.value === 3 || tipoDeDocumento.value === 4 ?
           <div className='column' style={{gap:5}}>
-            <span className='form-label'>Tipo de nota de crédito <span style={{color:"red"}}>*</span></span>
-            <SelectComponent/>
+            <span className='form-label'>Tipo de nota <span style={{color:"red"}}>*</span></span>
+            <SelectComp
+              placeholder={'seleccionar el tipo de nota'}
+              value={tipoDeNota ? tipoDeNota.value : null} 
+              HandleChange={(value,record)=>{
+                setTipoDeNota(record)
+              }}
+              options={[
+                {
+                  label: 'Anula documento de referencia',
+                  value:1
+                },
+                {
+                  label: 'Corrige texto documento de referencia',
+                  value:2
+                },
+                {
+                  label: 'Corrige montos en documentos de referencia',
+                  value:3
+                },
+              ]}
+            />
           </div>
           :
           <div className='column' style={{gap:5}}>
@@ -80,43 +110,44 @@ const FirstStep = ({setStep}) =>{
         }
       </div>
       {
-        selectedDocument.value === 3 || selectedDocument.value === 4 ?
-        <>
-          <div className='form-grid'>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
-              <DatePicker picker='week'/>
-            </div>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Destinatario <span style={{color:"red"}}>*</span></span>
-              <input style={{padding:8}} placeholder='Ingrese el nombre del destinatario'/>
-            </div>
-          </div>
-
-          <div className='form-grid'>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
-              <SelectComponent/>
-            </div>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Condición de pago</span>
-              <SelectComponent/>
-            </div>
-          </div>
-
-          <div className='form-grid'>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Centro de beneficio</span>
-              <SelectComponent/>
-            </div>
-          </div>
-        </>
-        :
+        tipoDeDocumento.value === 3 || tipoDeDocumento.value === 4 ?
         <>
           <div className='form-grid'>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>Tipo de documento relacionado <span style={{color:"red"}}>*</span></span>
-              <SelectComponent/>
+              <SelectComp 
+                placeholder={'Sleccionat documento relacionado'}
+                value={tipoDeDocumentoRelacionado ? tipoDeDocumentoRelacionado.value : null}
+                HandleChange={(text,record)=>{
+                  setTipoDeDocumentoRelacionado(record)
+                }}
+                options={ [
+                  {
+                    label: 'Factura',
+                    value:1
+                  },
+                  {
+                    label: 'Factura exenta',
+                    value:2
+                  },
+                  {
+                    label: 'Factura de exportacion',
+                    value:3
+                  },
+                  {
+                    label: 'Boleta',
+                    value:4
+                  },
+                  {
+                    label: 'Boleta exenta',
+                    value:5
+                  },
+                  {
+                    label: 'Nota de credito',
+                    value:6
+                  }
+                ]}
+              />
             </div>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>N° de documento relacionado </span>
@@ -138,10 +169,147 @@ const FirstStep = ({setStep}) =>{
           <div className='form-grid'>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>Centro de beneficio </span>
-              <SelectComponent/>
+              <SelectComp
+                value={centoBeneficio ? centoBeneficio.value : null}
+                HandleChange={(text,record)=>{
+                  setCentoBeneficio(record)
+                }}
+                placeholder={'seleccionar el centro de beneficio'} 
+                options={[
+                  { label: "Ajustes de centralizacion", value: 1 },
+                  { label: "Arriendos y leasing", value: 2 },
+                  { label: "Cargos e interes bancarios", value: 3 },
+                  { label: "Comidas y entretenimiento", value: 4 },
+                  { label: "Contratistas", value: 5 },
+                  { label: "Costo insumos, materiales y productos", value: 6 },
+                  { label: "Cuentas servicios basicos", value: 7 },
+                  { label: "Diferencias tipo cambio", value: 8 },
+                  { label: "Gasto sin documento tributario", value: 9 },
+                  { label: "Gastos reembolsables", value: 10 },
+                  { label: "Gastos sin clasificar", value: 11 },
+                  { label: "Impuestos y patentes", value: 12 },
+                  { label: "Intereses y gastos financieros", value: 13 },
+                  { label: "Iva no recuperable", value: 14 },
+                  { label: "Otros gastos de negocio", value: 15 },
+                  { label: "Otros gastos misceláneos", value: 16 },
+                  { label: "Otros ingresos no operacionales", value: 17 },
+                  { label: "Preguntar a mi contador", value: 18 },
+                  { label: "Remuneraciones socios", value: 19 },
+                  { label: "Seguros", value: 20 },
+                  { label: "Servicios Legales y Profesionales", value: 21 },
+                  { label: "Sueldos y remuneraciones personal", value: 22 },
+                  { label: "Suministros de oficina y software", value: 23 },
+                  { label: "Vehiculos y gastos asociados", value: 24 },
+                  { label: "Ventas", value: 25 },
+                  { label: "Ventas sin documentos tributarios", value: 26 },
+                  { label: "Viajes", value: 27 }
+                ]}
+              />
             </div>
           </div>
         </>
+        :
+        <>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
+              <DatePicker picker='week'/>
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Destinatario <span style={{color:"red"}}>*</span></span>
+              <input style={{padding:8}} placeholder='Ingrese el nombre del destinatario'/>
+            </div>
+          </div>
+
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
+              <SelectComp
+                value={vendedor ? vendedor.value : null}
+                placeholder={'Seleccionar vendedor'}
+                options={restructuredData (subusuarios)}
+                HandleChange={(text,record)=>{
+                  setVendedor(record)
+                }}
+              />
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Condición de pago</span>
+              <SelectComp
+              value={condicionDePago ? condicionDePago.value : null}
+              HandleChange={(text,record)=>{
+                setCondicionDePago(record)
+              }}
+              placeholder={'Seleccionar condición de pago'}
+              options={[
+                {
+                  value: '1',
+                  label: '10 días'
+                },
+                {
+                  value: '2',
+                  label: '15 días'
+                },
+                {
+                  value: '3',
+                  label: '30 días'
+                },
+                {
+                  value: '4',
+                  label: '45 días'
+                },
+                {
+                  value: '5',
+                  label: 'condición creada por el cliente'
+                },
+              ]}
+              />
+            </div>
+          </div>
+
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Centro de beneficio</span>
+              <SelectComp
+                value={centoBeneficio ? centoBeneficio.value : null}
+                HandleChange={(text,record)=>{
+                  setCentoBeneficio(record)
+                }}
+                placeholder={'seleccionar el centro de beneficio'} 
+                options={[
+                  { label: "Ajustes de centralizacion", value: 1 },
+                  { label: "Arriendos y leasing", value: 2 },
+                  { label: "Cargos e interes bancarios", value: 3 },
+                  { label: "Comidas y entretenimiento", value: 4 },
+                  { label: "Contratistas", value: 5 },
+                  { label: "Costo insumos, materiales y productos", value: 6 },
+                  { label: "Cuentas servicios basicos", value: 7 },
+                  { label: "Diferencias tipo cambio", value: 8 },
+                  { label: "Gasto sin documento tributario", value: 9 },
+                  { label: "Gastos reembolsables", value: 10 },
+                  { label: "Gastos sin clasificar", value: 11 },
+                  { label: "Impuestos y patentes", value: 12 },
+                  { label: "Intereses y gastos financieros", value: 13 },
+                  { label: "Iva no recuperable", value: 14 },
+                  { label: "Otros gastos de negocio", value: 15 },
+                  { label: "Otros gastos misceláneos", value: 16 },
+                  { label: "Otros ingresos no operacionales", value: 17 },
+                  { label: "Preguntar a mi contador", value: 18 },
+                  { label: "Remuneraciones socios", value: 19 },
+                  { label: "Seguros", value: 20 },
+                  { label: "Servicios Legales y Profesionales", value: 21 },
+                  { label: "Sueldos y remuneraciones personal", value: 22 },
+                  { label: "Suministros de oficina y software", value: 23 },
+                  { label: "Vehiculos y gastos asociados", value: 24 },
+                  { label: "Ventas", value: 25 },
+                  { label: "Ventas sin documentos tributarios", value: 26 },
+                  { label: "Viajes", value: 27 }
+                ]}
+              />
+            </div>
+          </div>
+        </>
+        
       }
 
 
@@ -154,7 +322,7 @@ const FirstStep = ({setStep}) =>{
 }
 
 
-const SecondStep = ({setStep}) =>{
+const SecondStep = ({setStep,referenciaADocumentosExternos,setReferenciaADocumentosExternos,tipoDeDocumentoExterno,setTipoDeDocumentoExterno }) =>{
   const [value, setValue] = useState(null);
   const [ pslist,setPslist ] = useState([])
 
@@ -163,7 +331,7 @@ const SecondStep = ({setStep}) =>{
     if(e.target.value === 2){
       setPslist([])
     }
-    setValue(e.target.value);
+    setReferenciaADocumentosExternos(e.target.value)
   };
 
 
@@ -252,20 +420,24 @@ const SecondStep = ({setStep}) =>{
       <div className='form-grid'>
         <div className='column' style={{gap:15, justifyContent:"center"}}>
           <span className='form-label'>Referencia a documentos externos</span>
-          <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Si</Radio>
-            <Radio value={2}>No</Radio>
+          <Radio.Group onChange={onChange} value={referenciaADocumentosExternos}>
+            <Radio value={true}>Si</Radio>
+            <Radio value={false}>No</Radio>
           </Radio.Group>
         </div>
       </div>
 
       {
-        value === 1?
+        referenciaADocumentosExternos === true?
         <>
           <div className='form-grid'>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
               <SelectComp 
+              value={tipoDeDocumentoExterno ? tipoDeDocumentoExterno.value : null}
+              HandleChange={(text,record)=>{
+                setTipoDeDocumentoExterno(record)
+              }}
               options={[
                 {
                   label:'Factura',
@@ -324,7 +496,7 @@ const SecondStep = ({setStep}) =>{
 }
 
 
-const ThirdStep = ({setStep}) =>{
+const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOrdenesDeTrabajoList,ordenDeTrabajoSelected,setOrdenDeTrabajoSelected }) =>{
 
   const { ordenesDeTrabajo } = useContext(AppContext)
   useEffect(() => {
@@ -342,14 +514,7 @@ const ThirdStep = ({setStep}) =>{
 
     return updateData
   }
-/*
-  function restructuredOT () {
-    const updateData = ordenesDeTrabajo.map((item)=>{
-      return {...item,label:item.}
-    })
 
-  }
-*/
   const [value, setValue] = useState(1);
 
   const [ pslist,setPslist ] = useState([])
@@ -358,12 +523,18 @@ const ThirdStep = ({setStep}) =>{
   const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setPslist([])
+    setOrdenDeTrabajoSelected(null)
     setValue(e.target.value);
+    setVincularOT(e.target.value)
   };
 
 
 
   function addOT (){
+    if(ordenDeTrabajoSelected){
+      setOrdenesDeTrabajoList([...ordenesDeTrabajoList,ordenDeTrabajoSelected])
+    }
+    /*
     setPslist([...pslist,{
       key:1+pslist.length,
       ot: 'N-1232',
@@ -374,6 +545,7 @@ const ThirdStep = ({setStep}) =>{
       neto:1400,
       bruto:1400
     }])
+    */
   }
 
   function addItem (){
@@ -539,17 +711,22 @@ const ThirdStep = ({setStep}) =>{
       <div className='form-grid'>
         <div className='column' style={{gap:15, justifyContent:"center"}}>
           <span className='form-label'>Vincular a orden de trabajo</span>
-          <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Si</Radio>
-            <Radio value={2}>No</Radio>
+          <Radio.Group onChange={onChange} value={vincularOT}>
+            <Radio value={true}>Si</Radio>
+            <Radio value={false}>No</Radio>
           </Radio.Group>
         </div>
         <div className='column' style={{gap:5}}>
           {
-            value === 1?
+            vincularOT === true?
             <>
               <span className='form-label'>Orden de trabajo <span style={{color:"red"}}>*</span></span>
               <SelectComp 
+                value={ordenDeTrabajoSelected ? ordenDeTrabajoSelected.value : null}
+                HandleChange={(text,record)=>{
+                  console.log(record)
+                  setOrdenDeTrabajoSelected(record)
+                }}
                 options={restructuredOTs(ordenesDeTrabajo)}
               />
             </>
@@ -562,62 +739,96 @@ const ThirdStep = ({setStep}) =>{
         </div>
       </div>
       {
-        value === 1 ?
+        vincularOT === true ?
         <>
-          <div className='principal-grid grid-3-columns'>
-            
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Id</span>
-              <input style={{padding:8}}/>
-            </div>
+          {
+            ordenDeTrabajoSelected ?
+            <>
+              {
+                ordenDeTrabajoSelected.productos_servicios.productos.map((item)=>
+                <>
+                  <div className='principal-grid grid-3-columns'>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Id</span>
+                      <input style={{padding:8}} value={item.id}/>
+                    </div>
 
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Producto/Servicio</span>
-              <input style={{padding:8}}/>
-            </div>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Producto/Servicio</span>
+                      <input style={{padding:8}} value={item.nombre}/>
+                    </div>
+                    
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
+                      <input style={{padding:8}} placeholder='Ingrese la cantidad' value={item.cantidad}/>
+                    </div>        
+                  </div>
+                  <div className='principal-grid grid-3-columns' style={{marginBottom:30}}>
             
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
-              <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
-            </div>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>%</span>
+                      <input style={{padding:8}} value={item.porcentaje_descuento}/>
+                    </div>
 
-          </div>
-          
-          <div className='principal-grid grid-3-columns'>
-            
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>%</span>
-              <input style={{padding:8}}/>
-            </div>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Neto</span>
+                      <input style={{padding:8}} value={(item.total - item.precio).toFixed(2)}/>
+                    </div>
+                    
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Bruto </span>
+                      <input style={{padding:8}} value={item.total}/>
+                    </div>
 
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Neto</span>
-              <input style={{padding:8}}/>
-            </div>
-            
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Bruto </span>
-              <input style={{padding:8}}/>
-            </div>
+                  </div>
+                </>
+                
+                )
+              }
 
-          </div>
-          
-          <div className='container-item-flex-end'>
-              <div className='column' style={{boxSizing:"border-box",padding:20}}>
-                <div className='row'>
-                  <span style={{fontWeight:600}}>SubTotal: </span>
-                  <span>$</span>
+            </>
+            :
+            <>
+              <div className='principal-grid grid-3-columns'>
+                <div className='column' style={{gap:5}}>
+                  <span className='form-label'>Id</span>
+                  <input style={{padding:8}}/>
                 </div>
-                <div className='row'>
-                  <span style={{fontWeight:600}}>IVA (19%): </span>
-                  <span>$</span>
+
+                <div className='column' style={{gap:5}}>
+                  <span className='form-label'>Producto/Servicio</span>
+                  <input style={{padding:8}}/>
                 </div>
-                <div className='row'>
-                  <span style={{fontWeight:600}}>Total: </span>
-                  <span>$</span>
-                </div>
+                  
+                <div className='column' style={{gap:5}}>
+                  <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
+                  <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
+                </div>              
+
               </div>
-          </div>
+
+              <div className='principal-grid grid-3-columns'>
+            
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>%</span>
+                      <input style={{padding:8}}/>
+                    </div>
+
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Neto</span>
+                      <input style={{padding:8}}/>
+                    </div>
+                    
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Bruto </span>
+                      <input style={{padding:8}}/>
+                    </div>
+
+              </div>
+            </>
+          }
+          
+          
 
           <div className='form-grid'>
             <div className='column' style={{gap:5}}>
@@ -782,15 +993,66 @@ const NuevoDocumentoDeVenta = () => {
   //DATA 
   const dataInitialState = {
     numero_documento: null,
+    numero_documento_relacionado: null,
+    motivo_referencia: null,
+    fecha: null
   }
-  const [ data,setData ] = useState()
+  const [ data,setData ] = useState(dataInitialState)
 
+  //TIPO DE DOCUMENTO
   const tipoDeDocumentoInitialState = {
     label:'Factura',
     value:1
   }
-  const [ tipoDeDocumento,setTipoDeDocumento ] = useState()
+  const [ tipoDeDocumento,setTipoDeDocumento ] = useState(tipoDeDocumentoInitialState)
 
+
+  //TIPO DE NOTA
+
+  const [ tipoDeNota,setTipoDeNota ] = useState(null)
+
+  //TIPO DE DOCUMENTO RELACIONADO
+  
+  const [ tipoDeDocumentoRelacionado,setTipoDeDocumentoRelacionado ] = useState(null)
+
+
+
+  //VENDEDOR
+  const [ vendedor,setVendedor ] = useState(null)
+
+
+  //CENTRO BENEFICIO
+  const [centoBeneficio,setCentoBeneficio ] = useState(null)
+
+  //DOCUMENTOS EXTERNOS
+  const [ documentosExternosList,setDocumentosExternosList ] = useState([])
+
+  //ORDENES DE TRABAJO VINCULADAS
+  const [ vincularOT, setVincularOT ] = useState(true)
+
+
+  const [ ordenesDeTrabajoList,setOrdenesDeTrabajoList ] = useState([])
+
+  const [ ordenDeTrabajoSelected,setOrdenDeTrabajoSelected ] = useState(null)
+
+  //ALTERNATIVA A ORDENES DE TRABAJO VINCULADAS
+
+  const [ alterordenesDeTrabajoList,setAlterOrdenesDeTrabajoList ] = useState([])
+
+  //CONDICION DE PAGO
+
+  const [ condicionDePago,setCondicionDePago ] = useState(null)
+
+
+  //GUIA ASOCIADA
+
+  const [ guia,setGuia ] = useState(null)
+
+
+  //Referencia a documentos externos value
+  const [ referenciaADocumentosExternos,setReferenciaADocumentosExternos ] = useState(null)
+
+  const [ tipoDeDocumentoExterno,setTipoDeDocumentoExterno ] = useState(null)
 
   const [ step,setStep ] = useState(1);
 
@@ -798,13 +1060,13 @@ const NuevoDocumentoDeVenta = () => {
   function formSetupSteps (){
     switch (step) {
       case 1:
-        return <FirstStep setStep={setStep}/>
+        return <FirstStep setStep={setStep} tipoDeDocumento={tipoDeDocumento} setTipoDeDocumento={setTipoDeDocumento}tipoDeNota={tipoDeNota} setTipoDeNota={setTipoDeNota} setTipoDeDocumentoRelacionado={setTipoDeDocumentoRelacionado} tipoDeDocumentoRelacionado={tipoDeDocumentoRelacionado} vendedor={vendedor} setVendedor={setVendedor} condicionDePago={condicionDePago} setCondicionDePago={setCondicionDePago} centoBeneficio={centoBeneficio} setCentoBeneficio={setCentoBeneficio}/>
       
       case 2:
-        return <SecondStep setStep={setStep}/>
+        return <SecondStep setStep={setStep} referenciaADocumentosExternos={referenciaADocumentosExternos} setReferenciaADocumentosExternos={setReferenciaADocumentosExternos} tipoDeDocumentoExterno={tipoDeDocumentoExterno} setTipoDeDocumentoExterno={setTipoDeDocumentoExterno}/>
       
       case 3:
-        return <ThirdStep setStep={setStep}/>
+        return <ThirdStep setStep={setStep} setVincularOT={setVincularOT} vincularOT={vincularOT} ordenDeTrabajoSelected={ordenDeTrabajoSelected} setOrdenDeTrabajoSelected={setOrdenDeTrabajoSelected} ordenesDeTrabajoList={ordenesDeTrabajoList} setOrdenesDeTrabajoList={setOrdenesDeTrabajoList}/>
         
       case 4:
         return <FourthStep setStep={setStep}/>
