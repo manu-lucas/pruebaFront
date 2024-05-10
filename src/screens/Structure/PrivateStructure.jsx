@@ -41,6 +41,8 @@ import './PrivateStructure.css'
 import Overlay from '../../components/Overlay/Overlay';
 
 const PrivateStructure = ({ children }) => {
+
+  const { userLoggedData } = useContext(AppContext)
   
   const { modal,setModal,setLogged,menuOptions,setMenuOptions } = useContext(AppContext);
 
@@ -543,8 +545,14 @@ const PrivateStructure = ({ children }) => {
               <div className='private-header-user-container'>
                 <div className='private-header-user-img'></div>
                 <div style={{display:"flex",flexDirection:"column",gap:4,fontSize:11}}>
-                  <span style={{fontSize:12,fontWeight:600}}>Juan</span>
-                  <span style={{fontWeight:300}}>Asesor Comercial</span>
+                  <span style={{fontSize:12,fontWeight:600}}>{ userLoggedData.data.nombre } </span>
+                  {
+                    userLoggedData.data.cargo ?
+                    <span style={{fontWeight:300}}>{userLoggedData.data.cargo}</span>
+                    :
+                    <span style={{fontWeight:300}}>Invitado</span>
+
+                  }
                 </div>
               </div>
               <div  style={{fontSize:20
