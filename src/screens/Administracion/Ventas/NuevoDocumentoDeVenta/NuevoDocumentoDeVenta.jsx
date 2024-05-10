@@ -14,10 +14,19 @@ import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FiDownload } from 'react-icons/fi';
+import SelectComp from '../../../../components/Select/SelectComp';
 
 /*STEPS*/
 
 const FirstStep = ({setStep}) =>{
+
+  const selectedDocumentInitialState = {
+    label:'Factura',
+    value:1
+  }
+
+  const [selectedDocument,setSelectedDocument] = useState(selectedDocumentInitialState);
+  
   return(
     <div className='principal-container-column'>
       <h2 style={{fontSize:20}}>Información de documento</h2>
@@ -25,42 +34,115 @@ const FirstStep = ({setStep}) =>{
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>N° de documento</span>
-          <input style={{padding:8}} placeholder='Ingrese el número del documento'/>
-        </div>
-      </div>
+          <SelectComp
+            value={selectedDocument.value}
+            options={[
+              {
+                label:'Factura',
+                value:1
+              },
+              {
+                label:'Factura exenta',
+                value:2
+              },
+              {
+                label:'Nota de credito',
+                value:3
+              },
+              {
+                label:'Nota de debito',
+                value:4
+              },
+              {
+                label:'Voucher de venta',
+                value:5
+              },
+            ]}
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
-          <DatePicker picker='week'/>
+            HandleChange={(value,record)=>{
+              setSelectedDocument(record)
+              console.log('documento seleccionado')
+              console.log(record)
+            }}
+          />
         </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Destinatario <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese el nombre del destinatario'/>
-        </div>
+        {
+          selectedDocument.value === 3 || selectedDocument.value === 4 ?
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Tipo de nota de crédito <span style={{color:"red"}}>*</span></span>
+            <SelectComponent/>
+          </div>
+          :
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>N° de documento</span>
+            <input style={{padding:8}} placeholder='Ingrese el número del documento'/>
+          </div>
+        }
       </div>
+      {
+        selectedDocument.value === 3 || selectedDocument.value === 4 ?
+        <>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
+              <DatePicker picker='week'/>
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Destinatario <span style={{color:"red"}}>*</span></span>
+              <input style={{padding:8}} placeholder='Ingrese el nombre del destinatario'/>
+            </div>
+          </div>
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Condición de pago</span>
-          <SelectComponent/>
-        </div>
-      </div>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
+              <SelectComponent/>
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Condición de pago</span>
+              <SelectComponent/>
+            </div>
+          </div>
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Centro de beneficio</span>
-          <SelectComponent/>
-        </div>
-      </div>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Centro de beneficio</span>
+              <SelectComponent/>
+            </div>
+          </div>
+        </>
+        :
+        <>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Tipo de documento relacionado <span style={{color:"red"}}>*</span></span>
+              <SelectComponent/>
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>N° de documento relacionado </span>
+              <input style={{padding:8}} placeholder='Ingrese el número del documento'/>
+            </div>
+          </div>
+
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Motivo de referencia </span>
+              <input style={{padding:8}} placeholder='Ingrese el motivo del documento'/>
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
+              <DatePicker picker='week'/>
+            </div>
+          </div>
+
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Centro de beneficio </span>
+              <SelectComponent/>
+            </div>
+          </div>
+        </>
+      }
 
 
       <div className='container-item-flex-end' style={{marginTop:30}}>
@@ -71,63 +153,8 @@ const FirstStep = ({setStep}) =>{
   )
 }
 
+
 const SecondStep = ({setStep}) =>{
-
-  return(
-    <div className='principal-container-column'>
-      <h2 style={{fontSize:20}}>Información de documento</h2>
-
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Tipo de nota de crédito <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-      </div>
-
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Tipo de documento relacionado <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>N° de documento relacionado </span>
-          <input style={{padding:8}} placeholder='Ingrese el número del documento'/>
-        </div>
-      </div>
-
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Motivo de referencia </span>
-          <input style={{padding:8}} placeholder='Ingrese el motivo del documento'/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
-          <DatePicker picker='week'/>
-        </div>
-      </div>
-
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Centro de beneficio </span>
-          <SelectComponent/>
-        </div>
-      </div>
-
-
-      <div className='row-space-btw' style={{marginTop:30}}>
-        <FormerBtn setStep={setStep} value={1}/>
-        <FollowingBtn setStep={setStep} value={3}/>
-      </div>
-
-    </div>
-  )
-}
-
-const ThirdStep = ({setStep}) =>{
   const [value, setValue] = useState(null);
   const [ pslist,setPslist ] = useState([])
 
@@ -238,7 +265,31 @@ const ThirdStep = ({setStep}) =>{
           <div className='form-grid'>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>Tipo de documento <span style={{color:"red"}}>*</span></span>
-              <SelectComponent/>
+              <SelectComp 
+              options={[
+                {
+                  label:'Factura',
+                  value:1
+                },
+                {
+                  label:'Factura exenta',
+                  value:2
+                },
+                {
+                  label:'Nota de credito',
+                  value:3
+                },
+                {
+                  label:'Nota de debito',
+                  value:4
+                },
+                {
+                  label:'Voucher de venta',
+                  value:5
+                },
+              ]}
+              
+              />
             </div>
             <div className='column' style={{gap:5}}>
               <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
@@ -265,15 +316,40 @@ const ThirdStep = ({setStep}) =>{
       }
 
       <div className='row-space-btw' style={{marginTop:30}}>
-        <FormerBtn setStep={setStep} value={2}/>
-        <FollowingBtn setStep={setStep} value={4}/>
+        <FormerBtn setStep={setStep} value={1}/>
+        <FollowingBtn setStep={setStep} value={3}/>
       </div>
     </div>
   )
 }
 
 
-const FourthStep = ({setStep}) =>{
+const ThirdStep = ({setStep}) =>{
+
+  const { ordenesDeTrabajo } = useContext(AppContext)
+  useEffect(() => {
+    console.log(ordenesDeTrabajo)
+  }, [])
+  
+
+  function restructuredOTs () {
+    const updateData = ordenesDeTrabajo.map((item)=>{
+      return {
+        ...item, label: `OT-${item.orden.slice(-4)} | ${item.cliente}`,
+        value: item.orden
+      }
+    })
+
+    return updateData
+  }
+/*
+  function restructuredOT () {
+    const updateData = ordenesDeTrabajo.map((item)=>{
+      return {...item,label:item.}
+    })
+
+  }
+*/
   const [value, setValue] = useState(1);
 
   const [ pslist,setPslist ] = useState([])
@@ -473,7 +549,9 @@ const FourthStep = ({setStep}) =>{
             value === 1?
             <>
               <span className='form-label'>Orden de trabajo <span style={{color:"red"}}>*</span></span>
-              <SelectComponent/>
+              <SelectComp 
+                options={restructuredOTs(ordenesDeTrabajo)}
+              />
             </>
             :
             <>
@@ -619,8 +697,8 @@ const FourthStep = ({setStep}) =>{
 
 
       <div className='row-space-btw' style={{marginTop:30}}>
-        <FormerBtn setStep={setStep} value={3}/>
-        <FollowingBtn setStep={setStep} value={5}/>
+        <FormerBtn setStep={setStep} value={2}/>
+        <FollowingBtn setStep={setStep} value={4}/>
       </div>
 
 
@@ -630,7 +708,7 @@ const FourthStep = ({setStep}) =>{
   )
 }
 
-const FifthStep = ({setStep}) =>{
+const FourthStep = ({setStep}) =>{
 
 
   function createDV () {
@@ -701,6 +779,18 @@ const NuevoDocumentoDeVenta = () => {
   }, [])
 
 
+  //DATA 
+  const dataInitialState = {
+    numero_documento: null,
+  }
+  const [ data,setData ] = useState()
+
+  const tipoDeDocumentoInitialState = {
+    label:'Factura',
+    value:1
+  }
+  const [ tipoDeDocumento,setTipoDeDocumento ] = useState()
+
 
   const [ step,setStep ] = useState(1);
 
@@ -719,8 +809,7 @@ const NuevoDocumentoDeVenta = () => {
       case 4:
         return <FourthStep setStep={setStep}/>
 
-      case 5:
-        return <FifthStep setStep={setStep}/>
+      
       
     }
   }
@@ -737,7 +826,7 @@ const NuevoDocumentoDeVenta = () => {
         <Success message={'Documento creado con éxito!'}/>
         :
         <PrincipalCard>
-          <div className='step-container step-container-5-steps'>
+          <div className='step-container step-container-4-steps'>
             <div className='step-container-item'>
               <div className={ step >= 2 ? 'step-item-bar-cta' : 'step-item-bar' }></div>
               <div className='step-item-dot-cta' style={{left:-20}}>1</div>
@@ -752,10 +841,7 @@ const NuevoDocumentoDeVenta = () => {
               <div className={step >= 4 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
               <div className={step >= 4 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>4</div>
             </div>
-            <div className='step-container-item'>
-              <div className={step >= 5 ? 'step-item-bar-cta' : 'step-item-bar'}></div>
-              <div className={step >= 5 ? 'step-item-dot-cta' : 'step-item-dot'} style={{right:-20}}>5</div>
-            </div>
+            
           </div>
 
           <form className='step-form'>

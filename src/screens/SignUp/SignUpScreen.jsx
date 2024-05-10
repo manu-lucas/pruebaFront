@@ -7,6 +7,7 @@ import { display } from '@mui/system';
 import { DatePicker } from 'antd';
 import { Loader } from '../../components/Loader/Loader';
 import LogoLogin from '../../assets/assets/logo_login.svg';
+import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getOTs, getProyectos, getVentas } from '../../utils/api/Login/LoginFunction';
 
 const FirstStep = ({setStep}) =>{
 
@@ -230,8 +231,12 @@ const SecondStep = ({setStep}) =>{
 }
 
 const ThirdStep = ({setStep}) =>{
-  const [ loading,setLoading ] = useState(false);
+
+
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
+
   
+  const [ loading,setLoading ] = useState(false);
   const dataInitialState = {
       nombre: null,
       apellido: null,
@@ -258,15 +263,16 @@ const ThirdStep = ({setStep}) =>{
   function registrarUsuario (e) {
     e.preventDefault()
     console.log(data)
-    sendData(data)
+    //sendData(data)
   }
 
   async function sendData (data) {
-    
+    setLoading(true)
     try{
       const response = await axios.post('https://appify-black-side.vercel.app/user/register',data)
       console.log('usuario creado')
       console.log(response)
+
     }catch (err){
       console.log('error')
       console.log(err)
@@ -275,6 +281,21 @@ const ThirdStep = ({setStep}) =>{
     }
   }
 
+
+  async function getLoginData (userId){
+    //Esta funcion es para hacer todas las llamsdas correspondoentes
+    //proyectos
+    
+    getProyectos(userId,setProyectos)
+    getClientes(userId,setClientes)
+    getOTs(userId,setOrdenesDeTrabajo)
+    getAllUsers(userId,setSubusuarios)
+    getAllProviders(userId,setProveedores)
+    //getAllProductos(userId)
+    getAllProducts(userId,setProducts)
+    getOCs(userId,setOrdenesDeCompra)
+    getVentas(userId,setVentas)
+  }
 
   return(
     <>
@@ -359,6 +380,7 @@ const ThirdStep = ({setStep}) =>{
         <></>
       }
 
+      
     </>
 
   )
