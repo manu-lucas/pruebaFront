@@ -214,6 +214,8 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
 
   const [ selectedProduct,setSelectedProduct ] = useState(null)
 
+  const [ loading,setLoading ] = useState(false)
+
   function productosRestructured (arrayProductos) {
     const filterProducts = arrayProductos.filter((item)=>item.activo === true) 
     const updateData = filterProducts.map((item)=>{
@@ -265,22 +267,71 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
   }
 
 
+  function precioTotal() {
+    let total = 0
+    if(selectedProduct){
+      total = total + parseFloat(selectedProduct.precio)
+    }
+    if(productsList.length !== 0){
+      productsList.forEach(element => {
+        total = total += parseFloat(element.precio)
+      });
+    }
+    return total
+
+  }
+
+  function ivaTotal() {
+    let total = 0
+    if(selectedProduct){
+      total = total + parseFloat(selectedProduct.iva_value)
+    }
+    if(productsList.length !== 0){
+      productsList.forEach(element => {
+        total = total += parseFloat(element.iva_value)
+      });
+    }
+    return total
+
+  }
+
+
+
   const [disabled, setDisabled] = useState(false);
   
   const [ pslist,setPslist ] = useState([])
 
 
   function addProductoServicio (){
-    setPslist([...pslist,{
-      key:1+pslist.length,
-      producto: `producto ${1+pslist.length}`,
-      cantidad: 1,
-      precio: 2300,
-      porcentaje: 0,
-      neto: 2450,
-      iva: 19,
-      total: 2600
-    }])
+    setLoading(true)
+    if(selectedProduct){
+      const findProducto = productsList.find((item)=>item.id === selectedProduct.id)
+      if(findProducto){
+        //ya existe
+        const updateData = productsList.map((item)=>{
+          if(item.id === selectedProduct.id){
+            return {...item,cantidad:item.cantidad+1}
+          }
+          return item
+        })
+        setProductsList(updateData)
+        setSelectedProduct(null)
+      }else{
+        setProductsList([...productsList, selectedProduct])
+        setSelectedProduct(null)
+      }
+      setTimeout(() => {
+        setLoading(false)        
+      }, 100);
+
+    }else{
+      setSelectedProduct(null)
+      console.log('no hay producto seleccionado')
+      setTimeout(() => {
+        setLoading(false)        
+      }, 100);
+    }
+    
   }
 
   return(
@@ -301,18 +352,18 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
       </div>
 
       {
-          pslist.length === 0 ?
+          productsList.length === 0 ?
           <></>
           :
           <div style={{width:"100%",alignItems:"center"}}>
             <Table
-              dataSource={pslist}
+              dataSource={productsList}
               columns={
                 [
                   {
                     title: 'Producto/Servicio',
-                    dataIndex: 'producto',
-                    key: 'producto',
+                    dataIndex: 'nombre',
+                    key: 'nombre',
                   },
                   {
                     title: 'Cantidad',
@@ -336,8 +387,8 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
                   },
                   {
                     title: 'IVA',
-                    dataIndex: 'iva',
-                    key: 'iva',
+                    dataIndex: 'iva_value',
+                    key: 'iva_value',
                   },
                   {
                     title: 'Total',
@@ -384,11 +435,22 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la cantidad' type='number' value={selectedProduct ? selectedProduct.cantidad : null}/>
+          {
+            loading === true ?
+            <div>char</div>
+            :
+            <input style={{padding:8}} placeholder='Ingrese la cantidad' type='number' value={selectedProduct !== null ? selectedProduct.cantidad : null}/>
+
+          }
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Precio <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} type='number' placeholder='Ingrese el precio' value={selectedProduct ? selectedProduct.precio : null}/>
+          {
+            loading === true ?
+            <div>char</div>
+            :
+            <input style={{padding:8}} type='number' placeholder='Ingrese el precio' value={selectedProduct ? selectedProduct.precio : null}/>
+          }
         </div>
       </div>
 
@@ -401,19 +463,34 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
 
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Neto</span>
-          <input style={{padding:8}} type='number' value={selectedProduct ? selectedProduct.neto : null} />
+          {
+            loading === true ?
+            <div>Load</div>
+            :
+            <input style={{padding:8}} type='number' value={selectedProduct ? selectedProduct.neto : null} />
+          }
         </div>
 
         <div className='column' style={{gap:5}}>
           <span className='form-label'>IVA</span>
-          <input style={{padding:8}} type='number' //value={selectedProduct ? (selectedProduct.iva === true ? "19" : "0" ) : null}
-          value={selectedProduct ? selectedProduct.iva_value : null}
-          />
+          {
+            loading === true ?
+            <div>char</div>
+            :
+            <input style={{padding:8}} type='number' 
+            value={selectedProduct ? selectedProduct.iva_value : null}
+            />
+          }
         </div>
       
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Total</span>
-          <input style={{padding:8}} value={selectedProduct ? selectedProduct.total : null}/>
+          {
+            loading === true ?
+            <div>char</div>
+            :
+            <input style={{padding:8}} value={selectedProduct ? selectedProduct.total : null}/>
+          }
         </div>
 
       </div>
@@ -428,8 +505,8 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
           <span className='form-label'>Ajuste de precio</span>
           <Slider range defaultValue={[0, 50]} disabled={disabled} />
           <span>Subtotal: $ {subtotal()} </span>
-          <span>IVA(19%): $</span>
-          <span>Precio: $</span>
+          <span>IVA(19%): ${ivaTotal()}</span>
+          <span>Precio: ${precioTotal()}</span>
         </div>
 
         <div className='column' style={{gap:5}}>

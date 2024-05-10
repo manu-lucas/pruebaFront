@@ -13,7 +13,7 @@ import { getAllProductos } from '../../utils/api/Productos/getAllProductos';
 
 const LoginScreen = () => {
 
-  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra } = useContext(AppContext)
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode } = useContext(AppContext)
   
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -268,6 +268,12 @@ const LoginScreen = () => {
     }
   }
 
+
+
+  function registerAcount (){
+    setSignUpCode(true)
+  }
+
  return(
     <>
     {loading && <Loader label={'Cargando...'}/>}
@@ -321,6 +327,8 @@ const LoginScreen = () => {
           <div>
             <button type="submit" className='login-button'>Iniciar sesión</button>
           </div>
+
+          <div className='login-sign-up' onClick={registerAcount} >Crear cuenta nueva</div>
         </form>
 
       </div>
