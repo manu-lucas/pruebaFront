@@ -6,7 +6,7 @@ import axios from 'axios';
 import { display } from '@mui/system';
 import { DatePicker } from 'antd';
 import { Loader } from '../../components/Loader/Loader';
-
+import LogoLogin from '../../assets/assets/logo_login.svg';
 
 const FirstStep = ({setStep}) =>{
 
@@ -278,47 +278,56 @@ const ThirdStep = ({setStep}) =>{
 
   return(
     <>
-      <div style={{backgroundColor:"white"}}>
-        <h1>Registro de usuario</h1>
-        <form onSubmit={registrarUsuario}>
-          <div>
-            <label>Nombre</label>
-            <input value={data.nombre} onChange={((e)=>{
-              if( e.target.value.trim().replace(/\s/g, "") === ""){
-                setData({...data,nombre:null})
-              }else{
-                setData({...data,nombre:e.target.value})
-              }
-            })} placeholder='ingrese su nombre'/>
+    <div className='container-register-form'>
+      <div className='login-register-container'>
+      <div className='login-isologo-container'>
+          <img src={IsologoLogin} alt='isologoAppify' className='login-isologo' />
+          <h1 className='login-title'>Registrarse</h1>
+        </div>
+        <form onSubmit={registrarUsuario} className='login-form-register'>
+          <div className='columnRegister'>
+              <div className='labelR label-register-name'>
+                <label className='nombre'>Nombre</label>
+                <input  name='nombre' value={data.nombre} onChange={((e)=>{
+                  if( e.target.value.trim().replace(/\s/g, "") === ""){
+                    setData({...data,nombre:null})
+                  }else{
+                    setData({...data,nombre:e.target.value})
+                  }
+                })} placeholder='ingrese su nombre'/>
+              </div>
+              <div className='labelR label-register-apellido'>
+                <label className='apellido'>Apellido</label>
+                <input name='apellido' value={data.apellido}  onChange={((e)=>{
+                  if( e.target.value.trim().replace(/\s/g, "") === ""){
+                    setData({...data,apellido:null})
+                  }else{
+                    setData({...data,apellido:e.target.value})
+                  }
+                })} placeholder='ingrese su apellido'/>
+              </div>
           </div>
-          <div>
-            <label>Apellido</label>
-            <input value={data.apellido}  onChange={((e)=>{
-              if( e.target.value.trim().replace(/\s/g, "") === ""){
-                setData({...data,apellido:null})
-              }else{
-                setData({...data,apellido:e.target.value})
-              }
-            })} placeholder='ingrese su apellido'/>
+          <div className='columnRegister'>
+            <div className='labelR label-register-numero'>
+              <label className='numero'>Numero</label>
+              <input name="numero"value={data.celular} onChange={((e)=>{
+                if( e.target.value.trim().replace(/\s/g, "") === ""){
+                  setData({...data,celular:null})
+                }else{
+                  setData({...data,celular:e.target.value})
+                }
+              })}  placeholder='ingrese su numero'/>
+            </div>
+            
+            <div className='labelR label-register-date'>
+              <label className='nacimiento'>Fecha de nacimiento</label>
+              <DatePicker picker='date' className='picker'/>
+            </div>
           </div>
-          <div>
-            <label>Numero</label>
-            <input value={data.celular} onChange={((e)=>{
-              if( e.target.value.trim().replace(/\s/g, "") === ""){
-                setData({...data,celular:null})
-              }else{
-                setData({...data,celular:e.target.value})
-              }
-            })}  placeholder='ingrese su numero'/>
-          </div>
-          
-          <div>
-            <label>Fecha de nacimiento</label>
-            <DatePicker picker='date'/>
-          </div>
-          <div>
-            <label>Contraseña</label>
-            <input type='password' value={data.password} onChange={((e)=>{
+          <div className='columnRegister'>
+             <div className='labelR label-register-pass'>
+            <label className='passRegister'>Contraseña</label>
+            <input name="passRegister"type='password' value={data.password} onChange={((e)=>{
               if( e.target.value.trim().replace(/\s/g, "") === ""){
                 setData({...data,password:null})
               }else{
@@ -326,9 +335,9 @@ const ThirdStep = ({setStep}) =>{
               }
             })}  placeholder='ingrese su contraseña'/>
           </div>
-          <div>
-            <label>Confirmar contraseña</label>
-            <input type='password' value={data.passwordConfirm} onChange={((e)=>{
+          <div className='labelR label-register-pass2'>
+            <label className='passRegister2'>Confirmar contraseña</label>
+            <input name="passRegister2" type='password' value={data.passwordConfirm} onChange={((e)=>{
               if( e.target.value.trim().replace(/\s/g, "") === ""){
                 setData({...data,passwordConfirm:null})
               }else{
@@ -336,9 +345,13 @@ const ThirdStep = ({setStep}) =>{
               }
             })} placeholder='confirmar contraseña'/>
           </div>
-          <button type='submit'>Registrar usuario</button>
+          </div>
+         
+          <button type='submit' className='btn-register-user login-button'>Registrar usuario</button>
         </form>
       </div>
+    </div>
+      
       {
         loading === true ?
         <Loader label={'Creando perfil'}/>
