@@ -314,21 +314,21 @@ const Costos = () =>{
         dataSource={[
           {
             name:'Costo 1',
-            cantidad:2,
-            costo: 1300,
-            total:3440
+            cantidad:1,
+            costo: 20,
+            total:20
           },
           {
             name:'Costo 1',
-            cantidad:2,
-            costo: 1300,
-            total:3440
+            cantidad:1,
+            costo: 154.5,
+            total:154.5
           },
           {
             name:'Costo 1',
-            cantidad:2,
-            costo: 1300,
-            total:3440
+            cantidad:1,
+            costo: 9.45,
+            total:9.45
           }
         ]}
         columns={
