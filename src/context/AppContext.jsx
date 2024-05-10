@@ -26,6 +26,11 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) =>{
 
+    const [ signUpCode,setSignUpCode ] = useState(false);
+
+    //loading para las private routes
+    const [ loadingPublicRoutes,setloadingPublicRoutes ] = useState(true)
+
     const [ logged,setLogged ] = useState(false);
     
     const [ userLoggedData,setUserLoggedData ] = useState({
@@ -213,6 +218,8 @@ export const AppContextProvider = (props) =>{
 
     return (
         <AppContext.Provider value={{
+            signUpCode,setSignUpCode,
+            loadingPublicRoutes,setloadingPublicRoutes,
             logged,setLogged,
             userLoggedData,setUserLoggedData,
             menuOptionsinitialState,menuOptions,
