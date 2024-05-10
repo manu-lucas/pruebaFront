@@ -2000,12 +2000,16 @@ letter-spacing: 0.14px;
 }
 
 .logo-splash {
-  width: 100px; /* Ajusta el ancho del SVG según tus necesidades */
+  width: 300px; /* Ajusta el ancho del SVG según tus necesidades */
   height: auto; /* Esto mantiene la proporción del SVG */
   margin-bottom: 20px; /* Espacio entre el SVG y la barra de progreso */
 }
-
+.progress-container .ant-progress-text {
+  font-family:'Nunito Sans';
+  color:#FFFFFF;
+}
 .progress-bar {
+
   width: 80%; /* Ajusta el ancho de la barra de progreso según tus necesidades */
   max-width: 400px; /* Establece un ancho máximo para la barra de progreso */
 }
