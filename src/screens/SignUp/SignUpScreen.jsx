@@ -250,7 +250,8 @@ const ThirdStep = ({setStep}) =>{
   const [showPassword, setShowPassword]= useState('');
   const [showConfirmPassword, setShowConfirmPassword]=useState('')
   const [ loading,setLoading ] = useState(false);
-
+  const [errors,setErrors]=useState({});
+  const [correctPass , setCorrectPass]=useState(false)
   const dataInitialState = {
       nombre: null,
       apellido: null,
@@ -274,18 +275,70 @@ const ThirdStep = ({setStep}) =>{
     console.log({...data,email:email})
     setData({...data,email:email})
   }
+  function disabledDate(current) {
+    return current && current.valueOf() > Date.now();
+  }
   
-  
+  const validatePass = (password)=>{
+    const newErrors = {};
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (!specialCharRegex.test(password)) {
+      newErrors.passwordSpecialChar = '*La contraseña debe contener al menos un carácter especial';
+    }
+
+    const uppercaseRegex = /[A-Z]/;
+    if (!uppercaseRegex.test(password)) {
+      newErrors.passwordUppercase = '*La contraseña debe contener al menos una mayúscula';
+    }
+
+    setErrors(newErrors);
+  }
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setData({ ...data, password: newPassword });
+    validatePass(newPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPassword = e.target.value;
+    setData({ ...data, passwordConfirm: confirmPassword });
+    if (data.password !== confirmPassword) {
+      setCorrectPass(true);
+    } else {
+      setCorrectPass(false);
+    }
+  };
   function registrarUsuario (e) {
     e.preventDefault()
-    console.log(data)
-    sendData(data)
+
+    const newErrors = {};
+    if (data.nombre == null) {
+      newErrors.nombre = '*El campo nombre debe estar completo';
+    }
+    if (data.apellido == null) {
+      newErrors.apellido = '*El campo apellido debe estar completo';
+    }
+    if (!data.password) {
+      newErrors.password = '*La contraseña es requerida';
+    }
+    if (!data.passwordConfirm) {
+      newErrors.passwordConfirm = '*Debe confirmar la contraseña';
+    }
+    if (data.password !== data.passwordConfirm) {
+      newErrors.passwordMismatch = '*Las contraseñas no coinciden';
+      setCorrectPass(true)
+    }
+    if(Object.keys(newErrors).length===0){
+      sendData(data)
+    }else {
+      setErrors(newErrors);
+    }
   }
 
   async function sendData (data) {
     console.log('inicando')
-    setLoading(true)
-    try{
+     setLoading(true)
+      try{
       const response = await axios.post('https://appify-black-side.vercel.app/user/register',data)
       console.log('usuario creado')
       console.log(response)
@@ -307,6 +360,8 @@ const ThirdStep = ({setStep}) =>{
     }finally{
       console.log('peticion finalizada')
     }
+
+
   }
 
 
@@ -344,59 +399,67 @@ const ThirdStep = ({setStep}) =>{
         <form onSubmit={registrarUsuario} className='login-form-register'>
           <div className='columnRegister'>
               <div className='labelR label-register-name'>
-                <label className='nombre'>Nombre</label>
+                <label className='nombre'>Nombre <span className='span-required'>*</span></label>
                 <input  name='nombre' value={data.nombre} onChange={((e)=>{
                   if( e.target.value.trim().replace(/\s/g, "") === ""){
                     setData({...data,nombre:null})
                   }else{
                     setData({...data,nombre:e.target.value})
                   }
-                })} placeholder='Ingrese su nombre'/>
+                })} 
+                placeholder='Ingrese su nombre'
+                
+                />
+             {errors.nombre && <p className='errorInput'>{errors.nombre}</p>}
               </div>
               <div className='labelR label-register-apellido'>
-                <label className='apellido'>Apellido</label>
+                <label className='apellido'>Apellido <span className='span-required'>*</span></label>
                 <input name='apellido' value={data.apellido}  onChange={((e)=>{
                   if( e.target.value.trim().replace(/\s/g, "") === ""){
                     setData({...data,apellido:null})
                   }else{
                     setData({...data,apellido:e.target.value})
                   }
-                })} placeholder='Ingrese su apellido'/>
+                })} placeholder='Ingrese su apellido' 
+                />
+                {errors.apellido && <p className='errorInput'>{errors.apellido}</p>}
               </div>
           </div>
           <div className='columnRegister'>
             <div className='labelR label-register-numero'>
-              <label className='numero'>Numero</label>
+              <label className='numero'>Número</label>
               <input name="numero"value={data.celular} onChange={((e)=>{
                 if( e.target.value.trim().replace(/\s/g, "") === ""){
                   setData({...data,celular:null})
                 }else{
                   setData({...data,celular:e.target.value})
                 }
-              })}  placeholder='Ingrese su numero'/>
+              })}  placeholder='Ingrese su número'/>
             </div>
             
             <div className='labelR label-register-date'>
-              <label className='nacimiento'>Fecha de nacimiento</label>
-              <DatePicker picker='date' className='picker'/>
+              <label className='nacimiento'>Fecha de nacimiento <span className='span-required'>*</span></label>
+              <DatePicker picker='date' className='picker' placeholder="Seleccione su fecha" disabledDate={disabledDate}/>
             </div>
           </div>
           <div className='columnRegisterPass'>
             <div className='labelR label-register-pass'>
-            <label className='passRegister'>Contraseña</label>
+            <label className='passRegister'>Contraseña <span className='span-required'>*</span></label>
             <div className='input-password'>
-                          <input 
+            <input 
             name="passRegister"
             type={showPassword ? 'text' : 'password'}
-             value={data.password} 
-             onChange={((e)=>{
-              if( e.target.value.trim().replace(/\s/g, "") === ""){
-                setData({...data,password:null})
-              }else{
-                setData({...data,password:e.target.value})
-              }
-            })}  
             placeholder='Ingrese su contraseña'
+
+             value={data.password} 
+            //  onChange={((e)=>{
+            //   if( e.target.value.trim().replace(/\s/g, "") === ""){
+            //     setData({...data,password:null})
+            //   }else{
+            //     setData({...data,password:e.target.value})
+            //   }
+            // })}  
+            onChange={handlePasswordChange}
             />
               <label 
                 htmlFor="toggle-password"
@@ -406,22 +469,29 @@ const ThirdStep = ({setStep}) =>{
                 {showPassword ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
               </label>
             </div>
-
+            {errors.password && <p className='errorInput'>{errors.password}</p>}
+            <div className={`req-pass ${!errors.passwordSpecialChar && !errors.passwordUppercase ? 'valid' : 'invalid'}`}>
+              <p>La contraseña debe contener un carcater especial</p>
+              <p>La contraseña debe contener una mayúscula</p>
+            </div>
             </div>
           <div className='labelR label-register-pass2'>
           <div className='labelR label-register-pass'>
-            <label className='passRegister2'>Confirmar contraseña</label>
+            <label className='passRegister2'>Confirmar contraseña <span className='span-required'>*</span></label>
             <div className='input-password'>
               <input 
               name="passRegister2" 
               type={showConfirmPassword ? 'text' : 'password'}
-              value={data.passwordConfirm} onChange={((e)=>{
-              if( e.target.value.trim().replace(/\s/g, "") === ""){
-                setData({...data,passwordConfirm:null})
-              }else{
-                setData({...data,passwordConfirm:e.target.value})
-              }
-            })} placeholder='Confirmar contraseña'/>
+            //   value={data.passwordConfirm} onChange={((e)=>{
+            //   if( e.target.value.trim().replace(/\s/g, "") === ""){
+            //     setData({...data,passwordConfirm:null})
+            //   }else{
+            //     setData({...data,passwordConfirm:e.target.value})
+            //   }
+            // })} 
+            onChange={handleConfirmPasswordChange}
+            placeholder='Ingrese nuevamente su contraseña'
+            />
             <label 
                 htmlFor="toggle-password"
                 className="toggle-password"
@@ -430,8 +500,10 @@ const ThirdStep = ({setStep}) =>{
                 {showPassword ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
               </label>
             </div>
+            {correctPass && errors.passwordConfirm && <p className='errorInput'>{errors.passwordConfirm}</p>}
             </div>
           </div>
+          {errors.passwordMismatch && <p className='errorInput'>{errors.passwordMismatch}</p>}
           </div>
          
           <button type='submit' className='btn-register-user login-button'>Registrar usuario</button>

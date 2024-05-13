@@ -296,7 +296,25 @@ input[name="nombre"],
   display: flex;
   flex-direction:column;
 }
-
+.span-required{
+  color: #CD012D;
+  font-family: "Nunito Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.req-pass{
+  color: #CD012D;
+font-family: "Nunito Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.req-pass.valid{
+  color: green;
+}
 /*PRIVATE STRUCTURE*/
 
 .nav{
