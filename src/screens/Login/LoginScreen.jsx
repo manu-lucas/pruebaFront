@@ -15,7 +15,7 @@ import Cookies from 'js-cookie';
 
 const LoginScreen = () => {
 
-  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas,setLoadingPrivateRoutes } = useContext(AppContext)
   
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -112,6 +112,7 @@ const LoginScreen = () => {
     
 
     setTimeout(() => {
+      setLoadingPrivateRoutes(false)
       setLoading(false)
     }, 2000);
     
@@ -126,7 +127,7 @@ const LoginScreen = () => {
     }, 1000);
   }
 
-  
+
  return(
     <>
     {loading && <Loader label={'Cargando...'}/>}
