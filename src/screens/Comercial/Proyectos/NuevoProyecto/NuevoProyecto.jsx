@@ -221,7 +221,7 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
 }
 
 const SecondStep = ({setStep,data,setData,items,setItems}) => {
-
+  //commit
   const { products } = useContext(AppContext);
 
   const [ bonificacion,setBonificacion ] = useState(null)
