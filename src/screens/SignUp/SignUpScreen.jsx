@@ -9,6 +9,7 @@ import { Loader } from '../../components/Loader/Loader';
 import LogoLogin from '../../assets/assets/logo_login.svg';
 import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getOTs, getProyectos, getVentas } from '../../utils/api/Login/LoginFunction';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const FirstStep = ({setStep}) =>{
   const [ loading,setLoading ] = useState(false);
@@ -246,7 +247,10 @@ const ThirdStep = ({setStep}) =>{
   const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
   const navigate = useNavigate()
 
+  const [showPassword, setShowPassword]= useState('');
+  const [showConfirmPassword, setShowConfirmPassword]=useState('')
   const [ loading,setLoading ] = useState(false);
+
   const dataInitialState = {
       nombre: null,
       apellido: null,
@@ -257,7 +261,9 @@ const ThirdStep = ({setStep}) =>{
       passwordConfirm: null
   }
   const [ data,setData ] = useState(dataInitialState)
-
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
   useEffect(() => {
     getEmailData()
   }, [])
@@ -345,7 +351,7 @@ const ThirdStep = ({setStep}) =>{
                   }else{
                     setData({...data,nombre:e.target.value})
                   }
-                })} placeholder='ingrese su nombre'/>
+                })} placeholder='Ingrese su nombre'/>
               </div>
               <div className='labelR label-register-apellido'>
                 <label className='apellido'>Apellido</label>
@@ -355,7 +361,7 @@ const ThirdStep = ({setStep}) =>{
                   }else{
                     setData({...data,apellido:e.target.value})
                   }
-                })} placeholder='ingrese su apellido'/>
+                })} placeholder='Ingrese su apellido'/>
               </div>
           </div>
           <div className='columnRegister'>
@@ -367,7 +373,7 @@ const ThirdStep = ({setStep}) =>{
                 }else{
                   setData({...data,celular:e.target.value})
                 }
-              })}  placeholder='ingrese su numero'/>
+              })}  placeholder='Ingrese su numero'/>
             </div>
             
             <div className='labelR label-register-date'>
@@ -375,26 +381,56 @@ const ThirdStep = ({setStep}) =>{
               <DatePicker picker='date' className='picker'/>
             </div>
           </div>
-          <div className='columnRegister'>
-             <div className='labelR label-register-pass'>
+          <div className='columnRegisterPass'>
+            <div className='labelR label-register-pass'>
             <label className='passRegister'>Contraseña</label>
-            <input name="passRegister"type='password' value={data.password} onChange={((e)=>{
+            <div className='input-password'>
+                          <input 
+            name="passRegister"
+            type={showPassword ? 'text' : 'password'}
+             value={data.password} 
+             onChange={((e)=>{
               if( e.target.value.trim().replace(/\s/g, "") === ""){
                 setData({...data,password:null})
               }else{
                 setData({...data,password:e.target.value})
               }
-            })}  placeholder='ingrese su contraseña'/>
-          </div>
+            })}  
+            placeholder='Ingrese su contraseña'
+            />
+              <label 
+                htmlFor="toggle-password"
+                className="toggle-password"
+                onClick={handleTogglePassword}
+              >
+                {showPassword ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
+              </label>
+            </div>
+
+            </div>
           <div className='labelR label-register-pass2'>
+          <div className='labelR label-register-pass'>
             <label className='passRegister2'>Confirmar contraseña</label>
-            <input name="passRegister2" type='password' value={data.passwordConfirm} onChange={((e)=>{
+            <div className='input-password'>
+              <input 
+              name="passRegister2" 
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={data.passwordConfirm} onChange={((e)=>{
               if( e.target.value.trim().replace(/\s/g, "") === ""){
                 setData({...data,passwordConfirm:null})
               }else{
                 setData({...data,passwordConfirm:e.target.value})
               }
-            })} placeholder='confirmar contraseña'/>
+            })} placeholder='Confirmar contraseña'/>
+            <label 
+                htmlFor="toggle-password"
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showPassword ? <FaEyeSlash size={14} /> : <FaEye size={14} />}
+              </label>
+            </div>
+            </div>
           </div>
           </div>
          

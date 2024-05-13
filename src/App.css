@@ -218,7 +218,7 @@ input[name="password"] {
 /*form registro*/
 .container-register-form{
   display: flex;
-  /* padding: 104px 260px; */
+  padding: 5px ;
   justify-content: center;
   align-items: center;
 }
@@ -235,7 +235,7 @@ input[name="password"] {
   height: 100%;
   max-height: 1000px;
   padding: 30px 60px 81px 60px;
- overflow: hidden; 
+  overflow: hidden; 
   gap: 20px;
   flex-shrink: 0;
   border-radius: 14px;
@@ -253,6 +253,12 @@ input[name="password"] {
   gap: 15px;
   margin-top: 15px;
   justify-content: space-between;
+}
+.columnRegisterPass{
+ display: flex;
+ flex-direction: column;
+ gap: 15px;
+ margin-top: 15px;
 }
 .nombre,.apellido,.numero,.nacimiento,.passRegister,.passRegister2{
   font-size: 20px;
@@ -286,6 +292,11 @@ input[name="nombre"],
 .btn-register-user{
   margin-top: 20px;
 }
+.label-register-pass{
+  display: flex;
+  flex-direction:column;
+}
+
 /*PRIVATE STRUCTURE*/
 
 .nav{
