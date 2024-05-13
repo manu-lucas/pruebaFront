@@ -60,9 +60,13 @@ const LoginScreen = () => {
       */
       try{
         const response = await axios.post(`https://appify-black-side.vercel.app/user/login`, formData)
+        
+        console.log('respuesta del login')
         console.log(response)
+
         
         const tokenDecode = jwtDecode(response.data.payload.token)
+        console.log('data del token')
         console.log(tokenDecode)
 
         setUserLoggedData(tokenDecode)

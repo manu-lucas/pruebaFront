@@ -21,6 +21,8 @@ import SelectComp from '../../../../components/Select/SelectComp';
 import { MdErrorOutline } from 'react-icons/md';
 import axios from 'axios';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Loader } from '../../../../components/Loader/Loader';
+import ModalError from '../../../../components/Modal/ModalError';
 
 
 /*
@@ -110,6 +112,9 @@ const SecondStep = ({setStep,data,setData, contactos, setContactos}) => {
   
   const dd = [];
 
+  const { subusuarios } = useContext(AppContext);
+
+
   const contactInitialState = {
     nombre: '',
     celular: '',
@@ -131,6 +136,18 @@ const SecondStep = ({setStep,data,setData, contactos, setContactos}) => {
     console.log(recordId)
     const updateTable = contactos.filter((item)=>item.id !== recordId)
     setContactos(updateTable)
+  }
+
+  useEffect(() => {
+    console.log(subusuarios)
+  }, [])
+  
+  function restructuredVendedores (arraySubUsuarios) {
+    const updateData = arraySubUsuarios.map((item)=>{
+      return {...item, value: item.id, label: item.nombre}
+    })
+
+    return updateData
   }
 
   return (
@@ -214,22 +231,8 @@ const SecondStep = ({setStep,data,setData, contactos, setContactos}) => {
               console.log(`seleccionado ${value} ${record.label}`)
               setContactData({...contactData, vendedor: record.label, vendedorId: value})
             }}
-            options={[
-              {
-                //value es el id
-                value: 'ab-0223',
-                label: 'Vendedor 1'
-              },
-              {
-                value: 'ab-0224',
-                label: 'Vendedor 2'
-              },
-              {
-                value: 'ab-0225',
-                label: 'Vendedor 3'
-              }
-            ]}
-
+            options={restructuredVendedores(subusuarios)}
+            value={contactData.vendedorId ? contactData.vendedorId : null}
           />
         </div>
       </div>
@@ -243,7 +246,7 @@ const SecondStep = ({setStep,data,setData, contactos, setContactos}) => {
   )
 }
 
-const ThirdStep = ({setStep,data,setData}) => {
+const ThirdStep = ({setStep,data,setData,condicionDePago,setCondicionDePago}) => {
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
   };
@@ -298,7 +301,7 @@ const ThirdStep = ({setStep,data,setData}) => {
                 label: 'condición creada por el cliente'
               },
             ]}
-
+            value={data.condicion_de_pago ? data.condicion_de_pago : null}
           />
         </div>
         <div className='column' style={{gap:5}}>
@@ -367,7 +370,13 @@ const ThirdStep = ({setStep,data,setData}) => {
 }
 
 const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,contactos, setContactos,setErrorScreen,setLoadingScreen,clienteInitialState}) => {
+  
+  const { userLoggedData } = useContext(AppContext);
 
+  useEffect(() => {
+    console.log(userLoggedData)
+  }, [])
+  
   const puntoDeDespachiInitialState = {
     direccion: '',
     nombre_receptor: '',
@@ -398,7 +407,7 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
     //console.log({...data,contactos: contactos,puntos_de_despacho:puntosDeDespacho })
     const dataRestructured = {
       ...data,
-      user: '1114ad52-f699-4eb8-9a08-ef9e61eaa42a',
+      user: userLoggedData.data.user,
       linea_de_credito : data.linea_de_credito === null || data.linea_de_credito.trim().replace(/\s/g, "") === "" ? null : parseFloat(data.linea_de_credito),
       
     } 
@@ -620,9 +629,15 @@ const NuevoCliente = () => {
 
   const [ data,setData ] = useState(clienteInitialState)
 
+
   const [ contactos, setContactos ] = useState([]);
 
+
+  const [ condicionDePago,setCondicionDePago ] = useState(null)
+
   const [ puntosDeDespacho,setPuntosDeDespacho ] = useState([])
+
+
 
   function formSetupSteps (){
     switch (step) {
@@ -633,7 +648,7 @@ const NuevoCliente = () => {
         return <SecondStep setStep={setStep} data={data} setData={setData} contactos={contactos} setContactos={setContactos}/>
       
       case 3:
-        return <ThirdStep setStep={setStep} data={data} setData={setData}/>
+        return <ThirdStep setStep={setStep} data={data} setData={setData} condicionDePago={condicionDePago} setCondicionDePago={setCondicionDePago}/>
         
       case 4:
         return <FourthStep setStep={setStep} data={data} setData={setData} puntosDeDespacho={puntosDeDespacho} setPuntosDeDespacho={setPuntosDeDespacho} contactos={contactos} setContactos={setContactos} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} clienteInitialState={clienteInitialState}/>
@@ -648,7 +663,6 @@ const NuevoCliente = () => {
     setStep(1)
     setLoadingScreen(false)
     setErrorScreen(false)
-      
   }
 
   function goBack () {
@@ -666,19 +680,7 @@ const NuevoCliente = () => {
       {
         loadingScreen === true ?
         <>
-          <div style={{height:"80%",width:"100%",boxSizing:"border-box",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:85}}>
-            <h2>Creando cliente...</h2>
-            <Spin
-              indicator={
-                <LoadingOutlined
-                  style={{
-                    fontSize: 90,
-                  }}
-                  spin
-                />
-              }
-            />
-          </div>
+          <Loader label={'Registrando cliente...'}/>
 
         </>
         :
@@ -686,19 +688,10 @@ const NuevoCliente = () => {
           {
             errorScreen === true ?
             <>
-              <div style={{height:"80%",width:"100%",boxSizing:"border-box",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:30}}>
-                <MdErrorOutline style={{fontSize:100, color:"#EA0234"}}/>
-                <h2>¡Error al crear el cliente!</h2>
-                <span>Vuelve a intentarlo más tarde</span>
-                <div className='row'>
-                  <Button onClick={()=>{goBack()}} type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
-                    <span>Aceptar</span>
-                  </Button>
-                  <Button onClick={()=>{tryAgain()}} type='primary' style={{display:"flex",alignItems:"center",justifyContent:"center",gap:20,padding:"17px 14px"}}>
-                    <span>Volver a intentar</span>
-                  </Button>
-                </div>
-              </div>
+              <ModalError 
+                onCancel={tryAgain}
+                errorMessage={'Error al crear el cliente'}
+              />              
             </>
             :
             <>
