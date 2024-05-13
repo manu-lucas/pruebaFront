@@ -110,7 +110,7 @@ const LoginScreen = () => {
     getOCs(userId,setOrdenesDeCompra)
     getVentas(userId,setVentas)
     
-
+    
     setTimeout(() => {
       setLoadingPrivateRoutes(false)
       setLoading(false)
