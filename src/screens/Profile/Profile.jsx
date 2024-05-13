@@ -41,6 +41,9 @@ const Profile = () => {
                 <span>Email</span>
               </div>
             </div>
+            <div>
+              {userLoggedData.data.user}
+            </div>
           </div>
         </PrincipalCard>
     </div>

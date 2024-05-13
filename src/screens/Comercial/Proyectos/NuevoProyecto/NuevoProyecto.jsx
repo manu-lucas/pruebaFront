@@ -11,7 +11,7 @@ import { FaPlus } from "react-icons/fa6";
 import { AiFillEdit } from "react-icons/ai";
 import { v4 as uuidv4 } from 'uuid';
 
-import { FaCheck, FaTrashAlt } from "react-icons/fa";
+import { FaCheck, FaTrashAlt, FaUserPlus } from "react-icons/fa";
 
 
 
@@ -27,6 +27,7 @@ import SelectComp from '../../../../components/Select/SelectComp';
 import axios from 'axios';
 import { MdErrorOutline } from 'react-icons/md';
 import { LoadingOutlined } from '@ant-design/icons';
+import NuevoCliente from '../../Clientes/NuevoCliente/NuevoCliente';
 
 
 const colors1 = ['#6253E1', '#04BEFE'];
@@ -52,11 +53,7 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
     setData({...data,boton_de_pago:checked})
   };
 
-  useEffect(() => {
-    //console.log(clientes)
-    //console.log(clientesRestructured(clientes))
-  }, [])
-
+ 
   function clientesRestructured (arrayClientes) {
     const updateData = arrayClientes.map((item)=>{
       return {
@@ -82,12 +79,25 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
   const [ contactValue,setContactvalue ] = useState(null)
 
 
+  const [ clientModal,setClientModal ] = useState(false)
+
   return(
     <>
       <h2 style={{fontSize:20}}>Datos principales</h2>
       <div className='form-grid'>
+
         <div className='column' style={{gap:5}}>
+          
           <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
+          {
+            clientesRestructured(clientes).length === 0 ? 
+            <div onClick={()=>{setClientModal(true)}} className='row'>
+              <FaUserPlus/>
+              <span>Agregar nuevo cliente</span>
+            </div>
+            :
+            <></>
+          }
           <SelectComp
             placeholder={'seleccionar cliente'}
             HandleChange={(value,record)=>{
@@ -109,6 +119,12 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
+          {
+            clientesRestructured(clientes).length === 0 ? 
+            <div style={{color:"grey"}}>Debe agregar un nuevo cliente *</div>
+            :
+            <></>
+          }
           <SelectComp
             value={contactValue}
             placeholder={'seleccionar contacto'}
@@ -215,7 +231,19 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
       <div className='container-item-flex-end' style={{marginTop:30}}>
         <FollowingBtn setStep={setStep} value={2}/>
       </div>
-
+      {
+        clientModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"90%",padding:"10px 40px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setClientModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoCliente/>
+            </div>
+          </div>
+        </div>
+        :
+        <></>
+      }
     </>
   )
 }
@@ -575,15 +603,10 @@ const FourthStep = ({setStep,data,setData,items,direcPrestacion,setLoadingScreen
       const response = await axios.post(`https://appify-black-side.vercel.app/projects/crearProject`,data)
       console.log(response)
       setProyectos([...proyectos, {...objtArray, id: response.data.payload.proyecto.id} ])
-      //setProyectos([...proyectos, response.data.payload ])
-
-      
-
       setErrorScreen(false)
       setData(directPrestacionInitialState)
       setLoadingScreen(false)
       setStep(5)
-
       setTimeout(() => {
         setStep(1)
       }, 3000); 
@@ -632,98 +655,6 @@ const FourthStep = ({setStep,data,setData,items,direcPrestacion,setLoadingScreen
 
 
 const NuevoProyecto = () => {
-
-  /*
-    {
-      //id
-      user: '',
-      //idVendedor
-      vendedor: null,
-      //idCliente
-      cliente: null,
-      //numero de proyecto a partir del ultimo
-      numero_proyecto: '1',
-      //idContacto
-      contacto: null,
-      //float
-      comision: null,
-      //varchar
-      nombre_etiqueta: '',
-      //varchar
-      condicion_de_pago: null,
-      boton_de_pago: true,
-      //int
-      plazo_de_entrega_dias: null,
-      nota_interna: '',
-      //varchar
-      estado: 'Pendiente'
-    }
-  
-  */
-
-  /*
-  {
-  "proyectos": {
-    "user": "super-user-d1ec2ecb-a54f-40fb-98b3-6af8e00a58fb",
-    "vendedor": "sub-user-fd4888b8-7c54-4b08-b572-d927973dfcfc",
-    "cliente": "cliente-b1c2a041-0bc8-42f2-8698-3889b37c85d8",
-    "numero_proyecto": "PROY-001",
-    "contacto": "Contacto Cliente",
-    "comision": 0.05,
-    "nombre_etiqueta": "Etiqueta Proyecto-4",
-    "condicion_de_pago": "Pago al contado",
-    "boton_de_pago": true,
-    "plazo_de_entrega_dias": 10,
-    "plazo_de_entrega": "2024-04-30T00:00:00Z",
-    "nota_interna": "Nota interna del proyecto",
-    "estado": "En proceso"
-  },
-  "direccion_de_prestacion_proyecto": {
-    "punto": "Punto de prestación",
-    "atencion_a": "Atención a nombre",
-    "direccion": "Dirección del punto",
-    "comuna": "Comuna del punto",
-    "ciudad": "Ciudad del punto",
-    "duracion": "PT8H"
-  },
-  "agendamiento_proyecto": {
-    "user": "usuario456"
-  },
-  "item_servicio_proyecto": [
-    {
-      "idServicio": "service-fa477a3f-89ee-4d3b-8196-5322a951f04b",
-      "cantidad": 2,
-      "porcentaje_descuento": 0.1,
-      "nombre_impuesto": "IVA",
-      "impuesto": 0.19,
-      "precio": 10000,
-      "total": 20000
-    },
-    {
-      "idServicio": "service-fa477a3f-89ee-4d3b-8196-5322a951f04b",
-      "cantidad": 3,
-      "porcentaje_descuento": 0.05,
-      "nombre_impuesto": "IVA",
-      "impuesto": 0.19,
-      "precio": 15000,
-      "total": 45000
-    }
-  ],
-  "item_producto_proyecto": [
-    {
-      "idProducto": "product-b27e8084-edfd-4853-981a-b762ef23a1e9",
-      "cantidad": 1,
-      "porcentaje_descuento": 0.05,
-      "nombre_impuesto": "IVA",
-      "impuesto": 0.19,
-      "precio": 5000,
-      "total": 5000
-    }
-  ]
-}
-  
-  */
-
 
   const navigate = useNavigate();
   const {menuOptions,setMenuOptions,clientes} = useContext(AppContext);
@@ -781,7 +712,7 @@ const NuevoProyecto = () => {
     setMenuOptions(updateData)
   }, [])
 
-  const [ step,setStep ] = useState(2);
+  const [ step,setStep ] = useState(1);
 
   const [ clientName,setClientName ] = useState(null)
 
@@ -800,6 +731,7 @@ const NuevoProyecto = () => {
       
     }
   }
+
 
   
 
