@@ -39,6 +39,14 @@ const ProductosServiciosDashboard = () => {
   function newProduct () {
     navigate('/products/new')
   }
+
+
+  // Define cómo se debe redireccionar cuando se hace clic en una fila
+const getRowClickPath = (record) => {
+  return `/products/${record.id}`;
+};
+
+
   return (
     <>
     <div className='principal-container-column'>
@@ -167,7 +175,8 @@ const ProductosServiciosDashboard = () => {
             }
             */
           ]}
-          onRowClick={false} 
+          onRowClick={true} 
+          getRowClickPath={getRowClickPath}  
         />
     </div>
     
