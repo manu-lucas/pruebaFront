@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../../../../context/AppContext';
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -41,8 +41,8 @@ const getActiveColors = (colors) =>
   colors.map((color) => new TinyColor(color).darken(5).toString());
 
 
-const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
-  const { clientes } = useContext(AppContext)
+const FirstStep = ({setStep,data,setData,setClientName,setVendedorName,clientSelected,setClientSelected,contactSelected,setContactSelected, contactosList,setContactosList,vendedorSelected,setVendedorSelected,condicionDePagoSelected,setCondicionDePagoSelected }) => {
+  const { clientes,subusuarios } = useContext(AppContext)
 
   const [disabled, setDisabled] = useState(true);
   
@@ -81,6 +81,15 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
 
   const [ clientModal,setClientModal ] = useState(false)
 
+  function restructuredVendedores (arraySubUsuarios) {
+    const updateData = arraySubUsuarios.map((item)=>{
+      return {...item, value: item.id, label: item.nombre}
+    })
+
+    return updateData
+  }
+
+
   return(
     <>
       <h2 style={{fontSize:20}}>Datos principales</h2>
@@ -89,6 +98,10 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
         <div className='column' style={{gap:5}}>
           
           <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
+            <Link to={'/clients/new'} target='_blank' className='row'>
+              <FaUserPlus/>
+              <span>Agregar nuevo cliente</span>
+            </Link>
           {
             clientesRestructured(clientes).length === 0 ? 
             <div onClick={()=>{setClientModal(true)}} className='row'>
@@ -107,14 +120,23 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
               //console.log(clientContact.contactos)
               setContactos(clientContact.contactos)
               //////////////////////////
+
+              setContactosList(clientContact.contactos)
+
+              setContactSelected(null)
+              
               setClientName(record.label)
               setData({
                 ...data, cliente: value
               })
               //setear a null el contacto
               setContactvalue(null)
+
+              setClientSelected(record)
             }}
             options={clientesRestructured(clientes)}
+            value={clientSelected ? clientSelected.value : null}
+            //value={data.cliente ? data.cliemte : null}
           />
         </div>
         <div className='column' style={{gap:5}}>
@@ -126,7 +148,7 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
             <></>
           }
           <SelectComp
-            value={contactValue}
+            //value={contactValue}
             placeholder={'seleccionar contacto'}
             HandleChange={(value,record)=>{
               //console.log(`seleccionado ${value} ${record.label}`)
@@ -134,8 +156,10 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
                 ...data, contacto: value
               })
               setContactvalue(value)
+              setContactSelected(record)
             }}
-            options={contactosRestructured(contactos)}
+            value={contactSelected ? contactSelected.value : null}
+            options={contactosRestructured(contactosList)}
           />
         </div>
       </div>
@@ -153,21 +177,17 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
           placeholder={'Seleccionar vendedor'}
           HandleChange={(value,record)=>{
             //console.log(`seleccionado ${value} ${record.label}`)
-
+            setVendedorSelected(record)
             ////////////////////////////
             setVendedorName(record.label)
             setData({
               ...data, vendedor: value
             })
+          
             //setContactvalue(value)
           }}
-          options={[
-            {
-              label:'vendedor 1',
-              value:'1114ad52-f699-4eb8-9a08-ef9e61eaa42a'
-            },
-            
-          ]}
+          value={vendedorSelected ? vendedorSelected.value : null}
+          options={restructuredVendedores(subusuarios)}
           />
         </div>
         <div className='column' style={{gap:5}}>
@@ -214,7 +234,9 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName}) => {
               ]}
               HandleChange={(value,record)=>{
                 setData({...data,condicion_de_pago:value})
+                setCondicionDePagoSelected(record)
               }}
+              value={condicionDePagoSelected ? condicionDePagoSelected.value : null}
             />
           </div>
           <div className='column' style={{gap:5}}>
@@ -695,6 +717,14 @@ const NuevoProyecto = () => {
 
 
   const [ data,setData ] = useState(proyectoInitialState);
+
+  const [ clientSelected,setClientSelected ] = useState(null)
+  const [ contactSelected,setContactSelected ] = useState(null)
+  const [ contactosList,setContactosList ] = useState([])
+
+  const [ vendedorSelected,setVendedorSelected ] = useState(null)
+
+  const [ condicionDePagoSelected,setCondicionDePagoSelected ] = useState(null)
   
   const directPrestacionInitialState = {
     punto: null,
@@ -721,7 +751,7 @@ const NuevoProyecto = () => {
   function formSetupSteps (){
     switch (step) {
       case 1:
-        return <FirstStep setStep={setStep} data={data} setData={setData} setClientName={setClientName} setVendedorName={setVendedorName}/>
+        return <FirstStep setStep={setStep} data={data} setData={setData} setClientName={setClientName} setVendedorName={setVendedorName} clientSelected={clientSelected} setClientSelected={setClientSelected} contactSelected={contactSelected} setContactSelected={setContactSelected} contactosList={contactosList} setContactosList={setContactosList} vendedorSelected={vendedorSelected} setVendedorSelected={setVendedorSelected} condicionDePagoSelected={condicionDePagoSelected} setCondicionDePagoSelected={setCondicionDePagoSelected}/>
       case 2:
         return <SecondStep setStep={setStep} data={data} setData={setData} items={items} setItems={setItems}/>
       case 3:

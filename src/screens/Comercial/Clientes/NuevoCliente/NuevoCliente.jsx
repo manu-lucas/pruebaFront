@@ -431,6 +431,7 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
     
     })
     
+    
     sendData(
       {
         ...dataRestructured,
@@ -438,6 +439,14 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
       
       }
     )
+  
+   console.log(
+    {
+      ...dataRestructured,
+      contactos: contactos.length === 0 ? contactos : restructureContactos(contactos),puntos_de_despacho:puntosDeDespacho
+    
+    }
+   )
     //console.log('crear cliente')
     /*
     setStep(5)

@@ -12,8 +12,10 @@ import { AppContext } from '../../context/AppContext'
 import { getDataProveedores } from '../../utils/helpers'
 import { fetchDataAfterLogin } from '../../utils/index.js'
 import Profile from '../../screens/Profile/Profile.jsx'
+import ProgressBar from '../../components/Loader/LoaderLogin.jsx'
 
 const PrivateRoutes = () => {
+  const { loadingPrivateRoutes } = useContext(AppContext)
   const [ loading,setLoading ] = useState(false)
   const [ error,setError ] = useState(false)
   const { 
@@ -61,8 +63,12 @@ const PrivateRoutes = () => {
   return (
     <Routes>
       {
-        loading === true ?
-        <Route path='*' element={<PrivateStructure><div>Loading Screen</div></PrivateStructure>}/>
+        loadingPrivateRoutes === true ?
+        <Route path='*' element={<PrivateStructure>
+          <>
+            <div>Loading</div>
+          </>
+        </PrivateStructure>}/>
         :
         <>
           {

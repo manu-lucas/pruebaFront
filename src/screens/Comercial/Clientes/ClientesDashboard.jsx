@@ -53,6 +53,12 @@ const ClientesDashboard = () => {
     return `/clients/detail/${record.cliente.id}`;
   };
 
+  useEffect(() => {
+    console.log('clientes')
+    console.log(clientes)
+  }, [])
+  
+
   return (
     <>
     <div className='principal-container-column'>
