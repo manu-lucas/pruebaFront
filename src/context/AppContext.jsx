@@ -31,6 +31,11 @@ export const AppContextProvider = (props) =>{
     //loading para las private routes
     const [ loadingPublicRoutes,setloadingPublicRoutes ] = useState(true)
 
+
+    //loading para las rutas privadas 
+    const [loadingPrivateRoutes,setLoadingPrivateRoutes] = useState(true)
+
+
     const [ logged,setLogged ] = useState(false);
     
     const [ userLoggedData,setUserLoggedData ] = useState({
@@ -239,7 +244,7 @@ export const AppContextProvider = (props) =>{
             ventas,setVentas,
             condicionesDePago,seetCondicionesDePago,
             setModalContent,
-            
+            loadingPrivateRoutes,setLoadingPrivateRoutes
         }}>
             {props.children}
         </AppContext.Provider>

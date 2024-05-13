@@ -39,6 +39,7 @@ import { NavCreate } from '../../components/NavBar/NavCreate';
 
 import './PrivateStructure.css'
 import Overlay from '../../components/Overlay/Overlay';
+import Cookies from 'js-cookie';
 
 const PrivateStructure = ({ children }) => {
 
@@ -261,7 +262,6 @@ const PrivateStructure = ({ children }) => {
             return subMenuOpt
           }
         })
-
         return {...menuOption,submenuOptions:updateSubMenuOptions}
       }else{
         return menuOption
@@ -283,6 +283,7 @@ const PrivateStructure = ({ children }) => {
 
 
   function logOut () {
+    Cookies.remove('tkn')
     //borrar datos del localstorage
     setLogged(false)
   }

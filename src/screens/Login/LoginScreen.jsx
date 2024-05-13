@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 import { AppContext } from '../../context/AppContext';
 import { getAllProductos } from '../../utils/api/Productos/getAllProductos';
 import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getOTs, getProyectos, getVentas } from '../../utils/api/Login/LoginFunction';
+import Cookies from 'js-cookie';
 
 
 const LoginScreen = () => {
@@ -68,12 +69,11 @@ const LoginScreen = () => {
         const tokenDecode = jwtDecode(response.data.payload.token)
         console.log('data del token')
         console.log(tokenDecode)
-
-        setUserLoggedData(tokenDecode)
+        //localStorage.setItem('tkn',response.data.payload.token)
+        Cookies.set('tkn',response.data.payload.token)
         
+        setUserLoggedData(tokenDecode)
         getLoginData(tokenDecode.data.user)
-
-
         setLogged(true)
         
       }catch(err){
@@ -126,6 +126,7 @@ const LoginScreen = () => {
     }, 1000);
   }
 
+  
  return(
     <>
     {loading && <Loader label={'Cargando...'}/>}
