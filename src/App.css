@@ -473,7 +473,19 @@ input[name="nombre"],
   font-weight: 800;
   cursor: pointer;
 }
-
+.aside-create-container:hover{
+  background-color: #FFFFFF;
+  color: #047679;
+  
+}
+.aside-create-container span:hover{
+  color: var(--Fondo, #006F76);
+  font-family: "Nunito Sans";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
 
 .subitem-menu{
   width: 100%;
@@ -483,7 +495,76 @@ input[name="nombre"],
   gap: 7px;
   padding-left: 15px;
 }
+.container-create{
+  width: 201px;
+  height: auto;
+  border-radius: 9px;
+  border: 1px dashed var(--common-white_states-main, #FFF);
+  background: var(--common-white_states-main, #FFF);
+  cursor: pointer;
+}
+.header-create{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+    border-radius: 9px;
+  border: 1px dashed var(--common-white_states-main, #FFF);
+  background: var(--common-white_states-main, #FFF);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.header-create h1{
+  color: #006F76;
+  font-family: "Nunito Sans";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  
+}
+.submenu-create{
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 10px 15px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 0px 0px 20px 3px;
+  margin-top: 5px;
+}
+.submenu-create .sub-create:hover{
+  background-color: #006f76;
+  fill: white;
+  color: white;
+}
+.sub-create:hover .spanSub {
+  fill: white; /* Cambia el color de relleno del SVG a blanco */
+  color: white; /* Cambia el color del texto del span a blanco */
+}
 
+.sub-create{
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  border-bottom-right-radius: 16px;
+  gap: 5px;
+  font-size: 14px;
+}
+.sub-create span{
+  color: #047679;
+font-family: "Nunito Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
 /*HOME SCREEN*/
 
 .home-screen-container{

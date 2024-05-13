@@ -5,7 +5,7 @@
     --secondary-color:#067B7A;  
 }
   
-
+/* 
 .private-main{
     height: 100vh;
     width: 100%;
@@ -13,6 +13,18 @@
     font-size: 13px;
     font-family: "Nunito Sans", sans-serif;
     background-color: #FDFEFE;
+   
+} */
+.private-main {
+    height: 100vh;         /* Altura fija que ocupa toda la ventana del navegador */
+    width: 100%;           /* Ancho completo para asegurar cobertura completa sin horizontal scroll */
+    overflow-x: hidden;    /* Oculta cualquier desbordamiento horizontal */
+    overflow-y: auto;      /* Permite el desplazamiento vertical si el contenido es más alto que el contenedor */
+    display: flex;         /* Mantiene un diseño flexible, ajustable */
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    background-color: #FDFEFE;
+    box-sizing: border-box; /* Incluye padding y border dentro del ancho y alto del elemento */
 }
 
 .private-main-expanded{
@@ -155,6 +167,7 @@
     overflow-x: scroll;
     background-color: rgb(241, 241, 241);
 }
+
 /*MENU DESPLEGABLE*/
 
 .caja {
@@ -287,16 +300,17 @@
 
 
 .private-aside-extended-footer{
-    width: 100%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     gap: 50px;
     padding: 12px 0px 30px 0px;
-    position: absolute;
+    position: relative;
     bottom: 0;
     background-color: var(--primary-color);
+    
 }
 
 /*ASIDE CONTRACT*/

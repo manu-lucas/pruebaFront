@@ -35,7 +35,7 @@ import { GoPlus } from "react-icons/go";
 import { CiSettings } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-
+import { NavCreate } from '../../components/NavBar/NavCreate';
 
 import './PrivateStructure.css'
 import Overlay from '../../components/Overlay/Overlay';
@@ -287,6 +287,11 @@ const PrivateStructure = ({ children }) => {
     setLogged(false)
   }
 
+  const [isCreateVisible, setIsCreateVisible]=useState(false);
+  const toggleCreate = () =>{
+    setIsCreateVisible(!isCreateVisible)
+  }
+
   return (
     <>
     <main className={`private-main ${allowInteraction ? 'private-main-contract' : 'private-main-expanded'}`}>
@@ -380,12 +385,17 @@ const PrivateStructure = ({ children }) => {
                 }
               </div>
               <div className='private-aside-extended-footer'>
-                <div className='aside-create-container'>
+              {!isCreateVisible && (
+                <div className='aside-create-container' onClick={toggleCreate}>
                   <div className='aside-create-icon'>
-                    <FiPlus/>
+                    <FiPlus />
                   </div>
-                  <span>Crear</span>        
+                  <span>Crear</span>
                 </div>
+              )}
+                {isCreateVisible && (
+                    <NavCreate onHeaderClick={toggleCreate} />
+                )}
                 <div className='aside-config-container'>
                   <AiFillSetting/>
                   <span>Configurar empresa</span>
