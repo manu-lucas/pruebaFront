@@ -2,10 +2,10 @@
 
 :root{
     --primary-color: #006F76;
-    --secondary-color:#067B7A;  
+    --secondary-color:#067B7A;
 }
-  
-/* 
+
+/*
 .private-main{
     height: 100vh;
     width: 100%;
@@ -13,7 +13,7 @@
     font-size: 13px;
     font-family: "Nunito Sans", sans-serif;
     background-color: #FDFEFE;
-   
+
 } */
 .private-main {
     height: 100vh;         /* Altura fija que ocupa toda la ventana del navegador */
@@ -43,7 +43,7 @@
 .private-main-container-expanded{
     width: calc(100% - 15.625rem);
     height: 100%;
-    transition: width 0.3s ease; 
+    transition: width 0.3s ease;
 }
 
 .private-bottom-nav{
@@ -51,14 +51,14 @@
     height: 50px;
     border-bottom: 1px solid #97979747;
     box-sizing: border-box;
-    
+
     display: flex;
     align-items: center;
     padding: 0px 20px;
     position: relative;
     justify-content: space-between;
     font-family: "Nunito Sans", sans-serif;
-    
+
     background-color: var(--primary-color);
     padding: 0px 30px;
     color: #FFFFFF;
@@ -69,7 +69,7 @@
 .private-main-container-contract{
     width: calc(100% - 75px);
     height: 100%;
-    transition: width 0.3s ease; 
+    transition: width 0.3s ease;
 }
 
 .private-main-container-responsive{
@@ -97,7 +97,7 @@
     background-color: #F5F6FA;
 
 }
-  
+
 .custom-input:focus {
     background-color: #F5F6FA;
     outline: none; /* Elimina el borde cuando el input está enfocado */
@@ -172,20 +172,20 @@
 
 .caja {
     background-color: var(--primary-color);
-    width: 75px; 
-    height: 100vh; 
+    width: 75px;
+    height: 100vh;
     box-sizing: border-box;
     position: relative;
 }
 
 .expandir {
     width: 15.625rem;
-    transition: width 0.3s ease; 
+    transition: width 0.3s ease;
 }
-  
+
 .contraer {
-    width: 75px; 
-    transition: width 0.3s ease; 
+    width: 75px;
+    transition: width 0.3s ease;
 }
 
 .private-aside-btn{
@@ -214,18 +214,23 @@
 
 .private-aside-extanded{
     width: 100%;
-    height: 100vh;
+    height: calc(100% - 50px);
+    min-height: 100vh;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 30px 15px;
     font-size: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    padding-bottom: 200px;
+    /* padding-bottom: 200px; */
+    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none; /* Firefox */
 }
-
+.private-aside-extended::-webkit-scrollbar {
+    display: none;
+}
 .aside-logo{
     margin: 0 auto;
     margin-bottom: 10px;
@@ -305,12 +310,13 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    gap: 50px;
-    padding: 12px 0px 30px 0px;
+    gap: 36px;
+    /* padding: 25% 0px 30px 0px; */
+    margin-top: auto;
     position: relative;
-    bottom: 0;
+    /* bottom: 0; */
     background-color: var(--primary-color);
-    
+    flex-shrink: 0;
 }
 
 /*ASIDE CONTRACT*/
@@ -341,7 +347,7 @@
 .menu-close{
     display: none;
 }
-  
+
 .menu {
     width: 300px;
     height: 100vh;
@@ -361,7 +367,7 @@
     left: -300px; /* Menú oculto por defecto */
     z-index: 500;
 }
-  
+
 .menu.open {
     transition: left 0.3s ease; /* Transición suave al abrir/cerrar */
     animation-duration: 0.3s; /* Duración de la animación */
@@ -369,19 +375,19 @@
     left: 0; /* Mostrar el menú cuando está abierto */
     animation-name: slideIn; /* Nombre de la animación al abrir */
 }
-  
+
 .menu.close {
     animation-duration: 0.3s; /* Duración de la animación */
     left: -300px; /* Ocultar el menú cuando está cerrado */
     animation-name: slideOut; /* Nombre de la animación al cerrar */
 }
-  
 
-  
+
+
 li {
     padding: 0px;
 }
-  
+
 /* Define la animación para abrir el menú */
 @keyframes slideIn {
     from {
@@ -391,7 +397,7 @@ li {
       left: 0;
     }
 }
-  
+
 /* Define la animación para cerrar el menú */
 @keyframes slideOut {
     from {
@@ -401,7 +407,7 @@ li {
       left: -200px;
     }
 }
-  
+
 
 @media screen and (max-width:890px) {
     .private-header-col{
@@ -424,5 +430,5 @@ li {
         background-color: rgb(241, 241, 241);
     }
 
-    
+
 }
