@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SelectComponent from '../../../../components/Select/SelectComponent'
 import axios from 'axios';
 import { FaArrowLeftLong, FaRegTrashCan } from 'react-icons/fa6';
@@ -13,6 +13,7 @@ import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ImgInput } from '../../../../components/img/ImgInput';
+import { AppContext } from '../../../../context/AppContext';
 
 const FirstStep = ({setStep,data,setData}) =>{
   const [value, setValue] = useState(null);
@@ -197,6 +198,7 @@ const SecondStep = ({setStep,data,setData}) => {
 
 const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoadingScreen,setClose}) => {
 
+  const {  products,setProducts } = useContext(AppContext)
   //stock
   const [value, setValue] = useState(null);
   const onChange = (e) => {
@@ -268,8 +270,15 @@ const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoad
       );
       console.log('Respuesta de neuvo producto')
       console.log(response)
+
+      
+      //setProducts([...products,response.data.payload])
+
+      setProducts([...products,response.data.payload])
+
       //sin error
       setErrorScreen(false)
+
       ///data inicial
       setData(dataInitialState)
       //modal de producto creado
@@ -428,6 +437,8 @@ const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoad
 
 const NuevoPS = ({reference,setClose}) => {
   
+  const { userLoggedData } = useContext(AppContext)
+
   const [ loadingScreen,setLoadingScreen ] = useState(false);
 
   const [ errorScreen,setErrorScreen ] = useState(false);
@@ -453,7 +464,8 @@ const NuevoPS = ({reference,setClose}) => {
     //es un int y no un string
     cantidad:null,
     unidad_medida:'',
-    user: '1114ad52-f699-4eb8-9a08-ef9e61eaa42a',
+    
+    user: userLoggedData.data.user,
     moneda: 1
   }
 

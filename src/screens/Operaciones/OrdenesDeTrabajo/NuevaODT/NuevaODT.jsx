@@ -12,10 +12,13 @@ import { FiDownload } from 'react-icons/fi';
 import FormerBtn from '../../../../components/Buttons/FormerBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { AiFillEdit } from 'react-icons/ai';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaUserPlus } from 'react-icons/fa';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import SelectComp from '../../../../components/Select/SelectComp';
 import { padding } from '@mui/system';
+import NuevoCliente from '../../../Comercial/Clientes/NuevoCliente/NuevoCliente';
+import { BsBoxSeam } from 'react-icons/bs';
+import NuevoPS from '../../../Empresa/ProductosServicios/NuevoPS/NuevoPS';
 
 
 const FirstStep = ({setStep,clienteValue,setClientevalue,contactValue,setContactvalue,proyecto,setProyecto,vendedorValue,setVendedorvalue}) =>{
@@ -76,133 +79,178 @@ const FirstStep = ({setStep,clienteValue,setClientevalue,contactValue,setContact
     }
   }
   
+  const [ clientModal,setClientModal ] = useState(false)
+
 
   return (
-    <div className='principal-container-column'>
-      
-      <h2 style={{fontSize:20}}>Datos principales</h2>
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
-          <SelectComp
-            placeholder={'seleccionar cliente'}
-            options={clientesRestructured(clientes)}
-            value={clienteValue ? clienteValue.value : null}
-            HandleChange={(value,record)=>{
-              setClientevalue(record)
-              setContactvalue(null)
-              setContactos(record.contactos)
-            }}
-          />
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
-          <SelectComp
-            placeholder={'seleccionar contacto'}
-            options={contactosRestructured(contactos)}
-            value={ contactValue ? contactValue.label : null }
-            HandleChange={(value,record)=>{
-              console.log(record)
-              setContactvalue(record)
-            }}
-          />
-        </div>
-      </div>
+    <>
+      <div className='principal-container-column'>
+        
+        <h2 style={{fontSize:20}}>Datos principales</h2>
+        <div className='form-grid'>
+          <div className='column' style={{gap:5}}>
+            <div className='row-space-btw'>
+              <span className='form-label' style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {}}>Cliente <span style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {color:"red"}}>*</span></span>
+              <div style={clientes.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} className='row' onClick={()=>{setClientModal(true)}} >
+                <FaUserPlus/>
+                <span>Agregar nuevo cliente</span>
+              </div>
+            </div>
+            {
+              clientes.length === 0 ?
+              <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+                <span>No hay clientes registrados</span>
+              </div>
+              :
+              <SelectComp
+                placeholder={'seleccionar cliente'}
+                options={clientesRestructured(clientes)}
+                value={clienteValue ? clienteValue.value : null}
+                HandleChange={(value,record)=>{
+                  setClientevalue(record)
+                  setContactvalue(null)
+                  setContactos(record.contactos)
+                }}
+              />
 
-      <div className='column' style={{gap:5}}>
-        <span className='form-label'>Nombre de proyecto</span>
-        <input style={{padding:8}} value={proyecto.nombre_etiqueta} onChange={(e)=>{
-          if(e.target.value.trim().replace(/\s/g, "") === ""){
-            console.log('valor nulo')
-            setProyecto({...proyecto,nombre_etiqueta: null})
-          }else{
-            setProyecto({...proyecto,nombre_etiqueta: e.target.value})}
-          }
-        } placeholder='Ingrese nombre para el proyecto'/>
-      </div>
+            }
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
-          <SelectComp
-            placeholder={'Seleccionar vendedor'}
-            options={vendedoresRestructured(subusuarios)}
-            value={vendedorValue ? vendedorValue.value : null}
-            HandleChange={(value,record)=>{
-              console.log(record)
-              setVendedorvalue(record)
-            }}
-          />
+          </div>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label' style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {}}>Contacto <span style={clientes.length === 0 ? {color:"#b9b9b9c4"} :{color:"red"}}>*</span></span>
+            {
+              clientes.length === 0 ?
+              <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 5px", borderRadius:5}}>
+                <span>-</span>
+              </div>
+              :
+              <SelectComp
+                placeholder={'seleccionar contacto'}
+                options={contactosRestructured(contactos)}
+                value={ contactValue ? contactValue.label : null }
+                HandleChange={(value,record)=>{
+                  console.log(record)
+                  setContactvalue(record)
+                }}
+              />
+
+            }
+          </div>
         </div>
+
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Comisión <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} type='number' value={proyecto.comision} onChange={(e)=>{
+          <span className='form-label'>Nombre de proyecto</span>
+          <input style={{padding:8}} value={proyecto.nombre_etiqueta} onChange={(e)=>{
             if(e.target.value.trim().replace(/\s/g, "") === ""){
               console.log('valor nulo')
-              setProyecto({...proyecto,comision: null})
-            }else{              
-              setProyecto({...proyecto,comision: e.target.value})
+              setProyecto({...proyecto,nombre_etiqueta: null})
+            }else{
+              setProyecto({...proyecto,nombre_etiqueta: e.target.value})}
             }
-          }} placeholder='Ingrese el valor de la comisión' />
+          } placeholder='Ingrese nombre para el proyecto'/>
         </div>
-      </div>
 
-      <div className='principal-grid grid-3-columns'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Condición de pago <span style={{color:"red"}}>*</span></span>
-          <SelectComp
-              placeholder={'Seleccionar condición de pago'}
-              value={proyecto.condicion_de_pago}
-
-              options={[
-                {
-                  value: '1',
-                  label: '10 días'
-                },
-                {
-                  value: '2',
-                  label: '15 días'
-                },
-                {
-                  value: '3',
-                  label: '30 días'
-                },
-                {
-                  value: '4',
-                  label: '45 días'
-                },
-                {
-                  value: '5',
-                  label: 'condición creada por el cliente'
-                },
-              ]}
+        <div className='form-grid'>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Vendedor <span style={{color:"red"}}>*</span></span>
+            <SelectComp
+              placeholder={'Seleccionar vendedor'}
+              options={vendedoresRestructured(subusuarios)}
+              value={vendedorValue ? vendedorValue.value : null}
               HandleChange={(value,record)=>{
-                setProyecto({...proyecto,condicion_de_pago:value})
+                console.log(record)
+                setVendedorvalue(record)
               }}
-          />
+            />
+          </div>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Comisión <span style={{color:"red"}}>*</span></span>
+            <input style={{padding:8}} type='number' value={proyecto.comision} onChange={(e)=>{
+              if(e.target.value.trim().replace(/\s/g, "") === ""){
+                console.log('valor nulo')
+                setProyecto({...proyecto,comision: null})
+              }else{              
+                setProyecto({...proyecto,comision: e.target.value})
+              }
+            }} placeholder='Ingrese el valor de la comisión' />
+          </div>
         </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Moneda</span>
-          <SelectComponent/>
+
+        <div className='principal-grid grid-3-columns'>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Condición de pago <span style={{color:"red"}}>*</span></span>
+            <SelectComp
+                placeholder={'Seleccionar condición de pago'}
+                value={proyecto.condicion_de_pago}
+
+                options={[
+                  {
+                    value: '1',
+                    label: '10 días'
+                  },
+                  {
+                    value: '2',
+                    label: '15 días'
+                  },
+                  {
+                    value: '3',
+                    label: '30 días'
+                  },
+                  {
+                    value: '4',
+                    label: '45 días'
+                  },
+                  {
+                    value: '5',
+                    label: 'condición creada por el cliente'
+                  },
+                ]}
+                HandleChange={(value,record)=>{
+                  setProyecto({...proyecto,condicion_de_pago:value})
+                }}
+            />
+          </div>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Moneda</span>
+            <SelectComponent/>
+          </div>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Botón de pago</span>
+            <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
+          </div>
         </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Botón de pago</span>
-          <Switch style={{width:"30px"}} size="small" checked={disabled} onChange={onChange} />
+        {
+          error === true ?
+          <div style={{color:"red"}}>Rellena todo hdp</div>
+          :
+          <></>
+        }
+
+
+        <div className='container-item-flex-end' style={{marginTop:30}}>
+          <FollowingBtn handleClick={nextStep}/>
         </div>
+
       </div>
+      
       {
-        error === true ?
-        <div style={{color:"red"}}>Rellena todo hdp</div>
+        clientModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"0px 20px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setClientModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoCliente 
+                reference={true}
+                setClose={setClientModal}
+              />
+            </div>
+          </div>
+        </div>
         :
         <></>
       }
 
-
-      <div className='container-item-flex-end' style={{marginTop:30}}>
-        <FollowingBtn handleClick={nextStep}/>
-      </div>
-
-    </div>
+    </>
   )
 }
 
@@ -334,7 +382,11 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
     
   }
 
+  const [ productModal,setProductModal ] = useState(false);
+
+
   return(
+    <>
     <div className='principal-container-column'>
       <div className='row-space-btw form-header-step'>
 
@@ -414,17 +466,30 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
-          <SelectComp
-            placeholder={'Seleccionar producto/servicio'}
-            value={selectedProduct ? selectedProduct.value : null}
-            options={productosRestructured(products)}
-            HandleChange={(value,record)=>{
-              setSelectedProduct(record)
-              console.log('pruducto seleccionado')
-              console.log(record)
-            }}
-          />
+          <div className='row-space-btw'>
+            <span className='form-label' style={products.length === 0 ? {color:"#b9b9b9c4"} : {}}>Producto/Servicio <span style={products.length === 0 ? {color:"#b9b9b9c4"} : {color:"red"}}>*</span></span>
+            <div className='row' style={products.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} onClick={()=>{setProductModal(true)}}>
+              <BsBoxSeam/>
+              <span>Agregar nuevo producto/servicio</span>
+            </div>
+          </div>
+          {
+            products.length === 0 ?
+            <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+              <span>No hay productos registrados</span>
+            </div>
+            :
+            <SelectComp
+              placeholder={'Seleccionar producto/servicio'}
+              value={selectedProduct ? selectedProduct.value : null}
+              options={productosRestructured(products)}
+              HandleChange={(value,record)=>{
+                setSelectedProduct(record)
+                console.log('pruducto seleccionado')
+                console.log(record)
+              }}
+            />
+          }
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Descripción</span>
@@ -523,6 +588,23 @@ const SecondStep = ({setStep,productsList,setProductsList}) => {
       </div>
 
     </div>
+    {
+        productModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"10px 40px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setProductModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoPS
+                reference={true}
+                setClose={setProductModal}
+              />
+            </div>
+          </div>
+        </div>
+        :
+        <></>
+      }
+    </>
   )
 }
 
@@ -627,7 +709,7 @@ const NuevaODT = () => {
   //PROYECTO
   const proyectoInitialState = {
     //id
-    user: userLoggedData.data.id,
+    user: userLoggedData.data.user,
     //idVendedor
     //vendedor: null,
     //idCliente

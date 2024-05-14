@@ -694,7 +694,6 @@ const NuevoCliente = ({reference,setClose}) => {
           <FaArrowLeftLong/>
           <span>Volver a clientes</span>
         </div>
-
       }
       <h1>Agregar cliente</h1>
       {

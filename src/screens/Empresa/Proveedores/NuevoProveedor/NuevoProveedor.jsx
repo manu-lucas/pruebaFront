@@ -198,8 +198,10 @@ const SecondStep = ({setStep,data,setData}) => {
 }
 
 
-const ThirdStep = ({setStep,data,setData,setLoadingScreen,setErrorScreen,dataInitialState}) =>{
+const ThirdStep = ({setStep,data,setData,setLoadingScreen,setErrorScreen,dataInitialState,setClose}) =>{
 
+
+  const { proveedores,setProveedores } = useContext(AppContext)
 
   function createProvider  () {
     console.log(data)
@@ -212,6 +214,8 @@ const ThirdStep = ({setStep,data,setData,setLoadingScreen,setErrorScreen,dataIni
 
       const response = await axios.post(`https://appify-black-side.vercel.app/proveedor/createProv`,data)
       console.log(response)
+      //arreglar esto
+      setProveedores([...proveedores,response.data.payload])
       //sin error
       setErrorScreen(false)
       ///data inicial
@@ -220,6 +224,7 @@ const ThirdStep = ({setStep,data,setData,setLoadingScreen,setErrorScreen,dataIni
       setLoadingScreen(false)
       setStep(4)
       setTimeout(() => {
+        setClose ? setClose(false) : null
         setStep(1)
       }, 3000);
 
@@ -312,14 +317,14 @@ const ThirdStep = ({setStep,data,setData,setLoadingScreen,setErrorScreen,dataIni
 }
 
 
-const NuevoProveedor = ({reference}) => {
+const NuevoProveedor = ({reference,setClose}) => {
 
   const { userLoggedData } = useContext(AppContext);
 
   const navigate = useNavigate();
 
   const dataProveedorInitialState = {
-    user: userLoggedData.id,
+    user: userLoggedData.data.user,
     rut: null,
     razon_social: "",
     activo: true,
@@ -372,7 +377,7 @@ const NuevoProveedor = ({reference}) => {
       case 2:
         return <SecondStep setStep={setStep} data={data} setData={setData}/>
       case 3:
-        return <ThirdStep setStep={setStep} data={data} setData={setData} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} dataInitialState={dataProveedorInitialState}/>
+        return <ThirdStep setStep={setStep} data={data} setData={setData} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} dataInitialState={dataProveedorInitialState} setClose={setClose ? setClose : null}/>
     }
   }
 
