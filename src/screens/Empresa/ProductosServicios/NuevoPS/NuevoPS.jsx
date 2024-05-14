@@ -195,7 +195,7 @@ const SecondStep = ({setStep,data,setData}) => {
   )
 }
 
-const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoadingScreen}) => {
+const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoadingScreen,setClose}) => {
 
   //stock
   const [value, setValue] = useState(null);
@@ -266,6 +266,7 @@ const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoad
         `https://appify-black-side.vercel.app/products/product`,
         data
       );
+      console.log('Respuesta de neuvo producto')
       console.log(response)
       //sin error
       setErrorScreen(false)
@@ -276,6 +277,7 @@ const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoad
       setStep(4)
       setTimeout(() => {
         setStep(1)
+        setClose ? setClose(false) : null
       }, 3000);
     }catch(err){
       console.log(err)
@@ -424,7 +426,7 @@ const ThirdStep = ({setStep,data,setData,dataInitialState,setErrorScreen,setLoad
   )
 }
 
-const NuevoPS = () => {
+const NuevoPS = ({reference,setClose}) => {
   
   const [ loadingScreen,setLoadingScreen ] = useState(false);
 
@@ -470,7 +472,7 @@ const NuevoPS = () => {
         return <SecondStep setStep={setStep} data={data} setData={setData}/>
       
       case 3:
-        return <ThirdStep setStep={setStep} data={data} setData={setData} dataInitialState={dataInitialState} setErrorScreen={setErrorScreen} setLoadingScreen={setLoadingScreen}/>
+        return <ThirdStep setStep={setStep} data={data} setData={setData} dataInitialState={dataInitialState} setErrorScreen={setErrorScreen} setLoadingScreen={setLoadingScreen} setClose={setClose ? setClose : null}/>
     }
   }
   
@@ -490,10 +492,15 @@ const NuevoPS = () => {
   
   return (
     <>
-      <div className='row' onClick={()=>{goBack()}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
-        <FaArrowLeftLong/>
-        <span>Volver a productos</span>
-      </div>
+      {
+        reference ?
+        <></>
+        :
+        <div className='row' onClick={()=>{goBack()}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+          <FaArrowLeftLong/>
+          <span>Volver a productos</span>
+        </div>
+      }
       <h1>Nuevo producto</h1>
       {
         loadingScreen === true ?
