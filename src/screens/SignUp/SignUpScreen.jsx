@@ -11,7 +11,7 @@ import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getO
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Cookies from 'js-cookie';
-
+import { TermsAndCondition } from '../terms/Terms';
 const FirstStep = ({setStep}) =>{
   const [ loading,setLoading ] = useState(false);
   const [ data,setData ] = useState({email:''})
@@ -560,12 +560,12 @@ const SuscribeStep = ({setStep}) =>{
   }
  return(
   <>
-  <div className='suscribe-container'>
+     <div className='suscribe-container'>
     <div className='login-isologo-container isologo-suscribe'>
       <img src={IsologoLogin} alt='isologoAppify' className='login-isologo' />
       <h1 className='login-title'>Suscríbete ahora</h1>
     </div>
-    <div className='plan-container'>
+    <div className=' plan-container'>
       <div className='gestion-container'>
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="29" viewBox="0 0 25 29" fill="none">
           <path d="M2.21436 13.3473L22.7501 2.67383" stroke="#006F76" strokeLinecap="round" strokeLinejoin="round"/>
@@ -639,10 +639,9 @@ const SuscribeStep = ({setStep}) =>{
         </div> 
     </div>
     <div className='continuar-pago'>
-      <button type='button' className='login-button btn-mp'>Continuar con el pago</button>
+      <button type='button' className='login-button btn-mp' onClick={() => setStep(4)}>Continuar con el pago</button>
     </div>
-    <div style={{width:"100%", textAlign:"center",boxSizing:"border-box",padding:"20px 0px",cursor:"pointer",color:"grey"}} onClick={()=>{cancel()}}>Cancelar</div>
-  </div>
+
   </>
  )
 }
@@ -679,9 +678,11 @@ const SignUpScreen = () => {
         return <SecondStep setStep={setStep}/>
       case 3: 
       return <SuscribeStep setStep={setStep}/>
-      case 4:
-        return <ThirdStep setStep={setStep} />
       case 5:
+        return <ThirdStep setStep={setStep} />
+      case 4 :
+        return <TermsAndCondition setStep={setStep}/>
+      case 6:
         return <FourthStep setStep={setStep}/>
    
     }
