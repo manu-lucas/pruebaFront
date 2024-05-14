@@ -10,6 +10,7 @@ import LogoLogin from '../../assets/assets/logo_login.svg';
 import { getAllProducts, getAllProviders, getAllUsers, getClientes, getOCs, getOTs, getProyectos, getVentas } from '../../utils/api/Login/LoginFunction';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 const FirstStep = ({setStep}) =>{
   const [ loading,setLoading ] = useState(false);
@@ -244,7 +245,7 @@ const SecondStep = ({setStep}) =>{
 const ThirdStep = ({setStep}) =>{
 
 
-  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas } = useContext(AppContext)
+  const { setUserLoggedData,setLogged,setProyectos,setClientes,setOrdenesDeTrabajo,setSubusuarios,setProducts,setProveedores,setOrdenesDeCompra,setSignUpCode,setVentas,setLoadingPrivateRoutes } = useContext(AppContext)
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword]= useState('');
@@ -352,6 +353,10 @@ const ThirdStep = ({setStep}) =>{
         userType: "superusuario"
       }
 
+      console.log('data del usuariooo')
+      console.log(response.data.payload.result[0].id, userData)
+      console.log(userData)
+      setTkn(userData)
       getLoginData(response.data.payload.result[0].id, userData)
 
     }catch (err){
@@ -362,6 +367,17 @@ const ThirdStep = ({setStep}) =>{
     }
 
 
+  }
+
+
+  async function setTkn (data){
+    try{
+      const response = await axios.post(`https://appify-black-side.vercel.app/user/token`,data)
+      console.log('token seteado')
+      Cookies.set('tkn', response.data.payload)
+    }catch(err){
+      console.log(err)
+    }
   }
 
 
@@ -383,6 +399,7 @@ const ThirdStep = ({setStep}) =>{
     setLogged(true)
     navigate('/')
     setTimeout(() => {
+      setLoadingPrivateRoutes(false)
       setLoading(false)
     }, 3000);
 
