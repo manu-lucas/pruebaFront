@@ -14,7 +14,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root{
   --primary-color: #006F76;
@@ -314,6 +314,90 @@ line-height: normal;
 }
 .req-pass.valid{
   color: green;
+}
+/* suscribe container */
+.suscribe-container{
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: var(--common-white_states-main, #FFF);
+}
+.isologo-suscribe{
+  margin-top: 20px
+}
+.plan-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin-right: 66px;
+  margin-left: 66px;
+  gap: 15px;
+  
+}
+.gestion-container, .operaciones-container,.finanzas-container,.empresa-container{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 29px;
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.precio-container span{
+  display: flex;
+  justify-content: center;
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: auto;
+  text-align: center;
+}
+.mercado-pago-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 15px;
+  margin: 37px 66px ;
+}
+.logo-mp{
+  display: inline-flex;
+  gap: 15px;
+}
+.mercadoPago{
+  color: #000;
+font-family: "Nunito Sans";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+.continuar-pago {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  margin-top: 20px; /* Ajusta según sea necesario */
+  margin-bottom: 20px; /* Agrega margen inferior */
+}
+.btn-mp{
+  max-width: 419px;
+  height: 53px;
+  border-radius: 13px;
+  border: 1px solid #1A7E84;
+  background: #1A7E84;
+  flex-shrink: 0;
+  color: var(--common-white_states-main, #FFF);
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
 }
 /*PRIVATE STRUCTURE*/
 
