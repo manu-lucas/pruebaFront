@@ -369,9 +369,9 @@ const ThirdStep = ({setStep,data,setData,condicionDePago,setCondicionDePago}) =>
   )
 }
 
-const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,contactos, setContactos,setErrorScreen,setLoadingScreen,clienteInitialState}) => {
+const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,contactos, setContactos,setErrorScreen,setLoadingScreen,clienteInitialState,setClose}) => {
   
-  const { userLoggedData } = useContext(AppContext);
+  const { userLoggedData,clientes,setClientes } = useContext(AppContext);
 
   useEffect(() => {
     console.log(userLoggedData)
@@ -463,8 +463,11 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
       const response = await axios.post(
         `https://appify-black-side.vercel.app/clientes/cliente`,data
       );
+      console.log('respuesta de la base de datos')
       console.log(response)
-      
+      console.log(typeof response.data.payload)
+      console.log(response.data.payload)
+      setClientes([...clientes,response.data.payload])
       //sin error
       setErrorScreen(false)
       ///data inicial
@@ -472,8 +475,10 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
       //modal de producto creado
       setLoadingScreen(false)
       setStep(5)
+
       setTimeout(() => {
         setStep(1)
+        setClose ? setClose(false) : null
       }, 3000);
       
     }catch(err){
@@ -597,7 +602,7 @@ const FourthStep = ({setStep,data,setData,puntosDeDespacho,setPuntosDeDespacho,c
   )
 }
 
-const NuevoCliente = () => {
+const NuevoCliente = ({reference,setClose}) => {
 
   const {menuOptions,setMenuOptions} = useContext(AppContext);
   const navigate = useNavigate();
@@ -660,7 +665,7 @@ const NuevoCliente = () => {
         return <ThirdStep setStep={setStep} data={data} setData={setData} condicionDePago={condicionDePago} setCondicionDePago={setCondicionDePago}/>
         
       case 4:
-        return <FourthStep setStep={setStep} data={data} setData={setData} puntosDeDespacho={puntosDeDespacho} setPuntosDeDespacho={setPuntosDeDespacho} contactos={contactos} setContactos={setContactos} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} clienteInitialState={clienteInitialState}/>
+        return <FourthStep setStep={setStep} data={data} setData={setData} puntosDeDespacho={puntosDeDespacho} setPuntosDeDespacho={setPuntosDeDespacho} contactos={contactos} setContactos={setContactos} setLoadingScreen={setLoadingScreen} setErrorScreen={setErrorScreen} clienteInitialState={clienteInitialState} setClose={setClose ? setClose : null}/>
      
     }
   }
@@ -680,11 +685,17 @@ const NuevoCliente = () => {
   }
   
   return (
-    <>  
-      <div className='row' onClick={()=>{navigate('/clients/dashboard')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
-        <FaArrowLeftLong/>
-        <span>Volver a clientes</span>
-      </div>
+    <>
+      {
+        reference ?
+        <></>
+        :
+        <div className='row' onClick={()=>{navigate('/clients/dashboard')}} style={{fontSize:13,gap:5,color:"grey",cursor:"pointer"}}>
+          <FaArrowLeftLong/>
+          <span>Volver a clientes</span>
+        </div>
+
+      }
       <h1>Agregar cliente</h1>
       {
         loadingScreen === true ?

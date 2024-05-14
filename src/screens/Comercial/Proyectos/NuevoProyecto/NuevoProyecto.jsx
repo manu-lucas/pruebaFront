@@ -16,7 +16,7 @@ import { FaCheck, FaTrashAlt, FaUserPlus } from "react-icons/fa";
 
 
 import Success from '../../../../components/Modals/Success';
-import { BsArrowRight } from 'react-icons/bs';
+import { BsArrowRight, BsBoxSeam } from 'react-icons/bs';
 
 
 import FollowingBtn from '../../../../components/Buttons/FollowingBtn';
@@ -28,6 +28,7 @@ import axios from 'axios';
 import { MdErrorOutline } from 'react-icons/md';
 import { LoadingOutlined } from '@ant-design/icons';
 import NuevoCliente from '../../Clientes/NuevoCliente/NuevoCliente';
+import NuevoPS from '../../../Empresa/ProductosServicios/NuevoPS/NuevoPS';
 
 
 const colors1 = ['#6253E1', '#04BEFE'];
@@ -97,20 +98,14 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName,clientSel
 
         <div className='column' style={{gap:5}}>
           
-          <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
-            <Link to={'/clients/new'} target='_blank' className='row'>
-              <FaUserPlus/>
-              <span>Agregar nuevo cliente</span>
-            </Link>
-          {
-            clientesRestructured(clientes).length === 0 ? 
-            <div onClick={()=>{setClientModal(true)}} className='row'>
+          <div className='row-space-btw'>
+            <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
+            <div onClick={()=>{setClientModal(true)}}  className='row'>
               <FaUserPlus/>
               <span>Agregar nuevo cliente</span>
             </div>
-            :
-            <></>
-          }
+          </div>
+            
           <SelectComp
             placeholder={'seleccionar cliente'}
             HandleChange={(value,record)=>{
@@ -141,12 +136,7 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName,clientSel
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
-          {
-            clientesRestructured(clientes).length === 0 ? 
-            <div style={{color:"grey"}}>Debe agregar un nuevo cliente *</div>
-            :
-            <></>
-          }
+          
           <SelectComp
             //value={contactValue}
             placeholder={'seleccionar contacto'}
@@ -256,10 +246,13 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName,clientSel
       {
         clientModal === true ?
         <div className='modal-overlay'>
-          <div className='modal' style={{minHeight:"90%",minWidth:"90%",padding:"10px 40px"}}>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"0px 20px"}}>
             <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setClientModal(false)}}>x</div>
             <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
-              <NuevoCliente/>
+              <NuevoCliente 
+                reference={true}
+                setClose={setClientModal}
+              />
             </div>
           </div>
         </div>
@@ -322,7 +315,8 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
     return updateData
   }
 
-  
+  const [ productModal,setProductModal ] = useState(false);
+
 
   return(
     <>
@@ -395,7 +389,13 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
+          <div className='row-space-btw'>
+            <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
+            <div className='row' onClick={()=>{setProductModal(true)}}>
+              <BsBoxSeam/>
+              <span>Agregar nuevo producto/servicio</span>
+            </div>
+          </div>
           <SelectComp
             placeholder={'Seleccionar producto/servicio'}
             options={productsRestructured(products)}
@@ -487,6 +487,22 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
         <FormerBtn setStep={setStep} value={1}/>
         <FollowingBtn setStep={setStep} value={3}/>
       </div>
+      {
+        productModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"10px 40px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setProductModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoPS
+                reference={true}
+                setClose={setProductModal}
+              />
+            </div>
+          </div>
+        </div>
+        :
+        <></>
+      }
     </>
   )
 }
