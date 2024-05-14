@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../../context/AppContext';
 import { updateSubMenuAsideOptions } from '../../../../utils/helpers';
-import { FaArrowLeftLong } from 'react-icons/fa6';
+import { FaArrowLeftLong, FaUserPlus } from 'react-icons/fa6';
 import Success from '../../../../components/Modals/Success';
 import PrincipalCard from '../../../../components/Card/PrincipalCard';
 import { DatePicker, Table } from 'antd';
@@ -15,13 +15,29 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { Radio } from 'antd';
 import FormerBtn from '../../../../components/Buttons/FormerBtn';
 import CreateBtn from '../../../../components/Buttons/CreateBtn';
+import SelectComp from '../../../../components/Select/SelectComp';
+import NuevoProveedor from '../../../Empresa/Proveedores/NuevoProveedor/NuevoProveedor';
+import { BsBoxSeam } from 'react-icons/bs';
+import NuevoPS from '../../../Empresa/ProductosServicios/NuevoPS/NuevoPS';
 
 
 
 const FirstStep = ({setStep}) =>{
-  
+  const { proveedores } = useContext(AppContext);
+
+  const [ proveedorModal,setProveedorModal ] = useState(false)
+
+  function proveedoresRestructured (proveedoresArray) {
+    const updateData = proveedoresArray.map((item)=>{
+      return {
+        ...item, label: item.razon_social, value: item.id
+      }
+    })
+    return updateData
+  }
 
   return(
+    <>
     <div className='principal-container-column'>
       <h2 style={{fontSize:20}}>Datos principales</h2>
       
@@ -32,18 +48,65 @@ const FirstStep = ({setStep}) =>{
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Fecha <span style={{color:"red"}}>*</span></span>
-          <DatePicker picker="week" />
+          <DatePicker picker="date" />
         </div>
       </div>
 
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Proveedor </span>
-          <SelectComponent/>
+          <div className='row-space-btw'>
+            <span className='form-label' style={proveedores.length === 0 ? {color:"#b9b9b9c4"} : {}}>Proveedor </span>
+            <div style={proveedores.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} className='row' onClick={()=>{
+                setProveedorModal(true)
+              }} >
+              <FaUserPlus/>
+              <span>Agregar nuevo proveedor</span>
+            </div>
+          </div>
+          {
+            proveedores.length === 0 ?
+            <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+              <span>No hay proveedores registrados</span>
+            </div>
+            :
+            <SelectComp 
+              placeholder={'seleccionar proveedor'}
+              options={proveedoresRestructured(proveedores)}
+            />
+          }
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Condición de pago </span>
-          <SelectComponent/>
+          <SelectComp
+                placeholder={'Seleccionar condición de pago'}
+                //value={proyecto.condicion_de_pago}
+
+                options={[
+                  {
+                    value: '1',
+                    label: '10 días'
+                  },
+                  {
+                    value: '2',
+                    label: '15 días'
+                  },
+                  {
+                    value: '3',
+                    label: '30 días'
+                  },
+                  {
+                    value: '4',
+                    label: '45 días'
+                  },
+                  {
+                    value: '5',
+                    label: 'condición creada por el cliente'
+                  },
+                ]}
+                HandleChange={(value,record)=>{
+                  setProyecto({...proyecto,condicion_de_pago:value})
+                }}
+            />
         </div>
       </div>
 
@@ -61,6 +124,23 @@ const FirstStep = ({setStep}) =>{
 
 
     </div>
+    {
+      proveedorModal === true ?
+      <div className='modal-overlay'>
+        <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"0px 20px"}}>
+          <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setProveedorModal(false)}}>x</div>
+          <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+            <NuevoProveedor
+              reference={true}
+              setClose={setProveedorModal}
+            />
+          </div>
+        </div>
+      </div>
+      :
+      <></>
+    }
+    </>
   )
 
 }
@@ -68,7 +148,20 @@ const FirstStep = ({setStep}) =>{
 
 const SecondStep = ({setStep}) => {
 
+  const { products,setProducts } = useContext(AppContext);
+
   const [ pslist,setPslist ] = useState([])
+
+
+  function productsRestructured (productsArray) {
+    const updateData = productsArray.map((item)=>{
+      return {
+        ...item, value: item.id, label: item.nombre
+      }
+    })
+
+    return updateData
+  }
 
 
   function addProductoServicio (){
@@ -99,143 +192,187 @@ const SecondStep = ({setStep}) => {
     }, 2000); 
   }
 
+
+  const [ productModal,setProductModal ] = useState(false);
+
+
   return(
-    <div className='principal-container-column'>
-      <div className='row-space-btw'>
-        <div className='row'>
-          <h2 style={{fontSize:20}}>Ítems</h2>
-          <div className='rounded-item' style={{height:30,width:30,color:"black",backgroundColor:"#b9b9b98d",fontSize:15}}>
-            <FiDownload />
+    <>
+      <div className='principal-container-column'>
+        <div className='row-space-btw'>
+          <div className='row'>
+            <h2 style={{fontSize:20}}>Ítems</h2>
+            <div className='rounded-item' style={{height:30,width:30,color:"black",backgroundColor:"#b9b9b98d",fontSize:15}}>
+              <FiDownload />
+            </div>
           </div>
+          <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
         </div>
-        <AddMoreBtn label={'Agregar otro producto/servicio'} HanldeClick={addProductoServicio}/>
-      </div>
 
 
-      {
-          pslist.length === 0 ?
-          <></>
-          :
-          <div style={{width:"100%",alignItems:"center"}}>
-            <Table
-              dataSource={pslist}
-              columns={
-                [
-                  {
-                    title: 'Producto/Servicio',
-                    dataIndex: 'producto',
-                    key: 'producto',
+        {
+            pslist.length === 0 ?
+            <></>
+            :
+            <div style={{width:"100%",alignItems:"center"}}>
+              <Table
+                dataSource={pslist}
+                columns={
+                  [
+                    {
+                      title: 'Producto/Servicio',
+                      dataIndex: 'producto',
+                      key: 'producto',
+                    },
+                    {
+                      title: 'Cantidad',
+                      dataIndex: 'cantidad',
+                      key: 'cantidad',
+                    },
+                    {
+                      title: 'Precio',
+                      dataIndex: 'precio',
+                      key: 'precio',
+                    },
+                    {
+                      title: '%',
+                      dataIndex: 'porcentaje',
+                      key: 'porcentaje',
+                    },
+                    {
+                      title: 'Neto',
+                      dataIndex: 'neto',
+                      key: 'neto',
+                    },
+                    {
+                      title: 'IVA',
+                      dataIndex: 'iva',
+                      key: 'iva',
+                    },
+                    {
+                      title: 'Total',
+                      dataIndex: 'total',
+                      key: 'total',
+                    },
+                    {
+                      title: 'Acciones',
+                      key: 'actions',
+                      render: (text, record) => (
+                        <div style={{display:"flex",alignItems:"center",gap:15}}>
+                          <AiFillEdit style={{cursor:"pointer"}}/>
+                          <FaTrashAlt style={{cursor:"pointer"}}/>
+                        </div>
+                      ),
                   },
-                  {
-                    title: 'Cantidad',
-                    dataIndex: 'cantidad',
-                    key: 'cantidad',
-                  },
-                  {
-                    title: 'Precio',
-                    dataIndex: 'precio',
-                    key: 'precio',
-                  },
-                  {
-                    title: '%',
-                    dataIndex: 'porcentaje',
-                    key: 'porcentaje',
-                  },
-                  {
-                    title: 'Neto',
-                    dataIndex: 'neto',
-                    key: 'neto',
-                  },
-                  {
-                    title: 'IVA',
-                    dataIndex: 'iva',
-                    key: 'iva',
-                  },
-                  {
-                    title: 'Total',
-                    dataIndex: 'total',
-                    key: 'total',
-                  },
-                  {
-                    title: 'Acciones',
-                    key: 'actions',
-                    render: (text, record) => (
-                      <div style={{display:"flex",alignItems:"center",gap:15}}>
-                        <AiFillEdit style={{cursor:"pointer"}}/>
-                        <FaTrashAlt style={{cursor:"pointer"}}/>
-                      </div>
-                    ),
-                },
-                ]
-              }
-            />
+                  ]
+                }
+              />
+              
+            </div>
+        }
+
+        <div className='form-grid'>
+          <div className='column' style={{gap:5}}>
+
             
+            <div className='row-space-btw'>
+              <span className='form-label' style={products.length === 0 ? {color:"#b9b9b9c4"}:{}}>Producto/Servicio <span style={products.length === 0 ? {color:"#b9b9b9c4"} :{color:"red"}}>*</span></span>
+              <div className='row' style={products.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} onClick={()=>{
+                setProductModal(true)
+              }}>
+                <BsBoxSeam/>
+                <span>Agregar nuevo producto/servicio</span>
+              </div>
+            </div>
+
+
+            {
+              products.length === 0 ?
+              <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+                <span>No hay productos registrados</span>
+              </div>
+              :
+              <SelectComp
+                options={productsRestructured(products)}
+              />
+            }
           </div>
-      }
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
+            <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
+          </div>
+        </div>
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
+        <div className='form-grid'>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Precio unitario <span style={{color:"red"}}>*</span></span>
+            <input style={{padding:8}} placeholder='Introduce el valor del precio unitario'/>
+          </div>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Neto </span>
+            <input style={{padding:8}} />
+          </div>
         </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Ingrese la cantidad'/>
+
+        <div className='form-grid'>
+          <div className='column' style={{gap:5}}>
+            <span className='form-label'>Cuenta <span style={{color:"red"}}>*</span></span>
+            <SelectComponent/>
+          </div>
+          <div className='column' style={{gap:15, justifyContent:"center"}}>
+            <span className='form-label'>Agregar exención </span>
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Si</Radio>
+              <Radio value={2}>No</Radio>
+            </Radio.Group>
+          </div>
         </div>
+        {
+          value === 1 ?
+          <div className='form-grid' style={{marginTop:"20px"}}>
+            <div></div>
+            <div>
+                  <div className='form-grid'>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Monto exento</span>
+                      <input style={{padding:8}} placeholder='Agregue el monto'/>
+                    </div>
+                    <div className='column' style={{gap:5}}>
+                      <span className='form-label'>Retención</span>
+                      <input style={{padding:8}} placeholder='Agregue la retención'/>
+                    </div>
+                  </div>
+            </div>
+          
+          </div>
+          :
+          <></>
+        }
+
+        <div className='row-space-btw' style={{marginTop:30}}>
+          <FormerBtn setStep={setStep} value={1}/>
+          <CreateBtn label={'Crear orden'} HanldeClick={createOrder}/>
+        </div>
+
       </div>
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Precio unitario <span style={{color:"red"}}>*</span></span>
-          <input style={{padding:8}} placeholder='Introduce el valor del precio unitario'/>
-        </div>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Neto </span>
-          <input style={{padding:8}} />
-        </div>
-      </div>
-
-      <div className='form-grid'>
-        <div className='column' style={{gap:5}}>
-          <span className='form-label'>Cuenta <span style={{color:"red"}}>*</span></span>
-          <SelectComponent/>
-        </div>
-        <div className='column' style={{gap:15, justifyContent:"center"}}>
-          <span className='form-label'>Agregar exención </span>
-          <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>Si</Radio>
-            <Radio value={2}>No</Radio>
-          </Radio.Group>
-        </div>
-      </div>
       {
-        value === 1 ?
-        <div className='form-grid' style={{marginTop:"20px"}}>
-          <div></div>
-          <div>
-                <div className='form-grid'>
-                  <div className='column' style={{gap:5}}>
-                    <span className='form-label'>Monto exento</span>
-                    <input style={{padding:8}} placeholder='Agregue el monto'/>
-                  </div>
-                  <div className='column' style={{gap:5}}>
-                    <span className='form-label'>Retención</span>
-                    <input style={{padding:8}} placeholder='Agregue la retención'/>
-                  </div>
-                </div>
+        productModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"10px 40px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setProductModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoPS
+                reference={true}
+                setClose={setProductModal}
+              />
+            </div>
           </div>
-        
         </div>
         :
         <></>
       }
-
-      <div className='row-space-btw' style={{marginTop:30}}>
-        <FormerBtn setStep={setStep} value={1}/>
-        <CreateBtn label={'Crear orden'} HanldeClick={createOrder}/>
-      </div>
-
-    </div>
+    </>
   )
 }
 

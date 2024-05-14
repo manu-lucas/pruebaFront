@@ -13,8 +13,10 @@ import CreateBtn from '../../../../components/Buttons/CreateBtn';
 import AddMoreBtn from '../../../../components/Buttons/AddMoreBtn';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FiDownload } from 'react-icons/fi';
+import { FiDownload, FiFileText } from 'react-icons/fi';
 import SelectComp from '../../../../components/Select/SelectComp';
+import { BsBoxSeam } from 'react-icons/bs';
+import NuevoPS from '../../../Empresa/ProductosServicios/NuevoPS/NuevoPS';
 
 /*STEPS*/
 
@@ -498,7 +500,12 @@ const SecondStep = ({setStep,referenciaADocumentosExternos,setReferenciaADocumen
 
 const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOrdenesDeTrabajoList,ordenDeTrabajoSelected,setOrdenDeTrabajoSelected }) =>{
 
-  const { ordenesDeTrabajo } = useContext(AppContext)
+  const { ordenesDeTrabajo,products } = useContext(AppContext)
+  
+  const [selectedProduct,setSelectedProduct] = useState(null)
+  
+  const [ loading,setLoading ] = useState(false)
+
   useEffect(() => {
     console.log(ordenesDeTrabajo)
   }, [])
@@ -512,6 +519,26 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
       }
     })
 
+    return updateData
+  }
+
+  function productosRestructured (arrayProductos) {
+    const filterProducts = arrayProductos.filter((item)=>item.activo === true) 
+    const updateData = filterProducts.map((item)=>{
+      return {
+        ...item, 
+        value: item.id, 
+        label: item.nombre, 
+        cantidad: 1,
+        total: item.precio,
+        precio: item.iva === true ? ((item.precio) - (item.precio*0.19) ).toFixed(2) : item.precio,
+        neto: item.iva === true ? ((item.precio) - (item.precio*0.19) ).toFixed(2) : item.precio,
+        iva_value :  item.iva === true ? ( item.precio * 0.19 ).toFixed(2) : "0",
+        
+      }
+    })
+    //console.log('data actualizada')
+    //console.log(updateData)
     return updateData
   }
 
@@ -561,8 +588,11 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
   }
 
 
+  const [ productModal,setProductModal ] = useState(false);
+
 
   return(
+    <>
     <div className='principal-container-column'>
       
       <div className='row-space-btw'>
@@ -573,12 +603,59 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
           </div>
         </div>
         {
-          value === 1 ?
+          value === true ?
           <AddMoreBtn label={'Vincular nueva'} HanldeClick={addOT}/>
           :
-          <AddMoreBtn label={'Vincular nueva'} HanldeClick={addItem}/>
+          <></>
 
         }
+      </div>
+      
+      
+      <div className='form-grid'>
+        <div className='column' style={{gap:15, justifyContent:"center"}}>
+          <span className='form-label'>Vincular a orden de trabajo</span>
+          <Radio.Group onChange={onChange} value={vincularOT}>
+            <Radio value={true}>Si</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
+        </div>
+        <div className='column' style={{gap:5}}>
+          {
+            vincularOT === true?
+            <>
+              <div className='row-space-btw'>
+                <span className='form-label' style={ordenesDeTrabajo.length === 0 ? {color:"#b9b9b9c4"} : {}}>Orden de trabajo <span style={ordenesDeTrabajo.length === 0 ? {color:"#b9b9b9c4"} : {color:"red"}}>*</span></span>
+                <div style={ordenesDeTrabajo.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} className='row' onClick={()=>{
+                  //setClientModal(true)
+                  }} >
+                  <FiFileText/>
+                  <span>Agregar nuevo OT</span>
+                </div>
+              </div>
+              {
+                ordenesDeTrabajo.length === 0 ?
+                <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+                  <span>No hay ordenes de trabajo registradas</span>
+                </div>
+                :
+                <SelectComp 
+                  value={ordenDeTrabajoSelected ? ordenDeTrabajoSelected.value : null}
+                  HandleChange={(text,record)=>{
+                    console.log(record)
+                    setOrdenDeTrabajoSelected(record)
+                  }}
+                  options={restructuredOTs(ordenesDeTrabajo)}
+                />
+
+              }
+            </>
+            :
+            <>
+              <div></div>
+            </>
+          }
+        </div>
       </div>
       {
         pslist.length === 0 ?
@@ -586,7 +663,7 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
         :
         <>
           {
-            value === 1?
+            value === true?
             <>
               <h2>Ítems</h2>
               <div style={{width:"100%",alignItems:"center"}}>
@@ -708,36 +785,6 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
         </>
       }
 
-      <div className='form-grid'>
-        <div className='column' style={{gap:15, justifyContent:"center"}}>
-          <span className='form-label'>Vincular a orden de trabajo</span>
-          <Radio.Group onChange={onChange} value={vincularOT}>
-            <Radio value={true}>Si</Radio>
-            <Radio value={false}>No</Radio>
-          </Radio.Group>
-        </div>
-        <div className='column' style={{gap:5}}>
-          {
-            vincularOT === true?
-            <>
-              <span className='form-label'>Orden de trabajo <span style={{color:"red"}}>*</span></span>
-              <SelectComp 
-                value={ordenDeTrabajoSelected ? ordenDeTrabajoSelected.value : null}
-                HandleChange={(text,record)=>{
-                  console.log(record)
-                  setOrdenDeTrabajoSelected(record)
-                }}
-                options={restructuredOTs(ordenesDeTrabajo)}
-              />
-            </>
-            :
-            <>
-              <span className='form-label'>Código <span style={{color:"red"}}>*</span></span>
-              <input style={{padding:8}} placeholder='Introduce una descripción'/>
-            </>
-          }
-        </div>
-      </div>
       {
         vincularOT === true ?
         <>
@@ -828,23 +875,131 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
             </>
           }
           
-          
-
-          <div className='form-grid'>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Condición de pago</span>
-              <SelectComponent/>
+          {
+            /*
+            <div className='form-grid'>
+              <div className='column' style={{gap:5}}>
+                <span className='form-label'>Condición de pago</span>
+                <SelectComponent/>
+              </div>
+              
             </div>
             
-          </div>
+            */
+          }
+
 
         </>
         :
         <>
+          <div className='container-item-flex-end'>
+            <AddMoreBtn label={'Agregar'} HanldeClick={addItem}/>
+          </div>
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <div className='row-space-btw'>
+                <span className='form-label' style={products.length === 0 ? {color:"#b9b9b9c4"} : {}}>Producto/Servicio <span style={products.length === 0 ? {color:"#b9b9b9c4"} : {color:"red"}}>*</span></span>
+                <div className='row' style={products.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} onClick={()=>{
+                  setProductModal(true)
+                  }}>
+                  <BsBoxSeam/>
+                  <span>Agregar nuevo producto/servicio</span>
+                </div>
+              </div>
+              {
+                products.length === 0 ?
+                <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+                  <span>No hay productos registrados</span>
+                </div>
+                :
+                <SelectComp
+                  placeholder={'Seleccionar producto/servicio'}
+                  //value={selectedProduct ? selectedProduct.value : null}
+                  options={productosRestructured(products)}
+                  HandleChange={(value,record)=>{
+                    //setSelectedProduct(record)
+                    //console.log('pruducto seleccionado')
+                    //console.log(record)
+                  }}
+                />
+              }
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Descripción</span>
+              <input style={{padding:8}} placeholder='Introduce una descripción'/>
+            </div>
+          </div>
+
+          <div className='form-grid'>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Cantidad <span style={{color:"red"}}>*</span></span>
+              {
+                loading === true ?
+                <div>char</div>
+                :
+                <input style={{padding:8}} placeholder='Ingrese la cantidad' type='number' value={selectedProduct !== null ? selectedProduct.cantidad : null}/>
+
+              }
+            </div>
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Precio <span style={{color:"red"}}>*</span></span>
+              {
+                loading === true ?
+                <div>char</div>
+                :
+                <input style={{padding:8}} type='number' placeholder='Ingrese el precio' value={selectedProduct ? selectedProduct.precio : null}/>
+              }
+            </div>
+          </div>
+        
+          <div className='principal-grid grid-4-columns'>
+
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>%</span>
+              <input style={{padding:8}}/>
+            </div>
+
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Neto</span>
+              {
+                loading === true ?
+                <div>Load</div>
+                :
+                <input style={{padding:8}} type='number' value={selectedProduct ? selectedProduct.neto : null} />
+              }
+            </div>
+
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>IVA</span>
+              {
+                loading === true ?
+                <div>char</div>
+                :
+                <input style={{padding:8}} type='number' 
+                value={selectedProduct ? selectedProduct.iva_value : null}
+                />
+              }
+            </div>
+
+            <div className='column' style={{gap:5}}>
+              <span className='form-label'>Total</span>
+              {
+                loading === true ?
+                <div>char</div>
+                :
+                <input style={{padding:8}} value={selectedProduct ? selectedProduct.total : null}/>
+              }
+            </div>
+
+          </div>
+
+
+          {
+            /*
           <div className='principal-grid grid-3-columns'>
             
             <div className='column' style={{gap:5}}>
-              <span className='form-label'>Nombre <span style={{color:"red"}}>*</span></span>
+              <span className='form-label'>Nombreee <span style={{color:"red"}}>*</span></span>
               <input style={{padding:8}}/>
             </div>
 
@@ -895,14 +1050,20 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
                 </div>
               </div>
           </div>
-
-          <div className='form-grid'>
-            <div className='column' style={{gap:5}}>
-              <span className='form-label'>Condición de pago</span>
-              <SelectComponent/>
+            */
+          }
+          {
+            /*
+            <div className='form-grid'>
+              <div className='column' style={{gap:5}}>
+                <span className='form-label'>Condición de pago</span>
+                <SelectComponent/>
+              </div>
+              
             </div>
             
-          </div>
+            */
+          }
         </>
       }
 
@@ -916,6 +1077,24 @@ const ThirdStep = ({setStep,vincularOT, setVincularOT,ordenesDeTrabajoList,setOr
 
 
     </div>
+
+    {
+        productModal === true ?
+        <div className='modal-overlay'>
+          <div className='modal' style={{minHeight:"90%",minWidth:"95%",padding:"10px 40px"}}>
+            <div style={{position:"absolute",top:0,right:10}} onClick={()=>{setProductModal(false)}}>x</div>
+            <div style={{width:"100%",border:"1px solid black",height:"95%",overflowY:"scroll"}}>
+              <NuevoPS
+                reference={true}
+                setClose={setProductModal}
+              />
+            </div>
+          </div>
+        </div>
+        :
+        <></>
+      }
+    </>
   )
 }
 

@@ -552,12 +552,6 @@ const FourthStep = ({setStep}) =>{
 
 const SuscribeStep = ({setStep}) =>{
   console.log('suscribe step')
-
-
-  function cancel() {
-    localStorage.clear()
-    setSignUpCode(false)
-  }
  return(
   <>
      <div className='suscribe-container'>
@@ -641,6 +635,7 @@ const SuscribeStep = ({setStep}) =>{
     <div className='continuar-pago'>
       <button type='button' className='login-button btn-mp' onClick={() => setStep(4)}>Continuar con el pago</button>
     </div>
+  </div> 
 
   </>
  )

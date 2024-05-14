@@ -99,58 +99,70 @@ const FirstStep = ({setStep,data,setData,setClientName,setVendedorName,clientSel
         <div className='column' style={{gap:5}}>
           
           <div className='row-space-btw'>
-            <span className='form-label'>Cliente <span style={{color:"red"}}>*</span></span>
-            <div onClick={()=>{setClientModal(true)}}  className='row'>
+            <span className='form-label' style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {}}>Cliente <span style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {color:"red"}}>*</span></span>
+            <div style={clientes.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} className='row' onClick={()=>{setClientModal(true)}} >
               <FaUserPlus/>
               <span>Agregar nuevo cliente</span>
             </div>
           </div>
-            
-          <SelectComp
-            placeholder={'seleccionar cliente'}
-            HandleChange={(value,record)=>{
-              //console.log(`seleccionado ${value} ${record.label}`)
-              //console.log(value)
-              const clientContact = clientes.find((item)=>item.cliente.id === value)
-              //console.log(clientContact.contactos)
-              setContactos(clientContact.contactos)
-              //////////////////////////
-
-              setContactosList(clientContact.contactos)
-
-              setContactSelected(null)
-              
-              setClientName(record.label)
-              setData({
-                ...data, cliente: value
-              })
-              //setear a null el contacto
-              setContactvalue(null)
-
-              setClientSelected(record)
-            }}
-            options={clientesRestructured(clientes)}
-            value={clientSelected ? clientSelected.value : null}
-            //value={data.cliente ? data.cliemte : null}
-          />
+          {
+            clientes.length === 0 ?
+            <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+              <span>No hay clientes registrados</span>
+            </div>
+            :
+            <SelectComp
+              placeholder={'seleccionar cliente'}
+              HandleChange={(value,record)=>{
+                //console.log(`seleccionado ${value} ${record.label}`)
+                //console.log(value)
+                const clientContact = clientes.find((item)=>item.cliente.id === value)
+                //console.log(clientContact.contactos)
+                setContactos(clientContact.contactos)
+                //////////////////////////
+  
+                setContactosList(clientContact.contactos)
+  
+                setContactSelected(null)
+                
+                setClientName(record.label)
+                setData({
+                  ...data, cliente: value
+                })
+                //setear a null el contacto
+                setContactvalue(null)
+  
+                setClientSelected(record)
+              }}
+              options={clientesRestructured(clientes)}
+              value={clientSelected ? clientSelected.value : null}
+              //value={data.cliente ? data.cliemte : null}
+            />
+          }
         </div>
         <div className='column' style={{gap:5}}>
-          <span className='form-label'>Contacto <span style={{color:"red"}}>*</span></span>
-          
-          <SelectComp
-            //value={contactValue}
-            placeholder={'seleccionar contacto'}
-            HandleChange={(value,record)=>{
-              //console.log(`seleccionado ${value} ${record.label}`)
-              setData({
-                ...data, contacto: value
-              })
-              setContactvalue(value)
-              setContactSelected(record)
-            }}
-            value={contactSelected ? contactSelected.value : null}
-            options={contactosRestructured(contactosList)}
-          />
+          <span className='form-label' style={clientes.length === 0 ? {color:"#b9b9b9c4"} : {}}>Contacto <span style={clientes.length === 0 ? {color:"#b9b9b9c4"} :{color:"red"}}>*</span></span>
+          {
+            clientes.length === 0 ?
+            <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 5px", borderRadius:5}}>
+              <span>-</span>
+            </div>
+            :
+            <SelectComp
+              //value={contactValue}
+              placeholder={'seleccionar contacto'}
+              HandleChange={(value,record)=>{
+                //console.log(`seleccionado ${value} ${record.label}`)
+                setData({
+                  ...data, contacto: value
+                })
+                setContactvalue(value)
+                setContactSelected(record)
+              }}
+              value={contactSelected ? contactSelected.value : null}
+              options={contactosRestructured(contactosList)}
+            />
+          }
         </div>
       </div>
 
@@ -390,41 +402,49 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
       <div className='form-grid'>
         <div className='column' style={{gap:5}}>
           <div className='row-space-btw'>
-            <span className='form-label'>Producto/Servicio <span style={{color:"red"}}>*</span></span>
-            <div className='row' onClick={()=>{setProductModal(true)}}>
+            <span className='form-label' style={products.length === 0 ? {color:"#b9b9b9c4"}:{}}>Producto/Servicio <span style={products.length === 0 ? {color:"#b9b9b9c4"} :{color:"red"}}>*</span></span>
+            <div className='row' style={products.length === 0 ? {color:"green",fontWeight:600,cursor:"pointer"} : {cursor:"pointer"}} onClick={()=>{setProductModal(true)}}>
               <BsBoxSeam/>
               <span>Agregar nuevo producto/servicio</span>
             </div>
           </div>
-          <SelectComp
-            placeholder={'Seleccionar producto/servicio'}
-            options={productsRestructured(products)}
-            HandleChange={(value,record)=>{
-              console.log({
-                product_name: record.nombre,
-                product_id: record.id,
-                descripcion: '',
-                cantidad: 1,
-                precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
-                porcentaje: null,
-                neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
-                iva: record.iva === true ? ( record.precio * 0.19 ).toFixed(2) : null,
-                total: record.precio,
-              } )
-              setCurrentItemData({
-                product_name: record.nombre,
-                product_id: record.id,
-                descripcion: '',
-                cantidad: 1,
-                precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
-                porcentaje: null,
-                neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
-                iva: record.iva === true ? ( record.precio * 0.19 ).toFixed(2) : null,
-                total: record.precio,
-              })
-              
-            }}
-          />
+          {
+            products.length === 0 ?
+            <div style={{border:"1px solid #b9b9b9c4",color:"#b9b9b9c4",boxSizing:"border-box",padding:"8px 10px", borderRadius:5}}>
+              <span>No hay productos registrados</span>
+            </div>
+            :
+            <SelectComp
+              placeholder={'Seleccionar producto/servicio'}
+              options={productsRestructured(products)}
+              HandleChange={(value,record)=>{
+                console.log({
+                  product_name: record.nombre,
+                  product_id: record.id,
+                  descripcion: '',
+                  cantidad: 1,
+                  precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                  porcentaje: null,
+                  neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                  iva: record.iva === true ? ( record.precio * 0.19 ).toFixed(2) : null,
+                  total: record.precio,
+                } )
+                setCurrentItemData({
+                  product_name: record.nombre,
+                  product_id: record.id,
+                  descripcion: '',
+                  cantidad: 1,
+                  precio: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                  porcentaje: null,
+                  neto: record.iva === true ? ((record.precio) - (record.precio*0.19) ).toFixed(2) : record.precio,
+                  iva: record.iva === true ? ( record.precio * 0.19 ).toFixed(2) : null,
+                  total: record.precio,
+                })
+                
+              }}
+            />
+
+          }
         </div>
         <div className='column' style={{gap:5}}>
           <span className='form-label'>Descripcion</span>
@@ -483,6 +503,8 @@ const SecondStep = ({setStep,data,setData,items,setItems}) => {
           <input style={{padding:9}}/>
         </div>
       </div>
+
+      
       <div className='row-space-btw' style={{marginTop:30}}>
         <FormerBtn setStep={setStep} value={1}/>
         <FollowingBtn setStep={setStep} value={3}/>
