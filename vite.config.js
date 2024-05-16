@@ -12,8 +12,8 @@ export default defineConfig({
         lang: "es-Es",
         short_name:"ejemplo",
         description:"Ejemplo de pwa",
-        theme_color :"#19223c",
-        background_color:"#d4d4d4",
+        theme_color :"#006f76",
+        background_color:"#006f76",
         icons: [
           {
             src: 'favicon-64x64.png',
