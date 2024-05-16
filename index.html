@@ -1,25 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <link rel="icon"  href="/favicon"  sizes="64x64" />
+    <link rel="icon"  href="/favicon-16x16"  sizes="16x16" />
+    <link rel="icon"  href="/favicon-32x32"  sizes="32x32" />
+    <link rel="icon"  href="/favicon-64x64"  sizes="64x64" />
+
+    <link rel="icon"  href="/mstile-150x150"  sizes="150x150" />
+    <link rel="icon"  href="/android-chrome-192x192"  sizes="192x192" />
+    <link rel="icon"  href="/android-chrome-256x256"  sizes="256x256" />
+    <link rel="icon"  href="/favicon-512x512"  sizes="256x256" />
+
+    <link rel="mask-icon"  href="/safari-pinned-tab" color="#19223c"   />
+    <link rel="apple-touch-icon"  href="/apple-touch-icon" sizes="180x180"  />
+
+
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
+
+    <meta 
+    name="description"
+    content = "Ejemplo de PWA creada"
+/>
+<meta 
+name="theme-color"
+content = "#19223c"
+/>
+
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script>
-      if("serviceWorker" in navigator){
-        window.addEventListener("load",()=>{
-          navigator.serviceWorker.register("./serviceWorker.js").then((reg)=>{
-            console.log("Worker Register")
-          }).catch((err)=>{
-            console.log("Error in service worker",err)
-          })
-        })
-
-      }
-    </script>
   </body>
 </html>
